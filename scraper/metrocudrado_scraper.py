@@ -23,7 +23,10 @@ chrome_options.add_argument('--disable-extensions')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_experimental_option('prefs', {'profile.managed_default_content_settings.images': 2})
 
-def scraper(query_enter: str, driver: webdriver.Chrome, apartments: pd.DataFrame):
+apartments = pd.DataFrame()
+
+def scraper(query_enter: str, driver: webdriver.Chrome):
+    global apartments
     name = query_enter
 
     elements = driver.find_elements(
@@ -57,15 +60,23 @@ def scraper(query_enter: str, driver: webdriver.Chrome, apartments: pd.DataFrame
             try:
                 estrato = driver.find_element(
                     By.XPATH, './/div[@class="Col-sc-14ninbu-0 lfGZKA col-md-9"]/div[4]').text[-9]
-                
+
                 datos_principales = driver.find_elements(
                     By.XPATH, './/html/body/div[2]/div/div/div/div[2]/div[4]/div[1]/div[8]/div/div')
+
+                if len(datos_principales) == 0:
+                    datos_principales = driver.find_elements(
+                        By.XPATH, './/html/body/div[2]/div/div/div/div[2]/div[4]/div[1]/div[7]/div/div')
                 
                 administracion = np.nan
                 parqueadero = np.nan
                 antiguead = np.nan
                 barrio = np.nan
                 codigo = np.nan
+
+                for i in datos_principales:
+                    print(i.text)
+
                 for i in datos_principales:
                     try:
                         bloque_datos_titulo = i.find_element(
@@ -94,9 +105,13 @@ def scraper(query_enter: str, driver: webdriver.Chrome, apartments: pd.DataFrame
                         print('Error en datos_principales')
                         print(e)
                         pass
-
-                descripcion = driver.find_element(
-                    By.XPATH, './/html/body/div[2]/div/div/div/div[2]/div[4]/div[1]/div[6]/p').text
+                
+                try:
+                    descripcion = driver.find_element(
+                        By.XPATH, './/html/body/div[2]/div/div/div/div[2]/div[4]/div[1]/div[6]/p').text
+                except:
+                    descripcion = driver.find_element(
+                        By.XPATH, './/html/body/div[2]/div/div/div/div[2]/div[4]/div[1]/div[5]/p').text
 
                 interiores = driver.find_elements(
                     By.XPATH, '//div[@class="Card-sc-18qyd5o-0 jYfunq sc-kgAjT kgGRzv is-active card"]/div[2]/div/div/div')
@@ -174,14 +189,9 @@ def scraper(query_enter: str, driver: webdriver.Chrome, apartments: pd.DataFrame
                     if 'Con terraza' in i.text:
                         terraza = 1
                 
-            except:
-                estrato = np.nan
-                barrio = np.nan
-                antiguead = np.nan
-                administracion = np.nan
-                parqueadero = np.nan
-                codigo = np.nan
-                descripcion = np.nan
+            except Exception as e:
+                print('Error en datos')
+                print(e)
 
             driver.close()
             driver.switch_to.window(driver.window_handles[0])
@@ -226,16 +236,14 @@ def scraper(query_enter: str, driver: webdriver.Chrome, apartments: pd.DataFrame
         except Exception as e:
             pass
 
-def run(name: str):
+def run(name: str, path: str = None):
     url = f'https://www.metrocuadrado.com/apartamento/venta/bogota/{name}/'
-
-    apartments = pd.DataFrame()
 
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
     while True:
         try:
-            scraper(name, driver, apartments)
+            scraper(name, driver)
             next_page = driver.find_element(
                 By.XPATH, '//li[@class="item-icon-next page-item"]/a')
             driver.execute_script("arguments[0].click();", next_page)
@@ -245,8 +253,9 @@ def run(name: str):
             print('no more pages')
             driver.close()
             break
-
-    apartments.to_csv(f'{name}.csv', index=False)
+    
+    print(apartments)
+    apartments.to_csv(f'{path}{name}_m2.csv', index=False)
 
 if __name__ == '__main__':
     run('chapinero')
