@@ -75,9 +75,6 @@ def scraper(query_enter: str, driver: webdriver.Chrome):
                 codigo = np.nan
 
                 for i in datos_principales:
-                    print(i.text)
-
-                for i in datos_principales:
                     try:
                         bloque_datos_titulo = i.find_element(
                             By.XPATH, './/h3')
@@ -144,7 +141,6 @@ def scraper(query_enter: str, driver: webdriver.Chrome):
 
                     except Exception as e:
                         print('Error en interiores')
-                        print(e)
                         equipado = np.nan
                         piso = np.nan
                         pass
@@ -189,9 +185,9 @@ def scraper(query_enter: str, driver: webdriver.Chrome):
                     if 'Con terraza' in i.text:
                         terraza = 1
                 
-            except Exception as e:
-                print('Error en datos')
-                print(e)
+            except:
+                print('Error en el proceso')
+                pass
 
             driver.close()
             driver.switch_to.window(driver.window_handles[0])
@@ -253,8 +249,7 @@ def run(name: str, path: str = None):
             print('no more pages')
             driver.close()
             break
-    
-    print(apartments)
+
     apartments.to_csv(f'{path}{name}_m2.csv', index=False)
 
 if __name__ == '__main__':
