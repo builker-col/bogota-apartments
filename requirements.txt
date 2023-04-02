@@ -1,0 +1,5 @@
+requests
+fake_useragent
+selenium
+pandas
+numpy
