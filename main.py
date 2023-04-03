@@ -2,10 +2,10 @@ from scraper import metrocudrado_scraper
 
 interes = ['bosque-izquierdo', 'centro-internacional', 'cabrera']
 
-localidades = ['usaquén', 'chapinero', 'santa-fe', 'san-cristobal', 'usme',
+localidades = ['usaquen', 'chapinero', 'santa-fe', 'san-cristobal', 'usme',
                'tunjuelito', 'bosa', 'kennedy', 'fontibon', 'engativa',                       
                'suba', 'barrios-unidos', 'teusaquillo', 'los-martires',                       
-               'antonio Nariño', 'puente Aranda', 'la-candelaria', 'rafael-uribe-uribe',                       
+               'antonio-nariño', 'puente-aranda', 'la-candelaria', 'rafael-uribe-uribe',                       
                'ciudad-bolivar', 'sumapaz']
 
 localidades.append(interes)

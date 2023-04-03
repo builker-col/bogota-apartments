@@ -250,7 +250,7 @@ def run(name: str, path: str = None):
             driver.close()
             break
 
-    apartments.to_csv(f'{path}{name}_m2.csv', index=False)
+    apartments.to_csv(f'{path}{name}.csv', index=False)
 
 if __name__ == '__main__':
     run('chapinero')
