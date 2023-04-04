@@ -12,6 +12,7 @@ _**Datos:**_
     - [Data Readme](data/README.md)
 - [RAW Data](data/raw/)
     - [RAW Data Readme](data/raw/README.md)
+- [Eventos en la extracion de datos](data/raw/README.md#eventos-en-la-fuente-de-datos)
 ## Descripción
 
 El Proyecto Bogotá Apartments es una iniciativa de código abierto que tiene como objetivo recopilar y analizar datos sobre el mercado inmobiliario de apartamentos en la ciudad de Bogotá, Colombia. El proyecto utiliza técnicas avanzadas de web scraping y análisis de datos para recopilar información detallada sobre las ventas de apartamentos en la ciudad y proporcionar un conjunto de datos completo y actualizado.
