@@ -1,5 +1,7 @@
 # Datos en RAW
 
+- [Significado de las variables](#significado-de-las-variables)
+
 **Nota importante:** Los datos proporcionados son en formato raw, lo que significa que no han sido preprocesados o limpiados previamente. Pueden contener valores duplicados, nulos o errores, por lo que es importante realizar un proceso de limpieza y preprocesamiento antes de utilizarlos para cualquier análisis. Se recomienda que los datos en formato raw se utilicen únicamente con fines exploratorios y que no se tomen decisiones importantes basadas en ellos.
 
 ## Significado de las variables

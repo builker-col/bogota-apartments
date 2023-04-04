@@ -1,5 +1,17 @@
 # Bogota Apartments
 
+_**Indice:**_
+- [Descripción](#descripción)
+- [Cómo contribuir](#cómo-contribuir)
+- [Mantenimiento](#mantenimiento)
+- [Licencia](#licencia)
+- [Créditos](#créditos)
+
+_**Datos:**_
+- [Datos](data/README.md)
+- [RAW Data](data/raw/README.md)
+## Descripción
+
 El Proyecto Bogotá Apartments es una iniciativa de código abierto que tiene como objetivo recopilar y analizar datos sobre el mercado inmobiliario de apartamentos en la ciudad de Bogotá, Colombia. El proyecto utiliza técnicas avanzadas de web scraping y análisis de datos para recopilar información detallada sobre las ventas de apartamentos en la ciudad y proporcionar un conjunto de datos completo y actualizado.
 
 El conjunto de datos está disponible para cualquier persona interesada en aprender más sobre el mercado inmobiliario de Bogotá y sus tendencias. Además, el proyecto incluye un análisis exploratorio de datos detallado que proporciona información valiosa sobre los precios, las ubicaciones y las características de los apartamentos en la ciudad.
@@ -26,5 +38,9 @@ El conjunto de datos se actualizará regularmente para asegurarse de que se mant
 
 ## Licencia
 El conjunto de datos y el código fuente del proyecto están disponibles bajo la licencia GNU General Public License v3.0. Para más información, por favor lee el archivo LICENSE.
+
+## Créditos
+- [**@erik172**](https://github.com/Erik172) - Creador del proyecto
+
 
 Hecho con ❤️ por **@erik172**
