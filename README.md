@@ -1,5 +1,7 @@
 # Bogota Apartments
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U6U0K5UNW)
+
 _**Indice:**_
 - [Descripción](#descripción)
 - [Cómo contribuir](#cómo-contribuir)
