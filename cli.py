@@ -21,7 +21,7 @@ if __name__ == '__main__':
                 scraper = MetrocuadradoScraper('bogota', args.output)
         elif args.tipo == 'arriendo':
             if args.barrio:
-                scraper = MetrocuadradoArriendoScraper(args.barrio, args.output)
+                scraper = MetrocuadradoArriendoScraper(args.barrio)
             else:
                 scraper = MetrocuadradoArriendoScraper('bogota')
 
