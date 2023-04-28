@@ -3,20 +3,33 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common import exceptions as EX
 from fake_useragent import UserAgent
 from datetime import datetime
 import pandas as pd
+import logging
 import yaml
 import time
 
+try:
+    logging.basicConfig(filename='scrapers/logs/metrocuadrado.log', level=logging.INFO,
+                        format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8')
+except:
+    logging.basicConfig(filename='logs/metrocuadrado.log', level=logging.DEBUG,
+                        format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', filemode='w')
+    
+handler = logging.StreamHandler()
+logging.getLogger().addHandler(handler)
+
 fake = UserAgent().random
+logging.debug(f'User agent: {fake}')
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
 chrome_options.add_argument(f'user-agent={fake}')
 chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument('--log-level=3')
+chrome_options.add_argument('--log-level=2')
 chrome_options.add_argument('--disable-logging')
 chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--disable-extensions')
@@ -45,6 +58,7 @@ class MetrocuadradoScraper:
             self.url = f'https://www.metrocuadrado.com/apartamentos/venta/bogota/{self.query_enter}/'
 
     def run(self):
+        logging.info(f'Iniciando scraper')
         self.driver.get(self.url)
         while True:
             try:
@@ -53,23 +67,29 @@ class MetrocuadradoScraper:
                     By.XPATH, xpaths['metrocuadrado']['next_page']
                 )
                 self.driver.execute_script("arguments[0].click();", next_page)
-                time.sleep(1)
-            except Exception as e:
-                print('No more pages')
+                time.sleep(.5)
+            except EX.NoSuchElementException:
+                logging.warning('No more pages')
                 break
 
-        self.export_to_csv()
-        
+            except KeyboardInterrupt:
+                logging.exception('KeyboardInterrupt')
+                break
 
-    def new_window(self, link):
+            except Exception as e:
+                logging.error(e)
+        self.export_to_csv()        
+
+    def new_window(self, link) -> None:
         self.driver.execute_script("window.open('');")
         self.driver.switch_to.window(self.driver.window_handles[1])
         self.driver.get(link)
-        print(self.driver.title)
+        logging.info(f'New window: {self.driver.title}')
 
-    def close_window(self):
+    def close_window(self) -> None:
         self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[0])
+        logging.debug(f'Close window: {self.driver.title}')
 
     def extract_details(self) -> dict:
         try:
@@ -417,7 +437,7 @@ class MetrocuadradoScraper:
             'query': self.query_enter
         }
     
-    def scraper(self, sleep_time: int = 5):
+    def scraper(self, sleep_time: int = 1):
         apartments = WebDriverWait(self.driver, sleep_time).until(
             EC.presence_of_all_elements_located(
                 (By.XPATH, xpaths['metrocuadrado']['apartamentos'])
@@ -438,13 +458,12 @@ class MetrocuadradoScraper:
             self.df = pd.concat([self.df, df_temp], ignore_index=True)
             df_temp = None
 
-            print(details)
-            print('\n\n')
+            # print(details)
+            # print('\n\n')
     
     def export_to_csv(self):
         self.df.to_csv(f'{self.file_name}.csv', index=False)
-        return f'{self.file_name}.csv'
-    
+        logging.info(f'Archivo {self.file_name}.csv exportado correctamente.')    
 
 class MetrocuadradoArriendoScraper(MetrocuadradoScraper):
     def __init__(self, query_enter: str):
@@ -459,8 +478,7 @@ class MetrocuadradoArriendoScraper(MetrocuadradoScraper):
         super().export_to_csv()
         self.df = self.df.rename(columns={'precio': 'precio_arriendo'})
         self.df.to_csv(f'{self.file_name}.csv', index=False)
-        return f'{self.file_name}.csv'
-    
+
 if __name__ == '__main__':
     scraper = MetrocuadradoScraper('bosque-izquierdo')
     scraper.run()
