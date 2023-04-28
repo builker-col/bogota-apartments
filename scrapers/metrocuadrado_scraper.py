@@ -90,7 +90,6 @@ class MetrocuadradoScraper:
         try:
             baños = self.driver.find_element(
                 By.XPATH, xpaths['metrocuadrado']['detalles_apartamento']['banos']).text
-            # Eliminar el texto '\nBaños'
             baños = baños[:-6]
         except:
             baños = pd.NA
@@ -439,14 +438,32 @@ class MetrocuadradoScraper:
             self.df = pd.concat([self.df, df_temp], ignore_index=True)
             df_temp = None
 
-            # print(details)
-            # print('\n\n')
+            print(details)
+            print('\n\n')
     
     def export_to_csv(self):
         self.df.to_csv(f'{self.file_name}.csv', index=False)
         return f'{self.file_name}.csv'
+    
 
+class MetrocuadradoArriendoScraper(MetrocuadradoScraper):
+    def __init__(self, query_enter: str):
+        super().__init__(query_enter)
+        self.file_name = f'arriendo_{self.query_enter}'
+        if self.query_enter == 'bogota':
+            self.url = 'https://www.metrocuadrado.com/apartamentos/arriendo/bogota/'
+        else:
+            self.url = f'https://www.metrocuadrado.com/apartamentos/arriendo/bogota/{self.query_enter}/'
 
+    def export_to_csv(self):
+        super().export_to_csv()
+        self.df = self.df.rename(columns={'precio': 'precio_arriendo'})
+        self.df.to_csv(f'{self.file_name}.csv', index=False)
+        return f'{self.file_name}.csv'
+    
 if __name__ == '__main__':
     scraper = MetrocuadradoScraper('bosque-izquierdo')
     scraper.run()
+
+    arriendo = MetrocuadradoArriendoScraper('bosque-izquierdo')
+    arriendo.run()
