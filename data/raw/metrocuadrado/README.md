@@ -38,8 +38,4 @@
 
 ## Eventos en la fuente de datos
 
-- **Lunes 3 Abril, 2023, 20:23:23**: Se cayo la pagina de la fuente de datos [Metro Cuadrado](https://www.metrocuadrado.com/) y se se detuvo la extracción de datos
-
-- **Lunes 3 Abril, 2023, 21:00:34:** Se reinicio la extracción de datos
-
-![image report](../../docs/images/reports/dates_events.png)
+- **Inicio de extracción:** 2023-06-12 12:29:54
