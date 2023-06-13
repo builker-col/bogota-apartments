@@ -13,12 +13,12 @@ import time
 import re
 import os
 
-# try:
-#     logging.basicConfig(filename='scrapers/logs/metrocuadrado.log', level=logging.INFO,
-#                         format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8')
-# except:
-#     logging.basicConfig(filename='logs/metrocuadrado.log', level=logging.DEBUG,
-#                         format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', filemode='w')
+try:
+    logging.basicConfig(filename='scrapers/logs/metrocuadrado.log', level=logging.INFO,
+                        format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8')
+except:
+    logging.basicConfig(filename='logs/metrocuadrado.log', level=logging.DEBUG,
+                        format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', filemode='w')
     
 handler = logging.StreamHandler()
 logging.getLogger().addHandler(handler)
