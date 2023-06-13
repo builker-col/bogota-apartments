@@ -13,6 +13,7 @@ import time
 import re
 import os
 
+# Configuración de los logs del scraper
 try:
     logging.basicConfig(filename='scrapers/logs/metrocuadrado.log', level=logging.INFO,
                         format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8')
@@ -23,9 +24,11 @@ except:
 handler = logging.StreamHandler()
 logging.getLogger().addHandler(handler)
 
+# Crear User Agent aleatorio para evitar ser bloqueado
 fake = UserAgent().random
 logging.debug(f'User agent: {fake}')
 
+# Configuración de Selenium
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
@@ -38,8 +41,10 @@ chrome_options.add_argument('--disable-extensions')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_experimental_option('prefs', {'profile.managed_default_content_settings.images': 2})
 
+# Crear DataFrame vacío para almacenar los datos de los apartamentos
 apartments = pd.DataFrame()
 
+# Cargar los xpaths del archivo yml
 try:
     with open('xpaths.yml') as file:
         xpaths = yaml.safe_load(file)
@@ -47,8 +52,15 @@ except:
     with open('scrapers/xpaths.yml') as file:
         xpaths = yaml.safe_load(file)
 
+
 class MetrocuadradoScraper:
     def __init__(self, query_enter: str, file_name: str = 'venta_apartamentos'):
+        """Inicializa el scraper de metrocuadrado para la venta de apartamentos en Bogotá
+        
+        Args:
+            query_enter (str): Barrio de Bogotá o Ciudad de Colombia
+            file_name (str, optional): Nombre del archivo csv. Defaults to 'venta_apartamentos'.
+        """
         self.query_enter = query_enter.lower()
         self.driver = webdriver.Chrome(options=chrome_options)
         self.df = pd.DataFrame()
@@ -60,9 +72,11 @@ class MetrocuadradoScraper:
         else:
             self.url = f'https://www.metrocuadrado.com/apartamentos/venta/bogota/{self.query_enter}/'
 
+        # definirlo antes, ya que varia segun el tipo de apartamento
         self.precio = xpaths['metrocuadrado']['detalles_apartamento']['precio']
 
     def run(self):
+        """Inicia el scraper"""
         logging.info(f'Iniciando scraper')
         self.driver.get(self.url)
         while True:
@@ -86,17 +100,30 @@ class MetrocuadradoScraper:
         self.export_to_csv()        
 
     def new_window(self, link) -> None:
+        """Abre una nueva ventana y se mueve a ella
+        
+        Args:
+            link (str): link de la nueva ventana
+            
+        Returns:
+            None"""
         self.driver.execute_script("window.open('');")
         self.driver.switch_to.window(self.driver.window_handles[1])
         self.driver.get(link)
         logging.info(f'New window: {self.driver.title}')
 
     def close_window(self) -> None:
+        """Cierra la ventana actual y se mueve a la anterior"""
         self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[0])
         logging.debug(f'Close window: {self.driver.title}')
 
     def extract_details(self) -> dict:
+        """Extrae los detalles del apartamento
+
+        Returns:
+            dict: Diccionario con los detalles del apartamento
+        """
         try:
             # precio = self.driver.find_element(
             #     By.XPATH, xpaths['metrocuadrado']['detalles_apartamento']['precio']).text
@@ -117,6 +144,7 @@ class MetrocuadradoScraper:
         try:
             baños = self.driver.find_element(
                 By.XPATH, xpaths['metrocuadrado']['detalles_apartamento']['banos']).text
+            # Eliminar el texto '\nBaños'
             baños = baños[:-6]
         except:
             baños = pd.NA
@@ -475,6 +503,11 @@ class MetrocuadradoScraper:
         }
     
     def scraper(self, sleep_time: int = 1):
+        """Scraper para metrocuadrado.com
+        
+        Args:
+            sleep_time (int, optional): Tiempo de espera para cargar la página. Defaults to 1.
+        """
         apartments = WebDriverWait(self.driver, sleep_time).until(
             EC.presence_of_all_elements_located(
                 (By.XPATH, xpaths['metrocuadrado']['apartamentos'])
@@ -499,6 +532,12 @@ class MetrocuadradoScraper:
             # print('\n\n')
 
     def save_images(self, data_path = 'data/raw/metrocuadrado', data: pd.DataFrame = None):
+        """Guarda las imágenes de los apartamentos en un archivo csv
+        
+        Args:
+            data_path (str, optional): Ruta donde se guardará el archivo csv. Defaults to 'data/raw/metrocuadrado'.
+            data (pd.DataFrame, optional): Dataframe con los datos de las imágenes. Defaults to None.
+        """
         # verifica si existe el archivo images.csv
         if os.path.isfile(f'{data_path}/{self.images_file_name}.csv'):
             # si existe, lo carga
@@ -512,6 +551,11 @@ class MetrocuadradoScraper:
 
     
     def export_to_csv(self, data_path = 'data/raw/metrocuadrado'):
+        """Exporta los datos a un archivo csv
+
+        Args:
+            data_path (str, optional): Ruta donde se guardará el archivo csv. Defaults to 'data/raw/metrocuadrado'.
+        """
         self.df.to_csv(f'{data_path}/{self.file_name}.csv', index=False)
         logging.info(f'Archivo {self.file_name}.csv exportado correctamente. {self.df.shape[0]} registros')
         logging.info(f'Archivo en {data_path}/{self.file_name}.csv')
@@ -521,6 +565,11 @@ class MetrocuadradoScraper:
 
 class MetrocuadradoArriendoScraper(MetrocuadradoScraper):
     def __init__(self, query_enter: str):
+        """Scraper para metrocuadrado.com de arriendo de apartamentos
+        
+        Args:
+            query_enter (str): Barrio o localidad y/o ciudad
+        """
         super().__init__(query_enter)
         self.file_name = f'arriendo_apartamentos_{self.query_enter}'
         self.images_file_name = f'arriendo_apartamentos_imagenes_{self.query_enter}'
