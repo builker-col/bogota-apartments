@@ -190,6 +190,7 @@ class MetrocuadradoScraper:
             patron = r'"image":"(https?://[^"]+)"'
             urls_imagenes = re.findall(patron, script)
 
+            # Crear un dataframe con las urls de las imágenes
             images = pd.DataFrame(urls_imagenes, columns=['url'])
 
         except Exception as e:
@@ -444,8 +445,7 @@ class MetrocuadradoScraper:
                     except:
                         pass
 
-        
-        if len(images) > 0:
+        if len(images) > 0: # Validar que existan imagenes
             images['codigo'] = codigo
             self.save_images(data=images)
             # logging.info('Images saved')
@@ -524,6 +524,7 @@ class MetrocuadradoScraper:
 
             self.close_window()
 
+            # Unir los detalles del apartamento con el dataframe
             df_temp = pd.DataFrame(details, index=[0])
             self.df = pd.concat([self.df, df_temp], ignore_index=True)
             df_temp = None
