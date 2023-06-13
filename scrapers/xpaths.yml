@@ -3,6 +3,7 @@ metrocuadrado:
   url_detalles_apartamento: './/div[@class="card-header"]/a'
   next_page: '//li[@class="item-icon-next page-item"]/a'
   detalles_apartamento:
+    script_data: '//script[@id="__NEXT_DATA__"]'
     precio: './/div[@class="Col-sc-14ninbu-0 lfGZKA pl-0 d-none d-sm-inline-block col-md-9"]/div/h3'
     habitaciones: './/ul[@class="Ul-sctud2-0 kdIYsW inline-list-grid list-feature-detail"]/li[2]/div/h2'
     banos: './/ul[@class="Ul-sctud2-0 kdIYsW inline-list-grid list-feature-detail"]/li[3]/div/h2'
@@ -17,3 +18,8 @@ metrocuadrado:
     caracteristicas_ver_mas_btn: './/a[class="A-sc-70cat-0 dlmcsa btn-view-more"]'
     descripcion: './/html/body/div[2]/div/div/div/div[2]/div[4]/div[1]/div[6]/p'
     sector: './/div[@class="Card-sc-18qyd5o-0 jYfunq sc-fAjcbJ huYDUQ sc-caSCKo jjNSwx mb-4 d-none d-sm-block sc-caSCKo jjNSwx mb-4 d-none d-sm-block card-headline card"]/p'
+puntopropiedad:
+  apartamentos: '//ul[@class="listAds"]/li[@class="serp-snippet ad featured"]'
+  url_detalles_apartamento: './/a'
+  detalles_apartamento:
+    precio: './/div[@class="price"]/span'
