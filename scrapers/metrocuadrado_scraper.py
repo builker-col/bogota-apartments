@@ -415,7 +415,7 @@ class MetrocuadradoScraper:
         if len(images) > 0:
             images['codigo'] = codigo
             self.save_images(data=images)
-            logging.info('Images saved')
+            # logging.info('Images saved')
 
         return {
             'precio': precio,
