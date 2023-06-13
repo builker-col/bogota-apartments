@@ -10,6 +10,8 @@ import pandas as pd
 import logging
 import yaml
 import time
+import re
+import os
 
 try:
     logging.basicConfig(filename='scrapers/logs/metrocuadrado.log', level=logging.INFO,
@@ -139,6 +141,29 @@ class MetrocuadradoScraper:
                 By.XPATH, xpaths['metrocuadrado']['detalles_apartamento']['descripcion']).text
         except:
             descripcion = pd.NA
+
+        try:
+            script = self.driver.find_element(
+                By.XPATH, xpaths['metrocuadrado']['detalles_apartamento']['script_data']).get_attribute('innerHTML')
+
+            # Expresión regular para extraer las coordenadas
+            patron = r'"coordinates":{"lon":([-.\d]+),"lat":([-.\d]+)}'
+            coord = re.search(patron, script)
+
+            latitud = float(coord.group(2))
+            longitud = float(coord.group(1))
+
+            # Expresión regular para extraer las urls de las imágenes
+            patron = r'"image":"(https?://[^"]+)"'
+            urls_imagenes = re.findall(patron, script)
+
+            images = pd.DataFrame(urls_imagenes, columns=['url'])
+
+        except Exception as e:
+            logging.error(e)
+            latitud = pd.NA
+            longitud = pd.NA
+            images = pd.DataFrame()
 
         datos_principales = self.driver.find_elements(
             By.XPATH, xpaths['metrocuadrado']['detalles_apartamento']['datos_principales']
@@ -386,6 +411,11 @@ class MetrocuadradoScraper:
                     except:
                         pass
 
+        
+        if len(images) > 0:
+            images['codigo'] = codigo
+            self.save_images(data=images)
+            logging.info('Images saved')
 
         return {
             'precio': precio,
@@ -430,11 +460,13 @@ class MetrocuadradoScraper:
             'area_terraza_balcon': area_terraza_balcon,
             'terraza': terraza,
             'parqueadero_visitantes': parqueadero_visitantes,
+            'latitud': latitud,
+            'longitud': longitud,
             'descripcion': descripcion,
             'datetime': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'url': self.driver.current_url,
             'fuente': 'metrocuadrado',
-            'query': self.query_enter
+            'query': self.query_enter,
         }
     
     def scraper(self, sleep_time: int = 1):
@@ -460,11 +492,28 @@ class MetrocuadradoScraper:
 
             # print(details)
             # print('\n\n')
-    
-    def export_to_csv(self):
-        self.df.to_csv(f'{self.file_name}.csv', index=False)
-        logging.info(f'Archivo {self.file_name}.csv exportado correctamente.')    
 
+    def save_images(self, data_path = 'data/raw/metrocuadrado', data: pd.DataFrame = None):
+        # verifica si existe el archivo images.csv
+        if os.path.isfile(f'{data_path}/images.csv'):
+            # si existe, lo carga
+            df_images = pd.read_csv(f'{data_path}/images.csv')
+        else:
+            # si no existe, crea un dataframe vacío
+            df_images = pd.DataFrame(columns=['codigo', 'url'])
+
+        df_images = pd.concat([df_images, data], ignore_index=True)
+        df_images.to_csv(f'{data_path}/images.csv', index=False)
+
+    
+    def export_to_csv(self, data_path = 'data/raw/metrocuadrado'):
+        self.df.to_csv(f'{data_path}/{self.file_name}.csv', index=False)
+        logging.info(f'Archivo {self.file_name}.csv exportado correctamente. {self.df.shape[0]} registros')
+        logging.info(f'Archivo en {data_path}/{self.file_name}.csv')
+
+        logging.info('Imagenes guardadas en data/raw/metrocuadrado/images.csv')
+
+# TODO: Implementar el scraper de arriendo
 class MetrocuadradoArriendoScraper(MetrocuadradoScraper):
     def __init__(self, query_enter: str):
         super().__init__(query_enter)
@@ -483,5 +532,5 @@ if __name__ == '__main__':
     scraper = MetrocuadradoScraper('bosque-izquierdo')
     scraper.run()
 
-    arriendo = MetrocuadradoArriendoScraper('bosque-izquierdo')
-    arriendo.run()
+    # arriendo = MetrocuadradoArriendoScraper('bosque-izquierdo')
+    # arriendo.run()
