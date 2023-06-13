@@ -13,12 +13,12 @@ import time
 import re
 import os
 
-try:
-    logging.basicConfig(filename='scrapers/logs/metrocuadrado.log', level=logging.INFO,
-                        format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8')
-except:
-    logging.basicConfig(filename='logs/metrocuadrado.log', level=logging.DEBUG,
-                        format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', filemode='w')
+# try:
+#     logging.basicConfig(filename='scrapers/logs/metrocuadrado.log', level=logging.INFO,
+#                         format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8')
+# except:
+#     logging.basicConfig(filename='logs/metrocuadrado.log', level=logging.DEBUG,
+#                         format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', filemode='w')
     
 handler = logging.StreamHandler()
 logging.getLogger().addHandler(handler)
@@ -48,16 +48,19 @@ except:
         xpaths = yaml.safe_load(file)
 
 class MetrocuadradoScraper:
-    def __init__(self, query_enter: str, file_name: str = 'apartments'):
+    def __init__(self, query_enter: str, file_name: str = 'venta_apartamentos'):
         self.query_enter = query_enter.lower()
         self.driver = webdriver.Chrome(options=chrome_options)
         self.df = pd.DataFrame()
         self.file_name = file_name
+        self.images_file_name = f'{self.file_name}_imagenes'
 
         if self.query_enter == 'bogota':
             self.url = 'https://www.metrocuadrado.com/apartamentos/venta/bogota/'
         else:
             self.url = f'https://www.metrocuadrado.com/apartamentos/venta/bogota/{self.query_enter}/'
+
+        self.precio = xpaths['metrocuadrado']['detalles_apartamento']['precio']
 
     def run(self):
         logging.info(f'Iniciando scraper')
@@ -95,8 +98,10 @@ class MetrocuadradoScraper:
 
     def extract_details(self) -> dict:
         try:
+            # precio = self.driver.find_element(
+            #     By.XPATH, xpaths['metrocuadrado']['detalles_apartamento']['precio']).text
             precio = self.driver.find_element(
-                By.XPATH, xpaths['metrocuadrado']['detalles_apartamento']['precio']).text
+                By.XPATH, self.precio).text
             precio = precio[1:].replace('.', '')
         except:
             precio = pd.NA
@@ -495,15 +500,15 @@ class MetrocuadradoScraper:
 
     def save_images(self, data_path = 'data/raw/metrocuadrado', data: pd.DataFrame = None):
         # verifica si existe el archivo images.csv
-        if os.path.isfile(f'{data_path}/images.csv'):
+        if os.path.isfile(f'{data_path}/{self.images_file_name}.csv'):
             # si existe, lo carga
-            df_images = pd.read_csv(f'{data_path}/images.csv')
+            df_images = pd.read_csv(f'{data_path}/{self.images_file_name}.csv', index_col=False)
         else:
             # si no existe, crea un dataframe vacío
             df_images = pd.DataFrame(columns=['codigo', 'url'])
 
         df_images = pd.concat([df_images, data], ignore_index=True)
-        df_images.to_csv(f'{data_path}/images.csv', index=False)
+        df_images.to_csv(f'{data_path}/{self.images_file_name}.csv', index=False)
 
     
     def export_to_csv(self, data_path = 'data/raw/metrocuadrado'):
@@ -511,26 +516,24 @@ class MetrocuadradoScraper:
         logging.info(f'Archivo {self.file_name}.csv exportado correctamente. {self.df.shape[0]} registros')
         logging.info(f'Archivo en {data_path}/{self.file_name}.csv')
 
-        logging.info('Imagenes guardadas en data/raw/metrocuadrado/images.csv')
+        logging.info(f'Imagenes guardadas en {data_path}/{self.images_file_name}.csv')
 
-# TODO: Implementar el scraper de arriendo
+
 class MetrocuadradoArriendoScraper(MetrocuadradoScraper):
     def __init__(self, query_enter: str):
         super().__init__(query_enter)
-        self.file_name = f'arriendo_{self.query_enter}'
+        self.file_name = f'arriendo_apartamentos_{self.query_enter}'
+        self.images_file_name = f'arriendo_apartamentos_imagenes_{self.query_enter}'
         if self.query_enter == 'bogota':
             self.url = 'https://www.metrocuadrado.com/apartamentos/arriendo/bogota/'
         else:
             self.url = f'https://www.metrocuadrado.com/apartamentos/arriendo/bogota/{self.query_enter}/'
 
-    def export_to_csv(self):
-        super().export_to_csv()
-        self.df = self.df.rename(columns={'precio': 'precio_arriendo'})
-        self.df.to_csv(f'{self.file_name}.csv', index=False)
+        self.precio = './/div[@class="Col-sc-14ninbu-0 lfGZKA pl-0 d-none d-sm-inline-block col-md-9"]/div/h3'
 
 if __name__ == '__main__':
     scraper = MetrocuadradoScraper('bosque-izquierdo')
     scraper.run()
 
-    # arriendo = MetrocuadradoArriendoScraper('bosque-izquierdo')
-    # arriendo.run()
+    arriendo = MetrocuadradoArriendoScraper('bosque-izquierdo')
+    arriendo.run()
