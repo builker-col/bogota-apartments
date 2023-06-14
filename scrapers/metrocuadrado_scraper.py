@@ -11,7 +11,10 @@ import re
 import os
 
 # modulos locales
-from config import config_scrapper
+try:
+    from config import config_scrapper
+except:
+    from scrapers.config import config_scrapper
 
 # Configuración de los logs del scraper
 try:
