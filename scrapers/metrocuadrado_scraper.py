@@ -1,10 +1,7 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common import exceptions as EX
-from fake_useragent import UserAgent
 from datetime import datetime
 import pandas as pd
 import logging
@@ -12,6 +9,9 @@ import yaml
 import time
 import re
 import os
+
+# modulos locales
+from config import config_scrapper
 
 # Configuración de los logs del scraper
 try:
@@ -23,23 +23,6 @@ except:
     
 handler = logging.StreamHandler()
 logging.getLogger().addHandler(handler)
-
-# Crear User Agent aleatorio para evitar ser bloqueado
-fake = UserAgent().random
-logging.debug(f'User agent: {fake}')
-
-# Configuración de Selenium
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--window-size=1920x1080")
-chrome_options.add_argument(f'user-agent={fake}')
-chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument('--log-level=2')
-chrome_options.add_argument('--disable-logging')
-chrome_options.add_argument('--disable-dev-shm-usage')
-chrome_options.add_argument('--disable-extensions')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_experimental_option('prefs', {'profile.managed_default_content_settings.images': 2})
 
 # Crear DataFrame vacío para almacenar los datos de los apartamentos
 apartments = pd.DataFrame()
@@ -62,7 +45,7 @@ class MetrocuadradoScraper:
             file_name (str, optional): Nombre del archivo csv. Defaults to 'venta_apartamentos'.
         """
         self.query_enter = query_enter.lower()
-        self.driver = webdriver.Chrome(options=chrome_options)
+        self.driver = config_scrapper()
         self.df = pd.DataFrame()
         self.file_name = file_name
         self.images_file_name = f'{self.file_name}_imagenes'
