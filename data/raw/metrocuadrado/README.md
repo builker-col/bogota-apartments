@@ -35,7 +35,5 @@
 | link                       | Enlace al apartamento en el portal web                                                                  |
 | query                      | Nombre de la búsqueda realizada en el portal web                                                        |
 | date                       | Fecha y hora en la que se realizó la extracción de datos en formato "Day Month Year HH:MM:SS YYYY"  |
-
-## Eventos en la fuente de datos
-
-- **Inicio de extracción:** 2023-06-12 12:29:54
+| latitud                    | Latitud del apartamento                                                                                |
+| longitud                   | Longitud del apartamento                                                                               |
