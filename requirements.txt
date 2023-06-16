@@ -3,3 +3,5 @@ fake_useragent
 selenium
 pandas
 numpy
+humanize
+plotly
