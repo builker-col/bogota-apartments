@@ -5,3 +5,5 @@ pandas
 numpy
 humanize
 plotly
+scrapy
+webdriver_manager
