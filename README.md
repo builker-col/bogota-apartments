@@ -13,6 +13,7 @@
 _**Indice:**_
 - [Descripción](#descripción)
 - [Configuración](#configuración)
+- [MongoDB Dashboard](#MongoDB-Dashboard)
 - [Cómo contribuir](#cómo-contribuir)
 - [Mantenimiento](#mantenimiento)
 - [Licencia](#licencia)
@@ -75,7 +76,13 @@ DOWNLOADER_MIDDLEWARES = {
 }
 ```
 
+## MongoDB Dashboard
 
+### Apartamentos en Bogotá(Source: **[Metrocuadrado](https://www.metrocuadrado.com/)**)
+
+[MonogoDB Dashboard](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
+
+<iframe style="background: #21313C;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);width: 100vw;height: 100vh;"  src="https://charts.mongodb.com/charts-project-0-vjiwc/embed/dashboards?id=5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca&theme=dark&autoRefresh=true&maxDataAge=3600&showTitleAndDesc=true&scalingWidth=fixed&scalingHeight=fixed"></iframe>
 ## Cómo contribuir
 El proyecto es de código abierto y se anima a cualquier persona interesada en contribuir a hacerlo. Para contribuir al proyecto, por favor sigue estos pasos:
 
