@@ -18,8 +18,8 @@ SPIDER_MODULES = ['bogota_apartments.spiders']
 NEWSPIDER_MODULE = 'bogota_apartments.spiders'
 
 # Database settings - uncomment if you want to use MongoDB
-# MONGO_URI = os.getenv('MONGO_URI')
-# MONGO_DATABASE = os.getenv('MONGO_DATABASE')
+MONGO_URI = os.getenv('MONGO_URI')
+MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "bogota_apartments (+http://www.yourdomain.com)"
@@ -59,24 +59,23 @@ ROBOTSTXT_OBEY = True
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-#    "bogota_apartments.middlewares.BogotaApetmentsDownloaderMiddleware": 543,
-    # 'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550, 
-    # 'scrapy.downloadermiddlewares.retry.RetryMiddleware': None, 
+    'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550, 
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': None, 
 }
 
-# SCRAPEOPS_API_KEY  = os.getenv("SCRAPEOPS_API_KEY")
+SCRAPEOPS_API_KEY  = os.getenv("SCRAPEOPS_API_KEY")
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
-    # 'scrapeops_scrapy.extension.ScrapeOpsMonitor': 500, 
+    'scrapeops_scrapy.extension.ScrapeOpsMonitor': 500, 
 }
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-    # 'bogota_apartments.pipelines.MongoDBPipeline': 500 # uncomment if you want to use MongoDB
-# }
+ITEM_PIPELINES = {
+    'bogota_apartments.pipelines.MongoDBPipeline': 500 # uncomment if you want to use MongoDB
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

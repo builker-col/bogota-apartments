@@ -1,5 +1,21 @@
 # Registro de versiones
 
+## v1.0.0 - 2023-19-12
+
+### Cambios principales
+
+- Se migro el proyecto a scrapy con selenium para mayor velocidad de extracción.
+- Se agregaron conexion a mongodb para almacenar los datos.
+
+### Nuevas características
+
+- Se agrego la opcion de dashboard para visualizar los datos con https://scrapeops.io/.
+
+### Correcciones de errores
+
+- Se corrigio el error de que no se extraian todos los datos de los apartamentos.
+
+
 ## v0.2.0 - 2023-06-12
 
 ### Nuevas características
