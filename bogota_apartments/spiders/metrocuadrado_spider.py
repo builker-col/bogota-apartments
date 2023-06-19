@@ -77,8 +77,14 @@ class MetrocuadradoSpider(scrapy.Spider):
             loader.add_value('estado', script_data['propertyState'])
             loader.add_value('longitud', script_data['coordinates']['lon'])
             loader.add_value('latitud', script_data['coordinates']['lat'])
-            loader.add_value('featured_interior', script_data['featured'][0]['items'])
-            loader.add_value('featured_exterior', script_data['featured'][1]['items'])
+            try:
+                loader.add_value('featured_interior', script_data['featured'][0]['items'])
+            except:
+                pass
+            try:
+                loader.add_value('featured_exterior', script_data['featured'][1]['items'])
+            except:
+                pass
             try:
                 loader.add_value('featured_zona_comun', script_data['featured'][2]['items'])
             except:
