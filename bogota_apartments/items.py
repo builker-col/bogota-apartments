@@ -10,10 +10,10 @@ from itemloaders.processors import TakeFirst
 from unidecode import unidecode
 
 def normalize_text_upper(text):
-    return unidecode(text).upper().strip()
+    return unidecode(text.replace('\n', ' ')).upper().strip()
 
 def normalize_text_lower(text):
-    return unidecode(text).lower().strip()
+    return unidecode(text.replace('\n', ' ')).lower().strip()
 
 def replace_zero_with_nan(value):
     return np.nan if value == 0 else value
@@ -21,7 +21,7 @@ def replace_zero_with_nan(value):
 def has_feature(value):
     return 1 if value else 0
 
-class ApartmenstItem(scrapy.Item):
+class ApartmentsItem(scrapy.Item):
     codigo = scrapy.Field(
         output_processor = TakeFirst()
     )
