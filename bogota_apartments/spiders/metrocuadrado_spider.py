@@ -4,10 +4,9 @@ from fake_useragent import UserAgent
 from selenium import webdriver
 from datetime import datetime
 import json
-import time
 
 # Scrapy
-from bogota_apartments.items import ApartmenstItem
+from bogota_apartments.items import ApartmentsItem
 from scrapy.selector import Selector
 from scrapy.loader import ItemLoader
 import scrapy
@@ -32,7 +31,8 @@ class MetrocuadradoSpider(scrapy.Spider):
         }
 
         for type in ['venta', 'arriendo']:
-            for offset in range(0, 150, 50):
+            value = 53488 if type == 'venta' else 10030
+            for offset in range(0, value, 50):
                 url = f'{self.base_url}?realEstateTypeList=apartamento&realEstateBusinessList={type}&city=bogot%C3%A1&from={offset}&size=50'
 
                 yield scrapy.Request(url, headers=headers, callback=self.parse)
@@ -57,7 +57,7 @@ class MetrocuadradoSpider(scrapy.Spider):
         script_data = json.loads(script_data)['props']['initialProps']['pageProps']['realEstate']
 
         for item in script_data:
-            loader = ItemLoader(item=ApartmenstItem(), selector=item)
+            loader = ItemLoader(item=ApartmentsItem(), selector=item)
             loader.add_value('codigo', script_data['propertyId'])
             loader.add_value('tipo_propiedad', script_data['propertyType']['nombre'])
             loader.add_value('tipo_operacion', script_data['businessType'])
@@ -68,7 +68,10 @@ class MetrocuadradoSpider(scrapy.Spider):
             loader.add_value('banos', script_data['bathrooms'])
             loader.add_value('administracion', script_data['detail']['adminPrice'])
             loader.add_value('parqueaderos', script_data['garages'])
-            loader.add_value('sector', script_data['sector']['nombre'])
+            try:
+                loader.add_value('sector', script_data['sector']['nombre'])
+            except:
+                loader.add_value('sector', None)
             loader.add_value('estrato', script_data['stratum'])
             loader.add_value('antiguedad', script_data['builtTime'])
             loader.add_value('estado', script_data['propertyState'])
