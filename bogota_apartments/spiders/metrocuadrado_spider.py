@@ -18,6 +18,9 @@ class MetrocuadradoSpider(scrapy.Spider):
     base_url = 'https://www.metrocuadrado.com/rest-search/search'
 
     def __init__(self):
+        '''
+        This function is used to initialize the webdriver and the options for the webdriver
+        '''
         chrome_options = Options()
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--window-size=1920x1080')
@@ -25,6 +28,11 @@ class MetrocuadradoSpider(scrapy.Spider):
         self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 
     def start_requests(self):
+        '''
+        This function is used to obtain the metrosquare API data by iterating on the operation types and API offsets.
+        
+        :return: scrapy.Request
+        '''
         headers = {
             'X-Api-Key': 'P1MfFHfQMOtL16Zpg36NcntJYCLFm8FqFfudnavl',
             'User-Agent': UserAgent().random
@@ -39,6 +47,12 @@ class MetrocuadradoSpider(scrapy.Spider):
 
         
     def parse(self, response,):
+        '''
+        This function is used to get the links for each apartment from the metrosquare API response and then call the details_parse function to get the data for each apartment.        
+
+        :param response: scrapy.Response
+        :return: scrapy.Request
+        '''
         result = json.loads(response.body)['results']
 
         for item in result:
@@ -48,6 +62,12 @@ class MetrocuadradoSpider(scrapy.Spider):
             )
 
     def details_parse(self, response):
+        '''
+        This function is used to obtain the data of each apartment by entering each link, loading the content with selenium and then obtaining the data with scrapy.
+
+        :param response: scrapy.Response
+        :return: scrapy.Request
+        '''
         self.driver.get(response.url)   
 
         script_data = Selector(text=self.driver.page_source).xpath(
