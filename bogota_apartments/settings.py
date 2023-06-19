@@ -17,9 +17,9 @@ BOT_NAME = 'bogota_apartments'
 SPIDER_MODULES = ['bogota_apartments.spiders']
 NEWSPIDER_MODULE = 'bogota_apartments.spiders'
 
-# Database settings
-MONGO_URI = os.getenv('MONGO_URI')
-MONGO_DATABASE = os.getenv('MONGO_DATABASE')
+# Database settings - uncomment if you want to use MongoDB
+# MONGO_URI = os.getenv('MONGO_URI')
+# MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "bogota_apartments (+http://www.yourdomain.com)"
@@ -69,16 +69,14 @@ DOWNLOADER_MIDDLEWARES = {
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
-#    "scrapy.extensions.telnet.TelnetConsole": None,
     # 'scrapeops_scrapy.extension.ScrapeOpsMonitor': 500, 
 }
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-#    "bogota_apartments.pipelines.BogotaApetmentsPipeline": 300,
-     'bogota_apartments.pipelines.MongoDBPipeline': 500
-}
+# ITEM_PIPELINES = {
+    # 'bogota_apartments.pipelines.MongoDBPipeline': 500 # uncomment if you want to use MongoDB
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
