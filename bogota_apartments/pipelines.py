@@ -6,10 +6,9 @@
 
 # useful for handling different item types with a single interface
 from bogota_apartments.items import ApartmentsItem
-from scrapy.exceptions import DropItem  
+from scrapy.exceptions import DropItem
 from scrapy.settings import Settings
 import pymongo
-
 
 class MongoDBPipeline(object):
     collection = 'scrapy_bogota_apartments'
@@ -21,20 +20,24 @@ class MongoDBPipeline(object):
     @classmethod
     def from_crawler(cls, crawler):
         return cls(
-            mongo_uri = crawler.settings.get('MONGO_URI'),
-            mongo_db = crawler.settings.get('MONGO_DATABASE', 'items')
+            mongo_uri=crawler.settings.get('MONGO_URI'),
+            mongo_db=crawler.settings.get('MONGO_DATABASE', 'items')
         )
-    
+
     def open_spider(self, spider):
         self.client = pymongo.MongoClient(self.mongo_uri)
         self.db = self.client[self.mongo_db]
         # start with a clean database
-        self.db[self.collection].delete_many({})
+        # self.db[self.collection].delete_many({})
 
     def close_spider(self, spider):
         self.client.close()
 
     def process_item(self, item, spider):
         data = dict(ApartmentsItem(item))
+
+        if self.db[self.collection].find_one({'codigo': data['codigo']}):
+            raise DropItem("Ya existe el item")
+        
         self.db[self.collection].insert_one(data)
         return item
