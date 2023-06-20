@@ -39,7 +39,7 @@ class MetrocuadradoSpider(scrapy.Spider):
         }
 
         for type in ['venta', 'arriendo']:
-            value = 53488 if type == 'venta' else 10030
+            value = 70000 if type == 'venta' else 20000
             for offset in range(0, value, 50):
                 url = f'{self.base_url}?realEstateTypeList=apartamento&realEstateBusinessList={type}&city=bogot%C3%A1&from={offset}&size=50'
 
@@ -92,7 +92,10 @@ class MetrocuadradoSpider(scrapy.Spider):
                 loader.add_value('sector', script_data['sector']['nombre'])
             except:
                 loader.add_value('sector', None)
-            loader.add_value('estrato', script_data['stratum'])
+            try:
+                loader.add_value('estrato', script_data['stratum'])
+            except:
+                loader.add_value('estrato', None)
             loader.add_value('antiguedad', script_data['builtTime'])
             loader.add_value('estado', script_data['propertyState'])
             loader.add_value('longitud', script_data['coordinates']['lon'])
