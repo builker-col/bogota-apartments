@@ -59,16 +59,16 @@ ROBOTSTXT_OBEY = True
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550, 
-    'scrapy.downloadermiddlewares.retry.RetryMiddleware': None, 
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 500, 
+    # 'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550, 
 }
 
-SCRAPEOPS_API_KEY  = os.getenv("SCRAPEOPS_API_KEY")
+# SCRAPEOPS_API_KEY  = os.getenv("SCRAPEOPS_API_KEY")
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
-    'scrapeops_scrapy.extension.ScrapeOpsMonitor': 500, 
+    # 'scrapeops_scrapy.extension.ScrapeOpsMonitor': 500, 
 }
 
 # Configure item pipelines
