@@ -5,8 +5,7 @@
 
 import scrapy
 import numpy as np
-from scrapy.loader.processors import MapCompose
-from itemloaders.processors import TakeFirst
+from itemloaders.processors import TakeFirst, MapCompose
 from unidecode import unidecode
 
 def normalize_text_upper(text):
@@ -22,9 +21,7 @@ def has_feature(value):
     return 1 if value else 0
 
 class ApartmentsItem(scrapy.Item):
-    codigo = scrapy.Field(
-        output_processor = TakeFirst()
-    )
+    codigo = scrapy.Field(output_processor = TakeFirst())
 
     tipo_propiedad = scrapy.Field(
         input_processor = MapCompose(normalize_text_upper),
@@ -101,27 +98,21 @@ class ApartmentsItem(scrapy.Item):
         output_processor = TakeFirst()
     )
 
-    featured_interior = scrapy.Field(
-        output_processor = MapCompose(normalize_text_upper),
-    )
-
-    featured_exterior = scrapy.Field(
-        output_processor = MapCompose(normalize_text_upper),
-    )
-
-    featured_zona_comun = scrapy.Field(
-        output_processor = MapCompose(normalize_text_upper),
-    )
-
-    featured_sector = scrapy.Field(
-        output_processor = MapCompose(normalize_text_upper),
-    )
+    featured_interior = scrapy.Field(output_processor = MapCompose(normalize_text_upper))
+    featured_exterior = scrapy.Field(output_processor = MapCompose(normalize_text_upper))
+    featured_zona_comun = scrapy.Field(output_processor = MapCompose(normalize_text_upper))
+    featured_sector = scrapy.Field(output_processor = MapCompose(normalize_text_upper))
 
     descripcion = scrapy.Field(
         input_processor = MapCompose(normalize_text_lower),
         output_processor = TakeFirst()
     )
 
-    datetime = scrapy.Field(
+    datetime = scrapy.Field(output_processor = TakeFirst())
+
+class HabiApartmentsItem(ApartmentsItem):
+    # agregar campos de habitaclia
+    address = scrapy.Field(
+        input_processor = MapCompose(normalize_text_upper),
         output_processor = TakeFirst()
     )

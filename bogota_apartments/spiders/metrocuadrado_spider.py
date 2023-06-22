@@ -39,7 +39,7 @@ class MetrocuadradoSpider(scrapy.Spider):
         }
 
         for type in ['venta', 'arriendo']:
-            value = 70000 if type == 'venta' else 20000
+            value = 250000 if type == 'venta' else 150000
             for offset in range(0, value, 50):
                 url = f'{self.base_url}?realEstateTypeList=apartamento&realEstateBusinessList={type}&city=bogot%C3%A1&from={offset}&size=50'
 
