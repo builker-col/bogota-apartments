@@ -88,34 +88,42 @@ class MetrocuadradoSpider(scrapy.Spider):
             loader.add_value('banos', script_data['bathrooms'])
             loader.add_value('administracion', script_data['detail']['adminPrice'])
             loader.add_value('parqueaderos', script_data['garages'])
+
             try:
                 loader.add_value('sector', script_data['sector']['nombre'])
             except:
                 loader.add_value('sector', None)
+
             try:
                 loader.add_value('estrato', script_data['stratum'])
             except:
                 loader.add_value('estrato', None)
+
             loader.add_value('antiguedad', script_data['builtTime'])
             loader.add_value('estado', script_data['propertyState'])
             loader.add_value('longitud', script_data['coordinates']['lon'])
             loader.add_value('latitud', script_data['coordinates']['lat'])
+
             try:
                 loader.add_value('featured_interior', script_data['featured'][0]['items'])
             except:
                 pass
+
             try:
                 loader.add_value('featured_exterior', script_data['featured'][1]['items'])
             except:
                 pass
+
             try:
                 loader.add_value('featured_zona_comun', script_data['featured'][2]['items'])
             except:
                 pass
+
             try:
                 loader.add_value('featured_sector', script_data['featured'][3]['items'])
             except:
                 pass
+            
             loader.add_value('descripcion', script_data['comment'])
             loader.add_value('datetime', datetime.now())
 
