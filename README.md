@@ -14,17 +14,18 @@ _**Indice:**_
 - [Descripción](#descripción)
 - [Configuración](#configuración)
 - [MongoDB Dashboard](#MongoDB-Dashboard)
+- [Datos](#datos)
 - [Cómo contribuir](#cómo-contribuir)
 - [Mantenimiento](#mantenimiento)
 - [Licencia](#licencia)
 - [Créditos](#créditos)
 
 _**Datos:**_
-- [Datos](data/)
-    - [Data Readme](data/README.md)
+- [Datos](data/processed/)
+    - [Data Readme](data/processed/README.md)
 - [RAW Data](data/raw/)
     - [RAW Data Readme](data/raw/README.md)
-- [Eventos en la extracion de datos](data/raw/README.md#eventos-en-la-fuente-de-datos)
+
 ## Descripción
 
 El Proyecto Bogotá Apartments es una iniciativa de código abierto que tiene como objetivo recopilar y analizar datos sobre el mercado inmobiliario de apartamentos en la ciudad de Bogotá, Colombia. El proyecto utiliza técnicas avanzadas de web scraping y análisis de datos para recopilar información detallada sobre las ventas y arriendo de apartamentos en la ciudad y proporcionar un conjunto de datos completo y actualizado.
@@ -83,6 +84,46 @@ DOWNLOADER_MIDDLEWARES = {
 [MonogoDB Dashboard](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
 
 <iframe style="background: #21313C;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);width: 100vw;height: 100vh;"  src="https://charts.mongodb.com/charts-project-0-vjiwc/embed/dashboards?id=5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca&theme=dark&autoRefresh=true&maxDataAge=3600&showTitleAndDesc=true&scalingWidth=fixed&scalingHeight=fixed"></iframe>
+
+## Datos
+
+> ⚠️ **Advertencia**: La columna `coords_modified` indica si las coordenadas geográficas fueron modificadas durante el procesamiento de los datos. Si el valor es `True`, esto significa que las coordenadas originales fueron ajustadas o corregidas. Se recomienda precaución al utilizar estos datos, ya que pueden no reflejar las coordenadas geográficas exactas del apartamento. Es importante verificar la precisión y la fuente de las coordenadas antes de utilizarlas en aplicaciones o análisis que requieran una ubicación geográfica precisa.
+
+
+| Columna                  | Descripción                                               |
+|--------------------------|-----------------------------------------------------------|
+| codigo                   | Código único que identifica cada apartamento              |
+| tipo_propiedad           | Tipo de propiedad (apartamento, casa, etc.)               |
+| tipo_operacion           | Tipo de operación (venta, arriendo, etc.)                 |
+| precio_venta             | Precio de venta del apartamento                           |
+| precio_arriendo          | Precio de arriendo del apartamento                        |
+| area                     | Área del apartamento en metros cuadrados                  |
+| habitaciones             | Número de habitaciones del apartamento                    |
+| banos                    | Número de baños del apartamento                           |
+| administracion           | Valor de la cuota de administración del apartamento       |
+| parqueaderos             | Número de parqueaderos disponibles                        |
+| sector                   | Sector o zona en la que se encuentra el apartamento       |
+| estrato                  | Estrato socioeconómico del apartamento                    |
+| antiguedad               | Antigüedad del apartamento en años                        |
+| estado                   | Estado del apartamento (nuevo, usado)                     |
+| longitud                 | Longitud geográfica del apartamento                       |
+| latitud                  | Latitud geográfica del apartamento                        |
+| descripcion              | Descripción detallada del apartamento                     |
+| jacuzzi                  | Indica si el apartamento cuenta con jacuzzi               |
+| piso                     | Número de piso en el que se encuentra el apartamento      |
+| closets                  | Número de closets en el apartamento                       |
+| chimenea                 | Indica si el apartamento cuenta con chimenea              |
+| permite_mascotas         | Indica si se permiten mascotas en el apartamento          |
+| gimnasio                 | Indica si el apartamento cuenta con gimnasio              |
+| ascensor                 | Indica si el edificio cuenta con ascensor                 |
+| conjunto_cerrado         | Indica si el apartamento se encuentra en conjunto cerrado |
+| coords_modified          | Coordenadas modificadas del apartamento                   |
+| localidad                | Localidad en la que se encuentra el apartamento           |
+| barrio                   | Barrio en el que se encuentra el apartamento              |
+| estacion_tm_cercana      | Nombre de la estacion de transporte masivo mas cercana    |
+| distancia_estacion_tm_m  | Distancia a la estación de transporte masivo más cercana  |
+| cerca_estacion_tm        | Indica si está cerca de una estación de transporte masivo |
+
 
 ## Cómo contribuir
 El proyecto es de código abierto y se anima a cualquier persona interesada en contribuir a hacerlo. Para contribuir al proyecto, por favor sigue estos pasos:
