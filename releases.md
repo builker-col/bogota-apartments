@@ -1,6 +1,6 @@
 # Registro de versiones
 
-## v1.0.0 - 2023-19-12
+## v1.0.0 - 2023-06-19
 
 ### Cambios principales
 
