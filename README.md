@@ -2,13 +2,15 @@
 
 [![ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/U6U0K5UNW)
 [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@erik172) 
-[![GitHub issues](	https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/erik172/)
+[![Github](	https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/builker-col/bogota-apartments)
+[![GitHub issues](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/erik172/)
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/_Erik172)
 [![Kaggle](https://img.shields.io/badge/Kaggle-20BEFF?style=for-the-badge&logo=Kaggle&logoColor=white)](https://www.kaggle.com/datasets/erik172/bogota-apartments)
 [![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)]()
-<!-- [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)]() -->
 
 ![Bogota Apartments](https://i.ibb.co/6nfN4Z0/bogota-apartments02.png)
+
+**Releases:** [Releases Readme](releases.md)
 
 _**Indice:**_
 - [Descripción](#descripción)
@@ -143,6 +145,8 @@ El conjunto de datos se actualizará regularmente para asegurarse de que se mant
 
 ## Licencia
 El conjunto de datos y el código fuente del proyecto están disponibles bajo la licencia GNU General Public License v3.0. Para más información, por favor lee el archivo LICENSE.
+
+para más información sobre la licencia, por favor lee el archivo [LICENSE](LICENSE).
 
 ## Créditos
 - [**@erik172**](https://github.com/Erik172) - Creador del proyecto y mantenedor principal.
