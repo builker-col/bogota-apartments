@@ -40,13 +40,11 @@ _Este proyecto hace parte de [Builker](https://github.com/Builker-col)_.
 
 ## Configuración
 
-Si quieres ejecutar el proyecto con los servicios de mongoDB y ScrapeOps debes crear un archivo `.env` en la raiz del proyecto con las siguientes variables de entorno:
+Si quieres ejecutar el proyecto con los servicios de mongoDB debes crear un archivo `.env` en la raiz del proyecto con las siguientes variables de entorno:
 
 ```bash
 MONGO_URI=<<URI de conexión a MongoDB>>
 MONGO_DATABASE=<<Nombre de la base de datos en MongoDB>>
-SCRAPEOPS_API_KEY=<<Clave de API de ScrapeOps>>
-
 ```
 
 ### Quitar Configuración de mongoDB
@@ -61,21 +59,6 @@ MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 ```python
 ITEM_PIPELINES = {
     'bogota_apartments.pipelines.MongoDBPipeline': 500
-}
-```
-
-### Quitar Configuración de ScrapeOps
-
-si no quieres usar ScrapeOps puedes comentar las siguientes lineas de codigo en el archivo `settings.py`:
-
-```python
-SCRAPEOPS_API_KEY = os.getenv('SCRAPEOPS_API_KEY')
-```
-
-```python
-DOWNLOADER_MIDDLEWARES = {
-    'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550, 
-    'scrapy.downloadermiddlewares.retry.RetryMiddleware': None, 
 }
 ```
 
