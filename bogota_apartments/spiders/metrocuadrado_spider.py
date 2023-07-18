@@ -123,6 +123,20 @@ class MetrocuadradoSpider(scrapy.Spider):
                 loader.add_value('featured_sector', script_data['featured'][3]['items'])
             except:
                 pass
+
+            try:
+                imagenes = []
+                for img in script_data['images']:
+                    imagenes.append(img['image'])
+
+                loader.add_value('imagenes', imagenes)
+            except:
+                pass
+
+            try:
+                loader.add_value('compañia', script_data['companyName'])
+            except:
+                pass
             
             loader.add_value('descripcion', script_data['comment'])
             loader.add_value('datetime', datetime.now())
