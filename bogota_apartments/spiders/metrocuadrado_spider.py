@@ -1,4 +1,3 @@
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
 from selenium import webdriver
@@ -25,7 +24,8 @@ class MetrocuadradoSpider(scrapy.Spider):
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--window-size=1920x1080')
         chrome_options.add_argument(f'user-agent={UserAgent().random}')
-        self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+
+        self.driver = webdriver.Chrome(options=chrome_options)
 
     def start_requests(self):
         '''
@@ -131,4 +131,3 @@ class MetrocuadradoSpider(scrapy.Spider):
 
     def close(self, spider):
         self.driver.quit()
-
