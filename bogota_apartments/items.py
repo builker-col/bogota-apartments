@@ -108,6 +108,13 @@ class ApartmentsItem(scrapy.Item):
         output_processor = TakeFirst()
     )
 
+    compañia = scrapy.Field(
+        input_processor = MapCompose(normalize_text_upper),
+        output_processor = TakeFirst()
+    )
+
+    imagenes = scrapy.Field()
+
     datetime = scrapy.Field(output_processor = TakeFirst())
 
 class HabiApartmentsItem(ApartmentsItem):

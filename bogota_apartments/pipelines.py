@@ -7,7 +7,7 @@
 # useful for handling different item types with a single interface
 from bogota_apartments.items import ApartmentsItem
 from scrapy.exceptions import DropItem
-from scrapy.settings import Settings
+from datetime import datetime
 import pymongo
 
 class MongoDBPipeline(object):
@@ -36,8 +36,38 @@ class MongoDBPipeline(object):
     def process_item(self, item, spider):
         data = dict(ApartmentsItem(item))
 
-        if self.db[self.collection].find_one({'codigo': data['codigo']}):
-            raise DropItem("Ya existe el item")
-        
+        if spider.name == 'metrocuadrado':
+            existing_item = self.db[self.collection].find_one({'codigo': data['codigo']})
+
+            if existing_item:
+                # Comprueba y actualiza los campos opcionales si es necesario
+                if 'imagenes' not in existing_item:
+                    existing_item['imagenes'] = data.get('imagenes')
+
+                if 'compañia' not in existing_item:
+                    existing_item['compañia'] = data.get('compañia')
+
+                if data['precio_venta'] == existing_item['precio_venta'] and data['precio_arriendo'] == existing_item['precio_arriendo']:
+                    raise DropItem("Ya existe el item, precio de venta y arriendo igual")
+                else:
+                    # Actualiza el precio de venta si ha cambiado
+                    if data['precio_venta'] != existing_item['precio_venta']:
+                        existing_item['precio_venta_anterior'] = existing_item['precio_venta']
+                        existing_item['fecha_actualizacion_precio_venta'] = datetime.now()
+
+                    # Actualiza el precio de arriendo si ha cambiado
+                    if data['precio_arriendo'] != existing_item['precio_arriendo']:
+                        existing_item['precio_arriendo_anterior'] = existing_item['precio_arriendo']
+                        existing_item['fecha_actualizacion_precio_arriendo'] = datetime.now()
+
+                    # Actualiza el item en la base de datos
+                    self.db[self.collection].update_one({'codigo': data['codigo']}, {'$set': existing_item})
+            else:
+                # Inserta el item en la base de datos si no existe
+                self.db[self.collection].insert_one(data)
+
+            return item
+
+        # Si el spider no es 'metrocuadrado', inserta el item directamente en la base de datos
         self.db[self.collection].insert_one(data)
         return item
