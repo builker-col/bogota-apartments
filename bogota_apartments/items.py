@@ -15,7 +15,7 @@ def normalize_text_lower(text):
     return unidecode(text.replace('\n', ' ')).lower().strip()
 
 def replace_zero_with_nan(value):
-    return np.nan if value == 0 else value
+    return None if value == 0 else value
 
 def has_feature(value):
     return 1 if value else 0
@@ -114,6 +114,8 @@ class ApartmentsItem(scrapy.Item):
     )
 
     imagenes = scrapy.Field()
+
+    website = scrapy.Field(output_processor = TakeFirst())
 
     datetime = scrapy.Field(output_processor = TakeFirst())
 

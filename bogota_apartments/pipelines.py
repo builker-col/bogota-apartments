@@ -47,21 +47,28 @@ class MongoDBPipeline(object):
                 if 'compañia' not in existing_item:
                     existing_item['compañia'] = data.get('compañia')
 
-                if data['precio_venta'] == existing_item['precio_venta'] and data['precio_arriendo'] == existing_item['precio_arriendo']:
-                    raise DropItem("Ya existe el item, precio de venta y arriendo igual")
-                else:
+                try:
                     # Actualiza el precio de venta si ha cambiado
                     if data['precio_venta'] != existing_item['precio_venta']:
                         existing_item['precio_venta_anterior'] = existing_item['precio_venta']
+                        existing_item['precio_venta'] = data['precio_venta']
                         existing_item['fecha_actualizacion_precio_venta'] = datetime.now()
 
+                except KeyError:
+                    pass
+
+                try:
                     # Actualiza el precio de arriendo si ha cambiado
                     if data['precio_arriendo'] != existing_item['precio_arriendo']:
                         existing_item['precio_arriendo_anterior'] = existing_item['precio_arriendo']
+                        existing_item['precio_arriendo'] = data['precio_arriendo']
                         existing_item['fecha_actualizacion_precio_arriendo'] = datetime.now()
+                except KeyError:
+                    pass
 
-                    # Actualiza el item en la base de datos
-                    self.db[self.collection].update_one({'codigo': data['codigo']}, {'$set': existing_item})
+                # Actualiza el item en la base de datos
+                self.db[self.collection].update_one({'codigo': data['codigo']}, {'$set': existing_item})
+
             else:
                 # Inserta el item en la base de datos si no existe
                 self.db[self.collection].insert_one(data)

@@ -1,12 +1,16 @@
 # Registro de versiones
 
-<!-- ## v1.1.0 - 2023-07-18
+## v1.1.0 - 2023-07-18
 
 ### Nuevas características
 
-- Se agrego la funcionalidad de actualizar el precio de venta y de arriendo de los apartamentos que ya se encuentran en la base de datos y que son extraidos de la pagina web de **Metrocuadrado**. a su vez se agrego la columna 'precio_venta_anterior' y 'precio_arriendo_anterior' para almacenar el precio anterior de los apartamentos. Y se agrego la columnas 'fecha_actualizacion_precio_venta' y 'fecha_actualizacion_precio_arriendo' para almacenar la fecha de la ultima actualizacion de los precios de los apartamentos.
+- Se agrego la funcionalidad de actualizar el precio de venta y de arriendo de los apartamentos que ya se encuentran en la base de datos y que son extraidos de la pagina web de **Metrocuadrado**. a su vez se agrego la columna `precio_venta_anterior` y `precio_arriendo_anterior` para almacenar el precio anterior de los apartamentos. Y se agrego la columnas `fecha_actualizacion_precio_venta` y `fecha_actualizacion_precio_arriendo` para almacenar la fecha de la ultima actualizacion de los precios de los apartamentos.
 
-- Se agrego la columna 'imagenes' a los datos del sitio web de **Metrocuadrado** para almacenar los enlaces a las imagenes de los apartamentos. Esto para futuras funcionalidades de analisis de imagenes. -->
+- Se agrego la columna `imagenes` a los datos del sitio web de **Metrocuadrado** para almacenar los enlaces a las imagenes de los apartamentos. Esto para futuras funcionalidades de analisis de imagenes.
+
+- se agrego la columna `compañia` a los datos del sitio web de **Metrocuadrado** para almacenar el nombre de la compañia que publica el apartamento.
+
+> Para agregar las nuevas columnas a la base de datos se debe volver hacer el proceso de extraccion de datos de la pagina web de **Metrocuadrado**. no todos los apartamentos tendran los datos de las nuevas columnas, ya que pudieron haber sido eliminados de la pagina web de **Metrocuadrado**.
 
 ## v1.0.1 - 2023-07-18
 
