@@ -29,7 +29,7 @@
 | featured_zona_comun                  | Características destacadas de las zonas comunes           |
 | featured_sector                      | Características destacadas del sector donde se ubica      |
 | descripcion                          | Descripción detallada de la propiedad                     |
-| datetime                             | Fecha y hora de registro de los datos                     |
+| datetime                             | Fecha y hora de extracción de los datos                   |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | imagenes                             | Imágenes relacionadas a la propiedad                      |

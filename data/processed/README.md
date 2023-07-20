@@ -29,6 +29,7 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | longitud                             | Longitud geográfica del apartamento                       |
 | latitud                              | Latitud geográfica del apartamento                        |
 | descripcion                          | Descripción detallada del apartamento                     |
+| datetime                             | Fecha y hora de extracción de los datos                   |
 | jacuzzi                              | Indica si el apartamento cuenta con jacuzzi               |
 | piso                                 | Número de piso en el que se encuentra el apartamento      |
 | closets                              | Número de closets en el apartamento                       |
