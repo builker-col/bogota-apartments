@@ -11,8 +11,8 @@
 | codigo                               | Código identificador de la propiedad                      |
 | tipo_propiedad                       | Tipo de propiedad (casa, apartamento, etc.)               |
 | tipo_operacion                       | Tipo de operación (venta, arriendo, etc.)                 |
-| precio_venta                         | Precio de venta de la propiedad                           |
-| precio_arriendo                      | Precio de arriendo de la propiedad                        |
+| precio_venta                         | Precio de venta de la propiedad COP                       |
+| precio_arriendo                      | Precio de arriendo de la propiedad COP                    |
 | area                                 | Área de la propiedad en metros cuadrados                  |
 | habitaciones                         | Número de habitaciones en la propiedad                    |
 | banos                                | Número de baños en la propiedad                           |
@@ -34,6 +34,6 @@
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | imagenes                             | Imágenes relacionadas a la propiedad                      |
 | fecha_actualizacion_precio_venta     | Fecha de actualización del precio de venta (scrapeado)    |
-| precio_venta_anterior                | Precio de venta anterior de la propiedad                  |
+| precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
 | fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
-| precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad               |
+| precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |

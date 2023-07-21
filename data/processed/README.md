@@ -15,8 +15,8 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | codigo                               | Código único que identifica cada apartamento              |
 | tipo_propiedad                       | Tipo de propiedad (apartamento, casa, etc.)               |
 | tipo_operacion                       | Tipo de operación (venta, arriendo, etc.)                 |
-| precio_venta                         | Precio de venta del apartamento                           |
-| precio_arriendo                      | Precio de arriendo del apartamento                        |
+| precio_venta                         | Precio de venta del apartamento COP                       |
+| precio_arriendo                      | Precio de arriendo del apartamento COP                    |
 | area                                 | Área del apartamento en metros cuadrados                  |
 | habitaciones                         | Número de habitaciones del apartamento                    |
 | banos                                | Número de baños del apartamento                           |
@@ -47,9 +47,9 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | fecha_actualizacion_precio_venta     | Fecha de actualización del precio de venta (scrapeado)    |
-| precio_venta_anterior                | Precio de venta anterior de la propiedad                  |
+| precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
 | fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
-| precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad               |
+| precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
 
 ### Imagenes
 
