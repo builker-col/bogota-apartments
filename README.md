@@ -24,7 +24,7 @@
 - [Créditos](#créditos)
 - [Versiones](releases.md)
 
-### Datos
+**Datos:**
 - [Datos Procesados](data/processed/)
     - [Readme de Datos Procesados](data/processed/README.md)
     - [Apartamentos](data/processed/apartments.csv)
