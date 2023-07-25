@@ -9,16 +9,33 @@ from itemloaders.processors import TakeFirst, MapCompose
 from unidecode import unidecode
 
 def normalize_text_upper(text):
+    # Normalizar el texto a mayusculas
     return unidecode(text.replace('\n', ' ')).upper().strip()
 
 def normalize_text_lower(text):
+    # Normalizar el texto a minusculas
     return unidecode(text.replace('\n', ' ')).lower().strip()
 
 def replace_zero_with_nan(value):
+    # Reemplazar 0 por NaN
     return None if value == 0 else value
 
 def has_feature(value):
     return 1 if value else 0
+
+def años_antiguedad_to_range(value):
+    # verificar si es un numero
+    if isinstance(value, int):
+        if value < 5:
+            return 'ENTRE 0 Y 5 ANOS'
+        elif value < 10:
+            return 'ENTRE 5 Y 10 ANOS'
+        elif value < 20:
+            return 'ENTRE 10 Y 20 ANOS'
+        else:
+            return 'MAS DE 20 ANOS'
+        
+    return value
 
 class ApartmentsItem(scrapy.Item):
     codigo = scrapy.Field(output_processor = TakeFirst())
@@ -83,8 +100,13 @@ class ApartmentsItem(scrapy.Item):
         output_processor = TakeFirst()
     )
 
+    # antiguedad = scrapy.Field(
+    #     input_processor = MapCompose(normalize_text_upper),
+    #     output_processor = TakeFirst()
+    # )
+
     antiguedad = scrapy.Field(
-        input_processor = MapCompose(normalize_text_upper),
+        input_processor = MapCompose(años_antiguedad_to_range, normalize_text_upper),
         output_processor = TakeFirst()
     )
 
@@ -95,6 +117,11 @@ class ApartmentsItem(scrapy.Item):
 
     longitud = scrapy.Field(
         input_processor = MapCompose(float, replace_zero_with_nan),
+        output_processor = TakeFirst()
+    )
+
+    direccion = scrapy.Field(
+        input_processor = MapCompose(normalize_text_upper),
         output_processor = TakeFirst()
     )
 
@@ -118,10 +145,3 @@ class ApartmentsItem(scrapy.Item):
     website = scrapy.Field(output_processor = TakeFirst())
 
     datetime = scrapy.Field(output_processor = TakeFirst())
-
-class HabiApartmentsItem(ApartmentsItem):
-    # agregar campos de habitaclia
-    address = scrapy.Field(
-        input_processor = MapCompose(normalize_text_upper),
-        output_processor = TakeFirst()
-    )

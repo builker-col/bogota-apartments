@@ -75,6 +75,9 @@ class MongoDBPipeline(object):
 
             return item
 
-        # Si el spider no es 'metrocuadrado', inserta el item directamente en la base de datos
+        elif spider.name == 'habi':
+            if self.db[self.collection].find_one({'codigo': data['codigo']}):
+                raise DropItem(f'Item {data["codigo"]} already exists in MongoDB')
+            
         self.db[self.collection].insert_one(data)
         return item
