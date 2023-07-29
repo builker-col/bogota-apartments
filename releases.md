@@ -1,5 +1,13 @@
 # Registro de versiones
 
+## v1.2.0 - 2023-07-28
+
+### Nuevas caracteristicas
+
+- Se agrego datos de los apartamentos de la pagina web **[habi](https://habi.co)**
+
+> ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
+
 ## v1.1.0 - 2023-07-18
 
 ### Nuevas características
