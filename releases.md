@@ -6,6 +6,8 @@
 
 - Se agrego datos de los apartamentos de la pagina web **[habi](https://habi.co)**
 
+- El archivo `builker.scrapy_bogota_apartemnts.json` de la carpeta `data/raw/` ahora se almacenara en dropbox para que los datos sean accesibles desde cualquier lugar. ya que es muy pesado para almacenarlo en github. [https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1](https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1)
+
 > ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
 
 ## v1.1.0 - 2023-07-18

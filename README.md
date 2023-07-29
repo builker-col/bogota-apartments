@@ -15,6 +15,7 @@
 - [Configuración](#configuración)
 - [Data Source](#data-source)
 - [Datos](#datos)
+    - [Raw Data](#raw-data)
     - [Apartamentos](#apartamentos)
     - [Imágenes](#imágenes)
 - [Actualización de los Datos](#actualización-de-los-datos)
@@ -32,7 +33,7 @@
     - [Imágenes](data/processed/images.csv)
 - [Datos RAW](data/raw/)
     - [Readme de Datos RAW](data/raw/README.md)
-    - [Apartamentos](data/raw/builker.scrapy_bogota_apartments.json)
+    - [Apartamentos](https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1)
 
 From **Bogota** co to the world 🌎
 
@@ -82,6 +83,10 @@ Los datos del proyecto fueron extraídos mediante web scraping de los siguientes
 Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con [Selenium](https://www.selenium.dev/).
 
 ## Datos
+
+### Raw Data
+
+Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1](https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1)
 
 ### Apartamentos
 
