@@ -13,6 +13,7 @@
 ## Índice
 - [Descripción](#descripción)
 - [Configuración](#configuración)
+- [Data Source](#data-source)
 - [Datos](#datos)
     - [Apartamentos](#apartamentos)
     - [Imágenes](#imágenes)
@@ -33,6 +34,7 @@
     - [Readme de Datos RAW](data/raw/README.md)
     - [Apartamentos](data/raw/builker.scrapy_bogota_apartments.json)
 
+From **Bogota** co to the world 🌎
 
 ## Descripción
 
@@ -67,6 +69,17 @@ ITEM_PIPELINES = {
     'bogota_apartments.pipelines.MongoDBPipeline': 500
 }
 ```
+
+## Data Source
+
+> ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
+
+Los datos del proyecto fueron extraídos mediante web scraping de los siguientes sitios web:
+
+- [Metrocuadrado](https://www.metrocuadrado.com/)
+- [Habi](https://www.habi.co/)
+
+Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con [Selenium](https://www.selenium.dev/).
 
 ## Datos
 
@@ -110,7 +123,7 @@ file: [apartments.csv](data/processed/apartments.csv)
 | barrio                               | Barrio en el que se encuentra el apartamento              |
 | estacion_tm_cercana                  | Nombre de la estacion de transporte masivo mas cercana    |
 | distancia_estacion_tm_m              | Distancia a la estación de transporte masivo más cercana  |
-| cerca_estacion_tm                    | Indica si está cerca de una estación de transporte masivo |
+| is_cerca_estacion_tm                    | Indica si está cerca de una estación de transporte masivo |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | fecha_actualizacion_precio_venta     | Fecha de actualización del precio de venta (scrapeado)    |
@@ -166,4 +179,4 @@ para más información sobre la licencia, por favor lee el archivo [LICENSE](LIC
 - [**@erik172**](https://github.com/Erik172) - Creador del proyecto y mantenedor principal.
 
 
-Hecho con ❤️ por **@erik172**
+Hecho con ❤️ por **@erik172**. 

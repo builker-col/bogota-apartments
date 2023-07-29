@@ -2,7 +2,20 @@
 
 > ⚠️ **Advertencia: Los siguientes datos están en formato raw y pueden requerir procesamiento adicional antes de su uso. Verificar la integridad y calidad de los datos es recomendado.**
 
+## Sources
 
+Los datos del Data Set de Venta de Apartamentos en Bogotá fueron extraídos mediante web scraping de los siguientes sitios web:
+
+- [Metrocuadrado](https://www.metrocuadrado.com/)
+- [Habi](https://www.habi.co/)
+
+## Collection Methodology
+
+Para recopilar los datos, se utilizaron técnicas de web scraping automatizado. El proceso de extracción consistió en acceder a cada una de las páginas web, extraer la información de interés y almacenarla en una base de datos MongoDB.
+
+Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript Scrapy se conbinara con [Selenium](https://www.selenium.dev/).
+
+> ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
 
 ## Significado de las columnas
 
@@ -37,3 +50,4 @@
 | precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
 | fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
 | precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
+| direccion                            | Dirección de la propiedad                                 |

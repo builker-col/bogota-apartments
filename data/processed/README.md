@@ -1,5 +1,7 @@
 # Datos Procesados
 
+> ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
+
 En esta carpeta se encuentran los datos procesados, es decir, los datos que han sido limpiados y transformados para su posterior análisis.
 
 ## Significado de las columnas
@@ -43,7 +45,7 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | barrio                               | Barrio en el que se encuentra el apartamento              |
 | estacion_tm_cercana                  | Nombre de la estacion de transporte masivo mas cercana    |
 | distancia_estacion_tm_m              | Distancia a la estación de transporte masivo más cercana  |
-| cerca_estacion_tm                    | Indica si está cerca de una estación de transporte masivo |
+| is_cerca_estacion_tm                 | Indica si está cerca de una estación de transporte masivo |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | fecha_actualizacion_precio_venta     | Fecha de actualización del precio de venta (scrapeado)    |
