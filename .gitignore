@@ -6,6 +6,7 @@ response_api.json
 apiv2.habi.co.json
 habi.json
 habi.jsonl
+data/raw/*.json
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
