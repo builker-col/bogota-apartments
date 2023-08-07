@@ -3,7 +3,7 @@ python-dotenv==1.0.0
 requests==2.31.0
 pymongo==4.4.1
 numpy==1.25.2
-Scrapy==2.9.0
+Scrapy==2.10.0
 scrapyd==1.4.2
 selenium==4.11.2
 dnspython==2.4.1
