@@ -9,6 +9,9 @@ import scrapy
 
 
 class HabiSpider(scrapy.Spider):
+    """
+    This spider is used to scrape apartment data from habi.co website.
+    """
     name = 'habi'
     allowed_domains = ['habi.co', 'apiv2.habi.co']
     base_url = 'https://apiv2.habi.co/listing-global-api/get_properties'
@@ -33,6 +36,12 @@ class HabiSpider(scrapy.Spider):
             yield scrapy.Request(url, headers=headers, callback=self.parse)
 
     def parse(self, response):
+        """
+        This function is used to parse the response from the start_requests function and extract the apartment data.
+        
+        :param response: scrapy.Response
+        :return: scrapy.Request
+        """
         result = json.loads(response.body)['messagge']['data']
         self.logger.info(f'Found {len(result)} apartments')
 
@@ -52,6 +61,12 @@ class HabiSpider(scrapy.Spider):
             )
 
     def parse_details(self, response):
+        """
+        This function is used to parse the response from the parse function and extract the apartment details.
+        
+        :param response: scrapy.Response
+        :return: scrapy.Item
+        """
         details = json.loads(response.body)['result']['pageContext']
 
         loader = ItemLoader(item=ApartmentsItem(), selector=details)

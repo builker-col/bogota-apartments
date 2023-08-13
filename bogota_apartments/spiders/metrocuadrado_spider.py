@@ -12,14 +12,17 @@ import scrapy
 
 
 class MetrocuadradoSpider(scrapy.Spider):
+    """
+    Spider to scrape apartment data from metrocuadrado.com
+    """
     name = 'metrocuadrado'
     allowed_domains = ['metrocuadrado.com']
     base_url = 'https://www.metrocuadrado.com/rest-search/search'
 
     def __init__(self):
-        '''
-        This function is used to initialize the webdriver and the options for the webdriver
-        '''
+        """
+        Initializes the spider with a headless Chrome browser instance
+        """
         chrome_options = Options()
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--window-size=1920x1080')
@@ -28,11 +31,9 @@ class MetrocuadradoSpider(scrapy.Spider):
         self.driver = webdriver.Chrome(options=chrome_options)
 
     def start_requests(self):
-        '''
-        This function is used to obtain the metrosquare API data by iterating on the operation types and API offsets.
-        
-        :return: scrapy.Request
-        '''
+        """
+        Generates the initial requests to scrape apartment data
+        """
         headers = {
             'X-Api-Key': 'P1MfFHfQMOtL16Zpg36NcntJYCLFm8FqFfudnavl',
             'User-Agent': UserAgent().random
@@ -46,12 +47,9 @@ class MetrocuadradoSpider(scrapy.Spider):
 
         
     def parse(self, response,):
-        '''
-        This function is used to get the links for each apartment from the metrosquare API response and then call the details_parse function to get the data for each apartment.        
-
-        :param response: scrapy.Response
-        :return: scrapy.Request
-        '''
+        """
+        Parses the response from the initial requests and generates requests to scrape apartment details
+        """
         result = json.loads(response.body)['results']
         self.logger.info(f'Found {len(result)} apartments')
 
@@ -62,12 +60,9 @@ class MetrocuadradoSpider(scrapy.Spider):
             )
 
     def details_parse(self, response):
-        '''
-        This function is used to obtain the data of each apartment by entering each link, loading the content with selenium and then obtaining the data with scrapy.
-
-        :param response: scrapy.Response
-        :return: scrapy.Request
-        '''
+        """
+        Parses the response from the requests to scrape apartment details and yields the scraped data
+        """
         self.driver.get(response.url)   
 
         script_data = Selector(text=self.driver.page_source).xpath(
@@ -145,4 +140,7 @@ class MetrocuadradoSpider(scrapy.Spider):
         yield loader.load_item()
 
     def close(self, spider):
+        """
+        Closes the headless Chrome browser instance when the spider is closed
+        """
         self.driver.quit()

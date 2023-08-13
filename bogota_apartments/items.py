@@ -1,3 +1,10 @@
+"""
+This module defines the models for scraped items in the Bogota Apartments project. It contains the following classes:
+
+ApartmentsItem: Defines the fields for scraped apartment data, including property type, operation type, price, area, number of rooms and bathrooms, parking spaces, location, age of the property, latitude and longitude, description, company, images, website, and datetime.
+
+The module also includes several helper functions for normalizing text, replacing 0 with NaN, and converting the age of the property to a range.
+"""
 # Define here the models for your scraped items
 #
 # See documentation in:
@@ -38,6 +45,10 @@ def años_antiguedad_to_range(value):
     return value
 
 class ApartmentsItem(scrapy.Item):
+    """
+    This class defines the structure of the items that will be scraped from the website.
+    It contains the fields that will be scraped, along with their input and output processors.
+    """
     codigo = scrapy.Field(output_processor = TakeFirst())
 
     tipo_propiedad = scrapy.Field(
