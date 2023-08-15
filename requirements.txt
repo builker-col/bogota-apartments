@@ -6,6 +6,6 @@ numpy==1.25.2
 Scrapy==2.10.0
 scrapyd==1.4.2
 selenium==4.11.2
-dnspython==2.4.1
+dnspython==2.4.2
 nbformat
 session_info
