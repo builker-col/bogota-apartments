@@ -1,7 +1,7 @@
 fake-useragent==1.2.1
 python-dotenv==1.0.0
 requests==2.31.0
-pymongo==4.4.1
+pymongo==4.5.0
 numpy==1.25.2
 Scrapy==2.10.0
 scrapyd==1.4.2
