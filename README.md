@@ -10,6 +10,8 @@
 
 ![Bogota Apartments](https://i.ibb.co/6nfN4Z0/bogota-apartments02.png)
 
+La última fecha de scrapeo fue: **03 September 2023**
+
 ## Índice
 - [Descripción](#descripción)
 - [Configuración](#configuración)
