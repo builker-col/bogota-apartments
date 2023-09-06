@@ -73,52 +73,48 @@ class MetrocuadradoSpider(scrapy.Spider):
 
         for item in script_data:
             loader = ItemLoader(item=ApartmentsItem(), selector=item)
+
+            #codigo
             loader.add_value('codigo', script_data['propertyId'])
+            #tipo_propiedad
             loader.add_value('tipo_propiedad', script_data['propertyType']['nombre'])
+            #tipo_operacion
             loader.add_value('tipo_operacion', script_data['businessType'])
+            #precio_venta
             loader.add_value('precio_venta', script_data['salePrice'])
+            #precio_arriendo
             loader.add_value('precio_arriendo', script_data['rentPrice'])
+            #area
             loader.add_value('area', script_data['area'])
+            #habitaciones
             loader.add_value('habitaciones', script_data['rooms'])
+            #banos
             loader.add_value('banos', script_data['bathrooms'])
+            #administracion
             loader.add_value('administracion', script_data['detail']['adminPrice'])
+            #parqueaderos
             loader.add_value('parqueaderos', script_data['garages'])
-
-            try:
-                loader.add_value('sector', script_data['sector']['nombre'])
-            except:
-                loader.add_value('sector', None)
-
-            try:
-                loader.add_value('estrato', script_data['stratum'])
-            except:
-                loader.add_value('estrato', None)
-
+            #sector
+            loader.add_value('sector', script_data['sector']['nombre'] if 'sector' in script_data else None)
+            #estrato
+            loader.add_value('estrato', script_data['stratum'] if 'stratum' in script_data else None)
+            #antiguedad
             loader.add_value('antiguedad', script_data['builtTime'])
+            #estado
             loader.add_value('estado', script_data['propertyState'])
+            #longitud
             loader.add_value('longitud', script_data['coordinates']['lon'])
+            #latitud
             loader.add_value('latitud', script_data['coordinates']['lat'])
-
-            try:
-                loader.add_value('featured_interior', script_data['featured'][0]['items'])
-            except:
-                pass
-
-            try:
-                loader.add_value('featured_exterior', script_data['featured'][1]['items'])
-            except:
-                pass
-
-            try:
-                loader.add_value('featured_zona_comun', script_data['featured'][2]['items'])
-            except:
-                pass
-
-            try:
-                loader.add_value('featured_sector', script_data['featured'][3]['items'])
-            except:
-                pass
-
+            #featured_interior
+            loader.add_value('featured_interior', script_data['featured'][0]['items'] if 'featured' in script_data else None)
+            #featured_exterior
+            loader.add_value('featured_exterior', script_data['featured'][1]['items'] if 'featured' in script_data else None)
+            #featured_zona_comun
+            loader.add_value('featured_zona_comun', script_data['featured'][2]['items'] if 'featured' in script_data else None)
+            #featured_sector
+            loader.add_value('featured_sector', script_data['featured'][3]['items'] if 'featured' in script_data else None)
+            #imagenes
             try:
                 imagenes = []
                 for img in script_data['images']:
@@ -127,14 +123,13 @@ class MetrocuadradoSpider(scrapy.Spider):
                 loader.add_value('imagenes', imagenes)
             except:
                 pass
-
-            try:
-                loader.add_value('compañia', script_data['companyName'])
-            except:
-                pass
-            
+            #compania
+            loader.add_value('compania', script_data['companyName'] if 'companyName' in script_data else None)
+            #descripcion            
             loader.add_value('descripcion', script_data['comment'])
+            #website
             loader.add_value('website', 'metrocuadrado.com')
+            #datetime
             loader.add_value('datetime', datetime.now())
 
         yield loader.load_item()
