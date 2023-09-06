@@ -1,5 +1,11 @@
 # Registro de versiones
 
+## V1.2.1 - 2023-09
+
+### Solucion de errores
+
+- Se corrigio un error en el scraper de **metrocuadrado** que no permitia extraer los datos de los apartamentos.
+
 ## v1.2.0 - 2023-07-28
 
 ### Nuevas caracteristicas
