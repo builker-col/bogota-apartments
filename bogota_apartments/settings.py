@@ -63,8 +63,6 @@ DOWNLOADER_MIDDLEWARES = {
     # 'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550, 
 }
 
-# SCRAPEOPS_API_KEY  = os.getenv("SCRAPEOPS_API_KEY")
-
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
@@ -99,8 +97,11 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
 # Set settings whose default value is deprecated to a future-proof value
-REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
-TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
-FEED_EXPORT_ENCODING = "utf-8"
+REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
+TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+FEED_EXPORT_ENCODING = 'utf-8'
 
-# LOG_FILE = "scrapy.log"
+# Logging settings
+# LOG_STDOUT = True
+# LOG_FILE = f'logs/scrapy_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+# LOG_LEVEL = 'DEBUG'

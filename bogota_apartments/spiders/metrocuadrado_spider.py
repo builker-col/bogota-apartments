@@ -10,7 +10,6 @@ from scrapy.selector import Selector
 from scrapy.loader import ItemLoader
 import scrapy
 
-
 class MetrocuadradoSpider(scrapy.Spider):
     """
     Spider to scrape apartment data from metrocuadrado.com
@@ -95,7 +94,7 @@ class MetrocuadradoSpider(scrapy.Spider):
             #parqueaderos
             loader.add_value('parqueaderos', script_data['garages'])
             #sector
-            loader.add_value('sector', script_data['sector']['nombre'] if 'sector' in script_data else None)
+            loader.add_value('sector', self.try_get(script_data, ['sector', 'nombre']))
             #estrato
             loader.add_value('estrato', script_data['stratum'] if 'stratum' in script_data else None)
             #antiguedad
@@ -107,14 +106,14 @@ class MetrocuadradoSpider(scrapy.Spider):
             #latitud
             loader.add_value('latitud', script_data['coordinates']['lat'])
             #featured_interior
-            loader.add_value('featured_interior', script_data['featured'][0]['items'] if 'featured' in script_data else None)
+            loader.add_value('featured_interior', self.try_get(script_data, ['featured', 0, 'items']))
             #featured_exterior
-            loader.add_value('featured_exterior', script_data['featured'][1]['items'] if 'featured' in script_data else None)
+            loader.add_value('featured_exterior', self.try_get(script_data, ['featured', 1, 'items']))
             #featured_zona_comun
-            loader.add_value('featured_zona_comun', script_data['featured'][2]['items'] if 'featured' in script_data else None)
+            loader.add_value('featured_zona_comun', self.try_get(script_data, ['featured', 2, 'items']))
             #featured_sector
-            loader.add_value('featured_sector', script_data['featured'][3]['items'] if 'featured' in script_data else None)
-            #imagenes
+            loader.add_value('featured_sector', self.try_get(script_data, ['featured', 3, 'items']))
+            #Imagenes
             try:
                 imagenes = []
                 for img in script_data['images']:
@@ -134,8 +133,19 @@ class MetrocuadradoSpider(scrapy.Spider):
 
         yield loader.load_item()
 
-    def close(self, spider):
+    def try_get(self, dictionary, keys: list):
         """
-        Closes the headless Chrome browser instance when the spider is closed
+        Tries to get a value from a nested data structure and returns None if the key is not found or if an index is out of range.
         """
-        self.driver.quit()
+        try:
+            value = dictionary
+            for key in keys:
+                if isinstance(value, list) and isinstance(key, int) and 0 <= key < len(value):
+                    value = value[key]
+                elif isinstance(value, dict) and key in value:
+                    value = value[key]
+                else:
+                    return None  # Key or index is not valid
+            return value
+        except (KeyError, TypeError, IndexError):
+            return None  # Key or index is not valid

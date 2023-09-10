@@ -70,57 +70,74 @@ class HabiSpider(scrapy.Spider):
         details = json.loads(response.body)['result']['pageContext']
 
         loader = ItemLoader(item=ApartmentsItem(), selector=details)
-        # TODO: codigo
+        #codigo
         loader.add_value('codigo', details['propertyId'])
 
         details = details['propertyDetail']['property']
-        # TODO: tipo propiedad
+        #tipo propiedad
         loader.add_value('tipo_propiedad', details['detalles_propiedad']['tipo_inmueble'])
-        # TODO: tipo operacion
+        #tipo operacion
         loader.add_value('tipo_operacion', 'venta')
-        # TODO: precio ventas
+        #precio ventas
         loader.add_value('precio_venta', details['detalles_propiedad']['precio_venta'])
-        # TODO: area
+        #area
         loader.add_value('area', details['detalles_propiedad']['area'])
-        # TODO: habitaciones
+        #habitaciones
         loader.add_value('habitaciones', details['detalles_propiedad']['num_habitaciones'])
-        # TODO: baños
+        #baños
         loader.add_value('banos', details['detalles_propiedad']['baños'])
-        # TODO: administracion
+        #administracion
         loader.add_value('administracion', details['detalles_propiedad']['last_admin_price'])
-        # TODO: parqueaderos
+        #parqueaderos
         loader.add_value('parqueaderos', details['detalles_propiedad']['garajes'])
-        # TODO: sector
+        #sector
         loader.add_value('sector', details['detalles_propiedad']['zona_mediana'])
-        # TODO: estrato 
+        #estrato 
         loader.add_value('estrato', details['detalles_propiedad']['estrato'])
-        # TODO: estado
-        # TODO: antiguedad
+        #estado
+        #antiguedad
         loader.add_value('antiguedad', details['detalles_propiedad']['anos_antiguedad'])
-        # TODO: latitud
+        #latitud
         loader.add_value('latitud', details['detalles_propiedad']['latitud'])
-        # TODO: langitud
+        #langitud
         loader.add_value('longitud', details['detalles_propiedad']['longitud'])
-        # TODO: direccion
+        #direccion
         loader.add_value('direccion', details['detalles_propiedad']['direccion'])
-        # TODO: featured_interior
+        #featured_interior
         loader.add_value('featured_interior', details['caracteristicas_propiedad'])
-        # TODO: featured_exterior
-        # TODO: featured_zona_comun
-        # TODO: featured_sector
-        # TODO: descripcion
+        #featured_exterior
+        #featured_zona_comun
+        #featured_sector
+        #descripcion
         loader.add_value('descripcion', details['descripcion'])
-        # TODO: compañia
-        # TODO: imagenes
+        #compañia
+        #imagenes
         images = []
         for image in details['images']:
             url = f'https://d3hzflklh28tts.cloudfront.net/{image["url"]}?d=400x400'
             images.append(url)
         loader.add_value('imagenes', images)
-        # TODO: website
+        #website
         loader.add_value('website', 'habi.co')
-        # TODO: datetime
+        #datetime
         loader.add_value('datetime', datetime.now())
 
         yield loader.load_item()
+
+    def try_get(self, dictionary, keys: list):
+        """
+        Tries to get a value from a nested data structure and returns None if the key is not found or if an index is out of range.
+        """
+        try:
+            value = dictionary
+            for key in keys:
+                if isinstance(value, list) and isinstance(key, int) and 0 <= key < len(value):
+                    value = value[key]
+                elif isinstance(value, dict) and key in value:
+                    value = value[key]
+                else:
+                    return None  # Key or index is not valid
+            return value
+        except (KeyError, TypeError, IndexError):
+            return None  #
         
