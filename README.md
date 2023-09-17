@@ -88,7 +88,7 @@ Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y
 
 ### Raw Data
 
-Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1](https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1)
+Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/ar2d96q96c8vqxvrpyr9i/builker.scrapy_bogota_apartments.json?rlkey=w93hngjdaiosuhjcr1zsktomn&dl=1](https://www.dropbox.com/scl/fi/ar2d96q96c8vqxvrpyr9i/builker.scrapy_bogota_apartments.json?rlkey=w93hngjdaiosuhjcr1zsktomn&dl=1)
 
 ### Apartamentos
 
