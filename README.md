@@ -12,6 +12,8 @@
 
 La última fecha de scrapeo fue: **03 September 2023**
 
+Version: **V1.2.2 SEPTEMBER.1 2023**
+
 ## Índice
 - [Descripción](#descripción)
 - [Configuración](#configuración)
