@@ -2,7 +2,7 @@
 
 > ⚠️ **Advertencia: Los siguientes datos están en formato raw y pueden requerir procesamiento adicional antes de su uso. Verificar la integridad y calidad de los datos es recomendado.**
 
-Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1](https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1)
+Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/ar2d96q96c8vqxvrpyr9i/builker.scrapy_bogota_apartments.json?rlkey=w93hngjdaiosuhjcr1zsktomn&dl=1](https://www.dropbox.com/scl/fi/ar2d96q96c8vqxvrpyr9i/builker.scrapy_bogota_apartments.json?rlkey=w93hngjdaiosuhjcr1zsktomn&dl=1)
 
 ```bash
 python download_raw_data.py
