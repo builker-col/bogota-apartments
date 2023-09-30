@@ -12,7 +12,7 @@
 
 La última fecha de scrapeo fue: **03 September 2023**
 
-Version: **V1.2.2 SEPTEMBER.1 2023**
+Version: **V1.3.0 SEPTEMBER.2 2023**
 
 ## Índice
 - [Descripción](#descripción)
@@ -98,6 +98,8 @@ file: [apartments.csv](data/processed/apartments.csv)
 
 > ⚠️ **Advertencia**: La columna `coords_modified` indica si las coordenadas geográficas fueron modificadas durante el procesamiento de los datos. Si el valor es `True`, esto significa que las coordenadas originales fueron ajustadas o corregidas. Se recomienda precaución al utilizar estos datos, ya que pueden no reflejar las coordenadas geográficas exactas del apartamento. Es importante verificar la precisión y la fuente de las coordenadas antes de utilizarlas en aplicaciones o análisis que requieran una ubicación geográfica precisa.
 
+> ⚠️ **Advertencia**: la columna `last_view` se actualiza cada vez que se ejecuta el scraper. por lo tanto, este dato no es exacto. ya que el scraper puede no visitar el apartamento y este seguir publicado en la pagina web. Se recomienda usar este dato como referencia y no como dato exacto. Para saber si el apartamento sigue publicado en la pagina web se recomienda verificar manualmente en la pagina web.
+
 
 | Columna                              | Descripción                                               |
 |--------------------------------------|-----------------------------------------------------------|
@@ -139,6 +141,7 @@ file: [apartments.csv](data/processed/apartments.csv)
 | precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
 | fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
 | precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
+| last_view                            | Fecha de la ultima vez que el scraper visito el apartamento |
 
 ### Imagenes
 
@@ -162,6 +165,8 @@ Los datos extraídos mediante web scraping serán actualizados regularmente para
 ## MongoDB Dashboard
 
 [MonogoDB Dashboard](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
+
+[Dashboard from the web](https://builker-col.github.io/bogota-apartments/)
 
 ## Cómo contribuir
 El proyecto es de código abierto y se anima a cualquier persona interesada en contribuir a hacerlo. Para contribuir al proyecto, por favor sigue estos pasos:

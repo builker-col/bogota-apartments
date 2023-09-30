@@ -1,5 +1,15 @@
 # Registro de versiones
 
+## v1.3.0 - 2023-09-21
+
+### Nuevas caracteristicas
+
+> ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
+
+- se agrego la columna `last_view` a los datos de los apartamentos de la pagina web de **Metrocuadrado** y **habi** para almacenar la fecha de la ultima vez que el scraper visito el apartamento. esto con el fin de saber si el apartamento sigue publicado en la pagina web o fue eliminado.
+
+> ⚠️ **Advertencia**: la columna `last_view` se actualiza cada vez que se ejecuta el scraper. por lo tanto, este dato no es exacto. ya que el scraper puede no visitar el apartamento y este seguir publicado en la pagina web. Se recomienda usar este dato como referencia y no como dato exacto. Para saber si el apartamento sigue publicado en la pagina web se recomienda verificar manualmente en la pagina web.
+
 ## V1.2.2 - 2023-09-09
 
 ### Solucion de errores

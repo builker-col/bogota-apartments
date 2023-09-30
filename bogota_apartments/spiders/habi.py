@@ -119,6 +119,8 @@ class HabiSpider(scrapy.Spider):
         loader.add_value('imagenes', images)
         #website
         loader.add_value('website', 'habi.co')
+        #last_view
+        loader.add_value('last_view', datetime.now())
         #datetime
         loader.add_value('datetime', datetime.now())
 

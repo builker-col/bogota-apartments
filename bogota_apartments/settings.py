@@ -17,6 +17,8 @@ BOT_NAME = 'bogota_apartments'
 SPIDER_MODULES = ['bogota_apartments.spiders']
 NEWSPIDER_MODULE = 'bogota_apartments.spiders'
 
+VERSION = '1.3.0'
+
 # Database settings - uncomment if you want to use MongoDB
 MONGO_URI = os.getenv('MONGO_URI')
 MONGO_DATABASE = os.getenv('MONGO_DATABASE')

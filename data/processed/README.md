@@ -12,6 +12,8 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 
 > ⚠️ **Advertencia**: La columna `coords_modified` indica si las coordenadas geográficas fueron modificadas durante el procesamiento de los datos. Si el valor es `True`, esto significa que las coordenadas originales fueron ajustadas o corregidas. Se recomienda precaución al utilizar estos datos, ya que pueden no reflejar las coordenadas geográficas exactas del apartamento. Es importante verificar la precisión y la fuente de las coordenadas antes de utilizarlas en aplicaciones o análisis que requieran una ubicación geográfica precisa.
 
+> ⚠️ **Advertencia**: la columna `last_view` se actualiza cada vez que se ejecuta el scraper. por lo tanto, este dato no es exacto. ya que el scraper puede no visitar el apartamento y este seguir publicado en la pagina web. Se recomienda usar este dato como referencia y no como dato exacto. Para saber si el apartamento sigue publicado en la pagina web se recomienda verificar manualmente en la pagina web.
+
 | Columna                              | Descripción                                               |
 |--------------------------------------|-----------------------------------------------------------|
 | codigo                               | Código único que identifica cada apartamento              |
@@ -52,6 +54,7 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
 | fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
 | precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
+| last_view                            | Fecha de la última vez que el scraper visito el apartamento |
 
 ### Imagenes
 

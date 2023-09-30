@@ -120,7 +120,8 @@ class MongoDBPipeline(object):
                         existing_item['fecha_actualizacion_precio_arriendo'] = datetime.now()
                 except KeyError:
                     pass
-
+                
+                existing_item['last_view'] = datetime.now()
                 # Actualiza el item en la base de datos
                 self.db[self.collection].update_one({'codigo': data['codigo']}, {'$set': existing_item})
 
@@ -131,8 +132,17 @@ class MongoDBPipeline(object):
             return item
 
         elif spider.name == 'habi':
-            if self.db[self.collection].find_one({'codigo': data['codigo']}):
-                raise DropItem(f'Item {data["codigo"]} already exists in MongoDB')
+            existing_item = self.db[self.collection].find_one({'codigo': data['codigo']})
+            if existing_item:
+                existing_item['last_view'] = datetime.now()
+                # Actualiza el item en la base de datos
+                self.db[self.collection].update_one({'codigo': data['codigo']}, {'$set': existing_item})
+
+            else:
+                # Inserta el item en la base de datos si no existe
+                self.db[self.collection].insert_one(data)
+
+            return item
             
         self.db[self.collection].insert_one(data)
         return item

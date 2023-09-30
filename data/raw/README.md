@@ -57,3 +57,4 @@ Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y
 | fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
 | precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
 | direccion                            | Dirección de la propiedad                                 |
+| last_view                            | Fecha de la última vez que el scraper visito la propiedad |

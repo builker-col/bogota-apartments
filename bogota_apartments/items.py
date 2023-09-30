@@ -156,3 +156,5 @@ class ApartmentsItem(scrapy.Item):
     website = scrapy.Field(output_processor = TakeFirst())
 
     datetime = scrapy.Field(output_processor = TakeFirst())
+
+    last_view = scrapy.Field(output_processor = TakeFirst()) # fecha de la ultima vez que el scraper vio el inmueble

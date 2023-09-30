@@ -128,6 +128,8 @@ class MetrocuadradoSpider(scrapy.Spider):
             loader.add_value('descripcion', script_data['comment'])
             #website
             loader.add_value('website', 'metrocuadrado.com')
+            # last_view
+            loader.add_value('last_view', datetime.now())
             #datetime
             loader.add_value('datetime', datetime.now())
 
