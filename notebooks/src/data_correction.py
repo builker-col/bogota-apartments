@@ -1,8 +1,7 @@
 import numpy as np
-import pandas as pd
 from shapely.geometry import Point
 
-def generate_random_coords_in_polygon(polygon):
+def random_coords_in_polygon(polygon):
     """
     Generates random coordinates within a given polygon.
 
@@ -13,14 +12,14 @@ def generate_random_coords_in_polygon(polygon):
     - x, y: a tuple of random coordinates within the polygon
     """
     while True:
-        x = np.random.uniform(polygon.bounds['minx'], polygon.bounds['maxx'])[0]
-        y = np.random.uniform(polygon.bounds['miny'], polygon.bounds['maxy'])[0]
+        x = np.random.uniform(polygon.bounds[0], polygon.bounds[2])
+        y = np.random.uniform(polygon.bounds[1], polygon.bounds[3])
         point = Point(x, y)
-        if polygon.contains(point).any():
+        if polygon.contains(point):
             return x, y
 
-def correction_ubication(df, barrios, localidades):
-    corrections = {
+def correction_ubication(row, barrios, localidades):
+    sector_dict = {
         'CHICO': {
             'polygon': barrios.loc[barrios['barriocomu'] == 'S.C. CHICO NORTE', 'geometry'],
             'localidad': 'CHAPINERO',
@@ -73,25 +72,15 @@ def correction_ubication(df, barrios, localidades):
         }
     }
 
-    corrected_rows = []
-    for _, row in df.iterrows():
-        sector = row['sector']
-        if sector in corrections:
-            correction = corrections[sector]
-            if row['localidad'] != correction['localidad']:
-                x, y = generate_random_coords_in_polygon(correction['polygon'])
-                corrected_row = {
-                    'latitud': float(y),
-                    'longitud': float(x),
-                    'coords_modified': True,
-                    'localidad': correction['localidad'],
-                    'barrio': correction['barrio']
-                }
-                corrected_rows.append(corrected_row)
-            else:
-                corrected_rows.append(row)
-        else:
-            corrected_rows.append(row)
+    sector = row['sector']
+    if sector in sector_dict:
+        if row['localidad'] != sector_dict[sector]['localidad']:
+            polygon = sector_dict[sector]['polygon'].iloc[0] # extract the first element of the Series object
+            x, y = random_coords_in_polygon(polygon)
+            row['latitud'] = float(y)
+            row['longitud'] = float(x)
+            row['coords_modified'] = True
+            row['localidad'] = sector_dict[sector]['localidad']
+            row['barrio'] = sector_dict[sector]['barrio']
 
-    corrected_df = pd.DataFrame(corrected_rows)
-    return corrected_df
+    return row
