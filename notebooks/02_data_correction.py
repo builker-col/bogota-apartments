@@ -1,3 +1,9 @@
+"""
+This script imports data from CSV files, performs data correction and enrichment, and exports the cleaned data to a new CSV file.
+The script first imports apartment data from a CSV file and shapefiles containing information about Bogota's localities and neighborhoods.
+It then performs data correction and enrichment, including adding missing locality and neighborhood information to apartments, removing apartments with invalid locality or neighborhood information, and dropping duplicates.
+Finally, the cleaned data is exported to a new CSV file.
+"""
 from src import data_enrichment, data_correction
 from unidecode import unidecode
 from dotenv import load_dotenv
@@ -72,7 +78,13 @@ conditions = {
     'SAN CRISTOBAL': [6, 5, 4],
     'CIUDAD BOLIVAR': [6, 5, 4],
     'FONTIBON': [6],
-    'LOS MARTIRES': [6, 5, 1]
+    'LOS MARTIRES': [6, 5, 1],
+    'SANTA FE': [6, 5],
+    'TUNJUELITO': [6, 5, 4],
+    'BARRIOS UNIDOS': [1, 2, 6],
+    'TEUSAQUILLO': [1, 2, 6],
+    'ANTONIO NARIÑO': [1, 5, 6],
+    'CANDELARIA': [6, 5, 4],
 }
 
 for loc, estratos in conditions.items():
@@ -84,6 +96,6 @@ for loc, estratos in conditions.items():
 apartments.dropna(subset=['localidad', 'barrio'], how='all', inplace=True)
 
 
-del apartments['direccion']
-
+# del apartments['direccion']
+apartments = apartments.drop_duplicates(subset=['codigo'], keep='first')
 apartments.to_csv('data/interim/apartments.csv', index=False)

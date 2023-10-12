@@ -1,7 +1,10 @@
+from datetime import datetime
 import subprocess
 import logging
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+filename = f'logs/data_pipeline_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
 
 def run_data_pipeline():
     """

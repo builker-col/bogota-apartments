@@ -1,3 +1,14 @@
+"""
+This script connects to a MongoDB database, retrieves data, performs some transformations on it, and saves the transformed data to a CSV file. 
+
+The script first connects to a MongoDB database using the MONGO_URI and MONGO_DATABASE environment variables. It then retrieves data from the 'scrapy_bogota_apartments' collection and stores it in a pandas DataFrame. 
+
+The script then performs two transformations on the data. First, it explodes the 'imagenes' column and saves the resulting DataFrame to a CSV file. Second, it extracts several features from the 'featured_interior', 'featured_zona_comun', 'featured_exterior', and 'featured_sector' columns and saves the resulting DataFrame to a CSV file.
+
+The resulting CSV files are saved in the 'data/processed' and 'data/interim' directories, respectively.
+
+The script requires the following packages to be installed: src, dotenv, logging, pandas, pymongo, os.
+"""
 from src import extract_features
 from dotenv import load_dotenv
 import logging

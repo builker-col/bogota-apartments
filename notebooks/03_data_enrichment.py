@@ -1,3 +1,19 @@
+"""
+This script reads data about apartments from a CSV file, enriches it with data about the nearest TransMilenio station, and saves the processed data to a new CSV file.
+
+The script defines the following functions:
+- normalize(text): Takes a string as input and returns a normalized version of the string. The normalization process involves converting any accented characters to their unaccented equivalents and converting the resulting string to uppercase.
+- haversine_m(lat1, lon1, lat2, lon2): Calculates the distance between two points on Earth using the Haversine formula.
+- estacion_tm_cercana(row): Returns the name of the TransMilenio station closest to the given latitude and longitude coordinates.
+- get_distancia_estacion_m(row): Calculates the distance in meters between a given location (latitude and longitude) and the nearest TransMilenio station.
+- is_cerca_estacion(row): Determines if a given row is close to a transportation station based on the distance to the nearest station.
+
+The script reads data from the following file:
+- ../data/interim/apartments.csv
+
+The script saves processed data to the following file:
+- ../data/processed/apartments.csv
+"""
 import math
 import requests
 from dotenv import load_dotenv
