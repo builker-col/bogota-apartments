@@ -10,6 +10,8 @@
 
 > ⚠️ **Advertencia**: la columna `last_view` se actualiza cada vez que se ejecuta el scraper. por lo tanto, este dato no es exacto. ya que el scraper puede no visitar el apartamento y este seguir publicado en la pagina web. Se recomienda usar este dato como referencia y no como dato exacto. Para saber si el apartamento sigue publicado en la pagina web se recomienda verificar manualmente en la pagina web.
 
+- Automatizacion de la extraccion de datos y procesamiento de los datos. ahora el proceso de extraccion de datos y procesamiento de los datos se puede ejecutando el archivo `run.py`.
+
 ## V1.2.2 - 2023-09-09
 
 ### Solucion de errores
