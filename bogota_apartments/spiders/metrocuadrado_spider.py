@@ -26,8 +26,11 @@ class MetrocuadradoSpider(scrapy.Spider):
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--window-size=1920x1080')
         chrome_options.add_argument(f'user-agent={UserAgent().random}')
+        chrome_options.add_argument('--no-sandbox')
 
-        self.driver = webdriver.Chrome(options=chrome_options)
+        self.driver = webdriver.Chrome(
+            options=chrome_options,
+        )
 
     def start_requests(self):
         """
