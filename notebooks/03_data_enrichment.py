@@ -18,13 +18,20 @@ import math
 import requests
 from dotenv import load_dotenv
 from unidecode import unidecode
+from datetime import datetime
 import logging
 import numpy as np
 import pandas as pd
+import os
+
+if os.getcwd().split('/')[-1] == 'notebooks':
+    logging.info('Cambiando directorio de trabajo')
+    os.chdir('..')
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+filename = f'logs/03_data_enrichment_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
 
 def normalize(text):
     """
@@ -75,7 +82,7 @@ def haversine_m(lat1, lon1, lat2, lon2):
 
 # Read apartments data
 logging.info('Reading apartments data...')
-apartments = pd.read_csv('../data/interim/apartments.csv')
+apartments = pd.read_csv('data/interim/apartments.csv')
 
 # Get TransMilenio stations data
 logging.info('Getting TransMilenio stations data...')
@@ -148,4 +155,4 @@ apartments['is_cerca_estacion_tm'] = apartments.apply(is_cerca_estacion, axis=1)
 
 # Save processed data
 logging.info('Saving processed data...')
-apartments.to_csv('../data/processed/apartments.csv', index=False)
+apartments.to_csv('data/processed/apartments.csv', index=False)

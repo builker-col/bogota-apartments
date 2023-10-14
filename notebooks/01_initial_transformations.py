@@ -11,6 +11,7 @@ The script requires the following packages to be installed: src, dotenv, logging
 """
 from src import extract_features
 from dotenv import load_dotenv
+from datetime import datetime
 import logging
 import pandas as pd
 import pymongo
@@ -18,7 +19,9 @@ import os
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+filename = f'logs/01_initial_transformations_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
 
 # verificar si etoy dentro de la carpeta notebooks o no
 if os.getcwd().split('/')[-1] == 'notebooks':

@@ -7,6 +7,7 @@ Finally, the cleaned data is exported to a new CSV file.
 from src import data_enrichment, data_correction
 from unidecode import unidecode
 from dotenv import load_dotenv
+from datetime import datetime
 import logging
 import pandas as pd
 import geopandas as gpd
@@ -15,10 +16,12 @@ import os
 
 warnings.filterwarnings('ignore')
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+filename = f'logs/02_data_correction_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
 
 # verificar si etoy dentro de la carpeta notebooks o no
 if os.getcwd().split('/')[-1] == 'notebooks':
+    logging.info('Cambiando directorio de trabajo')
     os.chdir('..')
 
 load_dotenv()
@@ -46,7 +49,7 @@ logging.info('Importando datos...')
 apartments = pd.read_csv('data/interim/apartments.csv')
 apartments['coords_modified'] = False # Para saber si se modificó la coordenada original
 
-
+logging.info('Importando datos externos...')
 localidades = gpd.read_file('data/external/localidades_bogota/loca.shp')
 barrios = gpd.read_file('data/external/barrios_bogota/barrios.geojson')
 
@@ -57,7 +60,6 @@ apartments = apartments.dropna(subset=['localidad', 'sector'], how='all')
 apartments.drop(apartments.loc[apartments['estrato'] == 7].index, inplace=True)
 
 # Agregando barrios, segun las coordenadas de los apartamentos
-
 barrios['barriocomu'] = barrios['barriocomu'].apply(normalize_text)
 barrios['localidad'] = barrios['localidad'].apply(normalize_text)
 barrios.localidad.unique()
