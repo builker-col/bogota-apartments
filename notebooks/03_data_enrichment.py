@@ -82,7 +82,7 @@ def haversine_m(lat1, lon1, lat2, lon2):
 
 # Read apartments data
 logging.info('Reading apartments data...')
-apartments = pd.read_csv('data/interim/apartments.csv')
+apartments = pd.read_csv('data/interim/apartments.csv', low_memory=False)
 
 # Get TransMilenio stations data
 logging.info('Getting TransMilenio stations data...')
@@ -104,7 +104,7 @@ def estacion_tm_cercana(row):
     try:
         distancias = []
         for i, estacion in troncal_transmilenio.iterrows():
-            distancias.append(haversine_m(row['latitud'], row['longitud'], estacion['coordenada_y_estacion'], estacion['coordenada_x_estacion']))
+            distancias.append(haversine_m(row['latitud'], row['longitud'], estacion['latitud_estacion'], estacion['longitud_estacion']))
         return troncal_transmilenio.loc[np.argmin(distancias), 'nombre_estacion']
     except Exception as e:
         print(e)
@@ -125,11 +125,11 @@ def get_distancia_estacion_m(row):
     try:
         distancias = []
         for i, estacion in troncal_transmilenio.iterrows():
-            distancias.append(haversine_m(row['latitud'], row['longitud'], estacion['coordenada_y_estacion'], estacion['coordenada_x_estacion']))
+            distancias.append(haversine_m(row['latitud'], row['longitud'], estacion['latitud_estacion'], estacion['longitud_estacion']))
         return min(distancias)
     except:
         return np.nan
-
+    
 logging.info('Adding TransMilenio stations data...')
 apartments['estacion_tm_cercana'] = apartments.apply(estacion_tm_cercana, axis=1)
 apartments['distancia_estacion_tm_m'] = apartments.apply(get_distancia_estacion_m, axis=1)
