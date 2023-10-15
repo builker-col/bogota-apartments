@@ -88,9 +88,11 @@ Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y
 
 ## Datos
 
+![Apartamentos extraidos por mes](visualizations/apartments_by_month.png)
+
 ### Raw Data
 
-Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/ar2d96q96c8vqxvrpyr9i/builker.scrapy_bogota_apartments.json?rlkey=w93hngjdaiosuhjcr1zsktomn&dl=1](https://www.dropbox.com/scl/fi/ar2d96q96c8vqxvrpyr9i/builker.scrapy_bogota_apartments.json?rlkey=w93hngjdaiosuhjcr1zsktomn&dl=1)
+Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1](https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1)
 
 ### Apartamentos
 
