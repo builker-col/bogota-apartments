@@ -30,8 +30,8 @@ if os.getcwd().split('/')[-1] == 'notebooks':
 
 load_dotenv()
 
-filename = f'logs/03_data_enrichment_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
+filename = f'logs/03_data_enrichment.log'
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
 
 def normalize(text):
     """

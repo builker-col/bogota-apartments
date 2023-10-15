@@ -2,9 +2,9 @@ from datetime import datetime
 import subprocess
 import logging
 
-filename = f'logs/data_pipeline_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+filename = f'logs/data_pipeline.log'
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
 
 def run_data_pipeline():
     """
@@ -18,8 +18,9 @@ def run_data_pipeline():
     Returns:
         None
     """
-    logging.info('Start web scraping')
+    logging.info('Start web scraping HABI')
     subprocess.run(['scrapy', 'crawl', 'habi'])
+    logging.info('Start web scraping METROCUADRADO')
     subprocess.run(['scrapy', 'crawl', 'metrocuadrado'])
     logging.info('End web scraping')
 
@@ -28,6 +29,7 @@ def run_data_pipeline():
     subprocess.run(['python3', 'notebooks/02_data_correction.py'])
     subprocess.run(['python3', 'notebooks/03_data_enrichment.py'])    
     logging.info('End data processing')
+    logging.info(f'End data pipeline at {datetime.now()}')
 
 if __name__ == '__main__':
     run_data_pipeline()

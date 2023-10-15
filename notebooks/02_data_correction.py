@@ -16,8 +16,8 @@ import os
 
 warnings.filterwarnings('ignore')
 
-filename = f'logs/02_data_correction_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
+filename = f'logs/02_data_correction.log'
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
 
 # verificar si etoy dentro de la carpeta notebooks o no
 if os.getcwd().split('/')[-1] == 'notebooks':
