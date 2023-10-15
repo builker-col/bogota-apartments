@@ -25,9 +25,9 @@ def run_data_pipeline():
     logging.info('End web scraping')
 
     logging.info('Start data processing')
-    subprocess.run(['python3', 'notebooks/01_initial_transformations.py'])
-    subprocess.run(['python3', 'notebooks/02_data_correction.py'])
-    subprocess.run(['python3', 'notebooks/03_data_enrichment.py'])    
+    subprocess.run(['python3', 'ETL/01_initial_transformations.py'])
+    subprocess.run(['python3', 'ETL/02_data_correction.py'])
+    subprocess.run(['python3', 'ETL/03_data_enrichment.py'])    
     logging.info('End data processing')
     logging.info(f'End data pipeline at {datetime.now()}')
 
