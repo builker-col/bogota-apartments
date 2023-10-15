@@ -12,7 +12,7 @@
 
 La última fecha de scrapeo fue: **12 October 2023**
 
-Version: **V1.3.0 OCTOBER.1 2021**
+Version: **V1.3.0 OCTOBER.1 2023**
 
 ## Índice
 - [Descripción](#descripción)
