@@ -10,9 +10,9 @@
 
 ![Bogota Apartments](https://i.ibb.co/6nfN4Z0/bogota-apartments02.png)
 
-La última fecha de scrapeo fue: **03 September 2023**
+La última fecha de scrapeo fue: **12 October 2023**
 
-Version: **V1.2.2 SEPTEMBER.1 2023**
+Version: **V1.3.0 OCTOBER.1 2021**
 
 ## Índice
 - [Descripción](#descripción)
@@ -88,15 +88,19 @@ Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y
 
 ## Datos
 
+![Apartamentos extraidos por mes](visualizations/apartments_by_month.png)
+
 ### Raw Data
 
-Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/ar2d96q96c8vqxvrpyr9i/builker.scrapy_bogota_apartments.json?rlkey=w93hngjdaiosuhjcr1zsktomn&dl=1](https://www.dropbox.com/scl/fi/ar2d96q96c8vqxvrpyr9i/builker.scrapy_bogota_apartments.json?rlkey=w93hngjdaiosuhjcr1zsktomn&dl=1)
+Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1](https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1)
 
 ### Apartamentos
 
 file: [apartments.csv](data/processed/apartments.csv)
 
 > ⚠️ **Advertencia**: La columna `coords_modified` indica si las coordenadas geográficas fueron modificadas durante el procesamiento de los datos. Si el valor es `True`, esto significa que las coordenadas originales fueron ajustadas o corregidas. Se recomienda precaución al utilizar estos datos, ya que pueden no reflejar las coordenadas geográficas exactas del apartamento. Es importante verificar la precisión y la fuente de las coordenadas antes de utilizarlas en aplicaciones o análisis que requieran una ubicación geográfica precisa.
+
+> ⚠️ **Advertencia**: la columna `last_view` se actualiza cada vez que se ejecuta el scraper. por lo tanto, este dato no es exacto. ya que el scraper puede no visitar el apartamento y este seguir publicado en la pagina web. Se recomienda usar este dato como referencia y no como dato exacto. Para saber si el apartamento sigue publicado en la pagina web se recomienda verificar manualmente en la pagina web.
 
 
 | Columna                              | Descripción                                               |
@@ -139,6 +143,7 @@ file: [apartments.csv](data/processed/apartments.csv)
 | precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
 | fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
 | precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
+| last_view                            | Fecha de la ultima vez que el scraper visito el apartamento |
 
 ### Imagenes
 
@@ -162,6 +167,8 @@ Los datos extraídos mediante web scraping serán actualizados regularmente para
 ## MongoDB Dashboard
 
 [MonogoDB Dashboard](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
+
+[Dashboard from the web](https://builker-col.github.io/bogota-apartments/)
 
 ## Cómo contribuir
 El proyecto es de código abierto y se anima a cualquier persona interesada en contribuir a hacerlo. Para contribuir al proyecto, por favor sigue estos pasos:
