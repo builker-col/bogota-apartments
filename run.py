@@ -18,6 +18,8 @@ def run_data_pipeline():
     Returns:
         None
     """
+    logging.info(f'Start data pipeline at {datetime.now()}')
+
     logging.info('Start web scraping HABI')
     subprocess.run(['scrapy', 'crawl', 'habi'])
     logging.info('Start web scraping METROCUADRADO')
@@ -29,6 +31,11 @@ def run_data_pipeline():
     subprocess.run(['python3', 'ETL/02_data_correction.py'])
     subprocess.run(['python3', 'ETL/03_data_enrichment.py'])    
     logging.info('End data processing')
+
+    logging.info('Start data saving')
+    subprocess.run(['python3', 'ETL/04_data_save.py'])
+    logging.info('End data saving')
+
     logging.info(f'End data pipeline at {datetime.now()}')
 
 if __name__ == '__main__':

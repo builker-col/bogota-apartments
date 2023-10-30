@@ -152,13 +152,3 @@ apartments['is_cerca_estacion_tm'] = apartments.apply(is_cerca_estacion, axis=1)
 # Save processed data
 logging.info('Saving processed data...')
 apartments.to_csv('data/processed/apartments.csv', index=False)
-
-# Save processed data to MongoDB
-logging.info('Saving processed data to MongoDB...')
-try:
-    collection.insert_many(apartments.to_dict('records'))
-    logging.info('Data saved to MongoDB')
-
-except Exception as e:
-    logging.error(e)
-    exit(1)
