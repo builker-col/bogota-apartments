@@ -1,5 +1,9 @@
 # Registro de versiones
 
+## V1.3.1 - 2023-11-10
+
+- Se crea un pipeline automatico para extraer los datos de los apartamentos de la pagina web de **Metrocuadrado** y **habi**. esto con el fin de mantener actualizados los datos de los apartamentos.
+
 ## v1.3.0 - 2023-09-21
 
 ### Nuevas caracteristicas
