@@ -17,6 +17,7 @@ Version: **V2.0.0 JUNARY.1 2024**
 ## Índice
 - [Descripción](#descripción)
 - [Configuración](#configuración)
+- [Tiempos de Ejecución por Apartamento](#tiempos-de-ejecución-por-apartamento)
 - [Data Source](#data-source)
 - [Datos](#datos)
     - [Raw Data](#raw-data)
@@ -75,6 +76,18 @@ ITEM_PIPELINES = {
 }
 ```
 
+## Tiempos de Ejecución por Apartamento
+
+A continuación se detalla el tiempo aproximado de extracción por apartamento para cada sitio web:
+
+> ⚠️ Es importante destacar que estos tiempos son aproximados y pueden variar dependiendo de la velocidad de la conexión a Internet y de la carga del servidor del sitio web.
+
+| Sitio Web | Tiempo por Apartamento |
+|-----------|------------------------------------|
+| Habi | 0.187 segundos |
+| Metrocuadrado | 0.5 segundos |
+
+Estos tiempos representan el promedio aproximado de tiempo que tomó extraer cada apartamento de los respectivos sitios web durante la ejecución del scraper. El tiempo de extracción de cada apartamento puede variar dependiendo de la velocidad de la conexión a Internet y de la carga del servidor del sitio web.
 ## Data Source
 
 > ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
