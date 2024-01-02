@@ -1,6 +1,5 @@
-from selenium.webdriver.chrome.options import Options
+from scrapy_splash import SplashRequest
 from fake_useragent import UserAgent
-from selenium import webdriver
 from datetime import datetime
 import json
 
@@ -18,24 +17,6 @@ class MetrocuadradoSpider(scrapy.Spider):
     allowed_domains = ['metrocuadrado.com']
     base_url = 'https://www.metrocuadrado.com/rest-search/search'
 
-    def __init__(self):
-        """
-        Initializes the spider with a headless Chrome browser instance
-        """
-        chrome_options = Options()
-        # chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--headless=new')
-        chrome_options.add_argument('--window-size=1920x1080')
-        chrome_options.add_argument(f'user-agent={UserAgent().random}')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-extensions')
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--dns-prefetch-disable')
-
-        self.driver = webdriver.Chrome(
-            options=chrome_options,
-        )
-
     def start_requests(self):
         """
         Generates the initial requests to scrape apartment data
@@ -51,8 +32,7 @@ class MetrocuadradoSpider(scrapy.Spider):
 
                 yield scrapy.Request(url, headers=headers, callback=self.parse)
 
-        
-    def parse(self, response,):
+    def parse(self, response):
         """
         Parses the response from the initial requests and generates requests to scrape apartment details
         """
@@ -60,21 +40,20 @@ class MetrocuadradoSpider(scrapy.Spider):
         self.logger.info(f'Found {len(result)} apartments')
 
         for item in result:
-            yield scrapy.Request(
+            yield SplashRequest(
                 url=f'https://metrocuadrado.com{item["link"]}',
-                callback=self.details_parse
+                callback=self.details_parse,
+                args={'wait': 2},
+                headers={
+                    'User-Agent': UserAgent().random
+                }
             )
 
     def details_parse(self, response):
         """
         Parses the response from the requests to scrape apartment details and yields the scraped data
         """
-        self.driver.get(response.url)   
-
-        script_data = Selector(text=self.driver.page_source).xpath(
-            '//script[@id="__NEXT_DATA__"]/text()'
-        ).get()
-
+        script_data = response.xpath('//script[@id="__NEXT_DATA__"]/text()').get()
         script_data = json.loads(script_data)['props']['initialProps']['pageProps']['realEstate']
 
         for item in script_data:
@@ -140,7 +119,7 @@ class MetrocuadradoSpider(scrapy.Spider):
             #datetime
             loader.add_value('datetime', datetime.now())
 
-        yield loader.load_item()
+            yield loader.load_item()
 
     def try_get(self, dictionary, keys: list):
         """

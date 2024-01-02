@@ -19,6 +19,11 @@ NEWSPIDER_MODULE = 'bogota_apartments.spiders'
 
 VERSION = '1.3.0'
 
+# Splash settings
+SPLASH_URL = 'http://localhost:8050/'  # send requests to render web pages and execute JavaScript code.
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'  # dupe filter is a mechanism that prevents Scrapy from making duplicate requests to a website. 
+HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage' # stores the cache on the local file system
+
 # Database settings - uncomment if you want to use MongoDB
 MONGO_URI = os.getenv('MONGO_URI')
 MONGO_DATABASE = os.getenv('MONGO_DATABASE')
@@ -54,15 +59,18 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
+# SPIDER_MIDDLEWARES = {
 #    "bogota_apartments.middlewares.BogotaApetmentsSpiderMiddleware": 543,
-#}
+
+# }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 500, 
-    # 'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550, 
+DOWNLOADER_MIDDLEWARES = { 
+    'scrapy_splash.SplashCookiesMiddleware': 723,  # This middleware handles cookies in requests made to Splash, and it is assigned the priority of 723
+    'scrapy_splash.SplashMiddleware': 725,  # This middleware provides the integration between Scrapy and Splash and is assigned the priority of 725.
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,  # This middleware is responsible for handling HTTP compression, and it is assigned the priority of 810.
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 500,
 }
 
 # Enable or disable extensions
