@@ -66,7 +66,7 @@ df['conjunto_cerrado'] = df.caracteristicas.apply(extract_features.check_conjunt
 df['piscina'] = df.caracteristicas.apply(extract_features.check_piscina)
 df['salon_comunal'] = df.caracteristicas.apply(extract_features.check_salon_comunal)
 
-df = df.drop(columns=['featured_interior', 'featured_zona_comun', 'featured_exterior', 'featured_sector', 'caracteristicas'], axis=1)
+df = df.drop(columns=['caracteristicas'], axis=1)
 
 df.to_csv('data/interim/apartments.csv', index=False)
 logging.info(f'Data saved, shape: {df.shape}')
