@@ -69,7 +69,7 @@ class MongoDBPipeline(object):
         self.client = pymongo.MongoClient(self.mongo_uri)
         self.db = self.client[self.mongo_db]
         # start with a clean database
-        self.db[self.collection].delete_many({})
+        # self.db[self.collection].delete_many({})
 
     def close_spider(self, spider):
         """
