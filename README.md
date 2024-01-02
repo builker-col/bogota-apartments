@@ -10,9 +10,9 @@
 
 ![Bogota Apartments](https://i.ibb.co/6nfN4Z0/bogota-apartments02.png)
 
-La última fecha de scrapeo fue: **06 December 2023**
+La última fecha de scrapeo fue: **03 de Enero de 2024**
 
-Version: **V1.3.1 DECEMBER.1 2023**
+Version: **V2.0.0 JUNARY.1 2024**
 
 ## Índice
 - [Descripción](#descripción)
@@ -84,15 +84,15 @@ Los datos del proyecto fueron extraídos mediante web scraping de los siguientes
 - [Metrocuadrado](https://www.metrocuadrado.com/)
 - [Habi](https://www.habi.co/)
 
-Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con [Selenium](https://www.selenium.dev/).
+Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con [scrpay-splash](https://github.com/scrapy-plugins/scrapy-splash) para poder extraer los datos.
 
 ## Datos
 
 ![Apartamentos extraidos por mes](visualizations/apartments_by_month.png)
 
-### Raw Data
+<!-- ### Raw Data -->
 
-Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1](https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1)
+<!-- Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1](https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1) -->
 
 ### Apartamentos
 
@@ -139,11 +139,8 @@ file: [apartments.csv](data/processed/apartments.csv)
 | is_cerca_estacion_tm                    | Indica si está cerca de una estación de transporte masivo |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
-| fecha_actualizacion_precio_venta     | Fecha de actualización del precio de venta (scrapeado)    |
-| precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
-| fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
-| precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
 | last_view                            | Fecha de la ultima vez que el scraper visito el apartamento |
+| timeline                             | Historial de precios del apartamento                      |
 
 ### Imagenes
 

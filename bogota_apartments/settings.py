@@ -17,7 +17,7 @@ BOT_NAME = 'bogota_apartments'
 SPIDER_MODULES = ['bogota_apartments.spiders']
 NEWSPIDER_MODULE = 'bogota_apartments.spiders'
 
-VERSION = '1.3.0'
+VERSION = '2.0.0'
 
 # Splash settings
 SPLASH_URL = 'http://localhost:8050/'  # send requests to render web pages and execute JavaScript code.

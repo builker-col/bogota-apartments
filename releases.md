@@ -1,4 +1,37 @@
-# Registro de versiones
+# Registro de Cambios (Changelog)
+
+## [V2.1.0] - 2024-02-01
+
+> ⚠️ Durante el proceso de web scraping, se mantuvo el cumplimiento con las políticas y condiciones de uso de los sitios web involucrados.
+
+### Cambios Principales
+
+- **Modificación en la Estructura de Datos**:
+  - Se ha actualizado la estructura de los datos para incluir un **timeline** de precios. Ahora los apartamentos cuentan con un historial de precios para un seguimiento más detallado.
+
+  > ⚠️ **Advertencia**: Los datos del 2023 ya no están disponibles en la base de datos principal. Si necesitas acceder a los datos del 2023, puedes descargarlos [aquí](https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1). La estructura ha cambiado, por lo que los datos del 2023 están en este archivo y no en la nueva versión.
+
+- **Optimización en la Extracción de Datos**:
+  - Se abandonó el uso de Selenium en conjunto con Scrapy para la extracción de datos de los apartamentos. Ahora se implementa Scrapy junto con scrapy-splash para mejorar la velocidad y eficiencia en la obtención de información desde la página web de **Metrocuadrado**.
+
+  > ⚠️ Para utilizar scrapy-splash, es necesario tener instalado un servidor de Splash en tu computadora. Encuentra más información sobre la instalación [aquí](https://splash.readthedocs.io/en/stable/install.html).
+
+### Nuevas Características
+
+- **Columna de Timeline en Datos de Apartamentos**:
+  - Se agregó la columna `timeline` a los datos extraídos de la página web de **Metrocuadrado** y **habi** para almacenar el historial de precios de los apartamentos, permitiendo un seguimiento detallado de la variación de precios a lo largo del tiempo.
+
+- **Creación de API para Interactuar con el Scraper en Tiempo Real**:
+  - Se está desarrollando una API que permitirá visualizar los datos en tiempo real y ofrecerá interacciones con el scraper en ejecución para mayor control y supervisión.
+
+### Corrección de Errores
+
+- **Solución a Error de `InvalidSessionIdException`**:
+  - Se ha solucionado el problema que causaba la excepción `InvalidSessionIdException` al ejecutar el scraper de **Metrocuadrado** con Selenium, mejorando la estabilidad y fluidez del proceso de extracción de datos.
+
+Estos cambios han sido implementados para mejorar la eficiencia, calidad y consistencia en la extracción de datos, asegurando el respeto a las políticas y condiciones de uso de los sitios web pertinentes.
+
+
 
 ## V1.3.1 - 2023-11-10
 
