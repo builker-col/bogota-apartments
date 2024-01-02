@@ -120,3 +120,34 @@ def check_conjunto_cerrado(x):
         return 1 if 'CONJUNTO CERRADO' in x else 0
     else:
         return 0
+    
+def check_piscina(x):
+    """
+    Check if a list contains the string 'PISCINA'.
+
+    Args:
+    x (list): A list of strings.
+
+    Returns:
+    int: 1 if 'PISCINA' is in the list, 0 otherwise.
+    """
+    if type(x) == list:
+        return 1 if 'PISCINA' in x else 0
+    else:
+        return 0
+    
+
+def check_salon_comunal(x):
+    """
+    Check if a list contains the string 'SALÓN COMUNAL'.
+
+    Args:
+    x (list): A list of strings.
+
+    Returns:
+    int: 1 if 'SALÓN COMUNAL' is in the list, 0 otherwise.
+    """
+    if type(x) == list:
+        return 1 if 'SALÓN COMUNAL' in x else 0
+    else:
+        return 0

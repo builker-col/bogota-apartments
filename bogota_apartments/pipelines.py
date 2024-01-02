@@ -95,6 +95,7 @@ class MongoDBPipeline(object):
 
         if spider.name == 'metrocuadrado':
             existing_item = self.db[self.collection].find_one({'codigo': data['codigo']})
+            data['caracteristicas'] = data['featured_interior'] + data['featured_exterior'] + data['featured_zona_comun']
 
             if existing_item:
                 existing_item['last_view'] = datetime.now()

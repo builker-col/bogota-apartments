@@ -118,6 +118,8 @@ class MetrocuadradoSpider(scrapy.Spider):
             loader.add_value('last_view', datetime.now())
             #datetime
             loader.add_value('datetime', datetime.now())
+            #url 
+            loader.add_value('url', response.url)
 
             yield loader.load_item()
 
