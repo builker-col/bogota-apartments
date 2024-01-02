@@ -11,7 +11,6 @@ The script requires the following packages to be installed: src, dotenv, logging
 """
 from src import extract_features
 from dotenv import load_dotenv
-from datetime import datetime
 import logging
 import pandas as pd
 import pymongo
