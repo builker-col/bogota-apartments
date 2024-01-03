@@ -171,6 +171,9 @@ class MongoDBPipeline(object):
                 self.db[self.collection].insert_one(data)
 
             return item
+        
+        elif spider.name == 'metrocuadrado_search':
+            return item
             
         self.db[self.collection].insert_one(data)
         return item
