@@ -65,6 +65,9 @@ df['ascensor'] = df.caracteristicas.apply(extract_features.check_ascensor)
 df['conjunto_cerrado'] = df.caracteristicas.apply(extract_features.check_conjunto_cerrado)
 df['piscina'] = df.caracteristicas.apply(extract_features.check_piscina)
 df['salon_comunal'] = df.caracteristicas.apply(extract_features.check_salon_comunal)
+df['terraza'] = df.caracteristicas.apply(extract_features.check_terraza)
+df['vigilancia'] = df.caracteristicas.apply(extract_features.check_vigilancia)
+
 
 df = df.drop(columns=['caracteristicas'], axis=1)
 

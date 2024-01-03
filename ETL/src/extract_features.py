@@ -1,4 +1,5 @@
 import numpy as np
+import re
 
 def check_jacuzzi(x):
     """
@@ -72,7 +73,13 @@ def check_chimeny(x):
 
 def check_mascotas(x):
     if type(x) == list:
-        return 1 if 'PERMITE MASCOTAS' in x else 0
+        # return 1 if 'PERMITE MASCOTAS' in x else 0
+        if 'PERMITE MASCOTAS' in x:
+            return 1
+        elif 'ADMITE MASCOTAS' in x:
+            return 1
+        else:
+            return 0
     else:
         return 0
 
@@ -151,3 +158,50 @@ def check_salon_comunal(x):
         return 1 if 'SALÓN COMUNAL' in x else 0
     else:
         return 0
+    
+def check_terraza(x):
+    """
+    Check if a list contains the string 'TERRAZA'.
+
+    Args:
+    x (list): A list of strings.
+
+    Returns:
+    int: 1 if 'TERRAZA' is in the list, 0 otherwise.
+    """
+    if type(x) == list:
+        return 1 if 'TERRAZA' in x else 0
+    else:
+        return 0
+    
+def check_amoblado(x):
+    """
+    Check if a list contains the string 'AMOBLADO'.
+
+    Args:
+    x (list): A list of strings.
+
+    Returns:
+    int: 1 if 'AMOBLADO' is in the list, 0 otherwise.
+    """
+    if type(x) == list:
+        return 1 if 'AMOBLADO' in x else 0
+    else:
+        return 0
+    
+def check_vigilancia(x):
+    """
+    Check if a list contains the string 'VIGILANCIA'.
+
+    Args:
+    x (list): A list of strings.
+
+    Returns:
+    int: 1 if 'VIGILANCIA' is in the list, 0 otherwise.
+    """
+    if type(x) == list:
+        return 1 if any(re.findall(r'VIGILANCIA', str(x))) else 0
+    else:
+        return 0
+    
+    

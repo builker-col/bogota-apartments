@@ -37,6 +37,8 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | jacuzzi                              | Indica si el apartamento cuenta con jacuzzi               |
 | piscina                              | Indica si el apartamento cuenta con piscina               |
 | salon_comunal                        | Indica si el apartamento cuenta con salón comunal         |
+| terraza                              | Indica si el apartamento cuenta con terraza               |
+| vigilancia                           | Indica si el apartamento cuenta con vigilancia privada    |
 | piso                                 | Número de piso en el que se encuentra el apartamento      |
 | closets                              | Número de closets en el apartamento                       |
 | chimenea                             | Indica si el apartamento cuenta con chimenea              |
