@@ -22,7 +22,7 @@ logging.info('Connecting to MongoDB')
 try:
     client = pymongo.MongoClient(os.getenv('MONGO_URI'))
     db = client[os.getenv('MONGO_DATABASE')]
-    collection = db['scrapy_bogota_apartments_processed']
+    collection = db[os.getenv('MONGO_COLLECTION_PROCESSED')]
     logging.info('Connected to MongoDB')
 
 except pymongo.errors.ConnectionFailure as error:

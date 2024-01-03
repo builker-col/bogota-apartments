@@ -28,6 +28,14 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage' # stores the cache
 MONGO_URI = os.getenv('MONGO_URI')
 MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 
+if not os.getenv('MONGO_COLLECTION_RAW') or not os.getenv('MONGO_COLLECTION_PROCESSED'):
+    MONGO_COLLECTION_RAW = 'scrapy_bogota_apartments'
+    MONGO_COLLECTION_PROCESSED = 'scrapy_bogota_apartments_processed'
+    
+else:
+    MONGO_COLLECTION_RAW = os.getenv('MONGO_COLLECTION_RAW')
+    MONGO_COLLECTION_PROCESSED = os.getenv('MONGO_COLLECTION_PROCESSED')
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "bogota_apartments (+http://www.yourdomain.com)"
 

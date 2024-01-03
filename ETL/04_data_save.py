@@ -19,7 +19,7 @@ logging.info(f'Process started at {datetime.now()}')
 logging.info('Connecting to MongoDB')
 client = pymongo.MongoClient(os.getenv('MONGO_URI'))
 db = client[os.getenv('MONGO_DATABASE')]
-collection = db['scrapy_bogota_apartments_processed']
+collection = db[os.getenv('MONGO_COLLECTION_PROCESSED')]
 
 PREOCESSED_DATA = 'data/processed/apartments.csv'
 

@@ -9,6 +9,7 @@ Classes:
 # useful for handling different item types with a single interface
 from bogota_apartments.items import ApartmentsItem
 from scrapy.exceptions import DropItem
+from scrapy.utils.project import get_project_settings
 from datetime import datetime
 import logging
 import pymongo
@@ -29,7 +30,7 @@ class MongoDBPipeline(object):
         process_item(self, item, spider): Processes the item and stores it in the MongoDB database.
     """
 
-    collection = 'scrapy_bogota_apartments'
+    collection = get_project_settings().get('MONGO_COLLECTION_RAW')
 
     def __init__(self, mongo_uri, mongo_db):
         """
@@ -96,7 +97,7 @@ class MongoDBPipeline(object):
         if spider.name == 'metrocuadrado':
             existing_item = self.db[self.collection].find_one({'codigo': data['codigo']})
             data['caracteristicas'] = []
-            for key in ['featured_interior', 'featured_exterior', 'featured_zona_comun']:
+            for key in ['featured_interior', 'featured_exterior', 'featured_zona_comun', 'featured_sector']:
                 if key in data:
                     data['caracteristicas'] += data[key]
                     del data[key]
