@@ -23,6 +23,7 @@ Version: **V2.0.0 JUNARY.1 2024**
     - [Raw Data](#raw-data)
     - [Apartamentos](#apartamentos)
     - [Imágenes](#imágenes)
+    - [Datos del 2023](#datos-del-2023)
 - [Actualización de los Datos](#actualización-de-los-datos)
 - [MongoDB Dashboard](#mongodb-dashboard)
 - [Cómo contribuir](#cómo-contribuir)
@@ -54,26 +55,34 @@ _Este proyecto hace parte de [Builker](https://github.com/Builker-col)_.
 
 ## Configuración
 
+Es esencial tener un servidor de Scrapy-Splash funcionando en el puerto **8050** para ejecutar el scraper con éxito. Para mas información sobre como instalar scrapy-splash puede visitar la [documentación oficial](https://splash.readthedocs.io/en/stable/install.html).
+
+```bash
+sudo docker run -d -p 8050:8050 scrapinghub/splash
+```
+
 Si quieres ejecutar el proyecto con los servicios de mongoDB debes crear un archivo `.env` en la raiz del proyecto con las siguientes variables de entorno:
 
 ```bash
 MONGO_URI=<<URI de conexión a MongoDB>>
 MONGO_DATABASE=<<Nombre de la base de datos en MongoDB>>
+MONGO_COLLECTION_RAW = 'scrapy_bogota_apartments' # Nombre de la colección donde se guardaran los datos RAW
+MONGO_COLLECTION_PROCESSED = 'scrapy_bogota_apartments_processed' # Nombre de la colección donde se guardaran los datos procesados
 ```
 
 ### Quitar Configuración de mongoDB
 
-si no quieres usar mongoDB puedes comentar las siguientes lineas de codigo en el archivo `settings.py`:
+Si prefieres no utilizar MongoDB, puedes comentar las siguientes líneas de código en el archivo `settings.py`:
 
 ```python
-MONGO_URI = os.getenv('MONGO_URI')
-MONGO_DATABASE = os.getenv('MONGO_DATABASE')
+# MONGO_URI = os.getenv('MONGO_URI')
+# MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 ```
 
 ```python
-ITEM_PIPELINES = {
-    'bogota_apartments.pipelines.MongoDBPipeline': 500
-}
+#ITEM_PIPELINES = {
+#    'bogota_apartments.pipelines.MongoDBPipeline': 500
+#}
 ```
 
 ## Tiempos de Ejecución por Apartamento
@@ -137,6 +146,8 @@ file: [apartments.csv](data/processed/apartments.csv)
 | descripcion                          | Descripción detallada del apartamento                     |
 | datetime                             | Fecha y hora de extracción de los datos                   |
 | jacuzzi                              | Indica si el apartamento cuenta con jacuzzi               |
+| piscina                              | Indica si el apartamento cuenta con piscina               |
+| salon_comunal                        | Indica si el apartamento cuenta con salón comunal         |
 | piso                                 | Número de piso en el que se encuentra el apartamento      |
 | closets                              | Número de closets en el apartamento                       |
 | chimenea                             | Indica si el apartamento cuenta con chimenea              |
@@ -154,6 +165,7 @@ file: [apartments.csv](data/processed/apartments.csv)
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | last_view                            | Fecha de la ultima vez que el scraper visito el apartamento |
 | timeline                             | Historial de precios del apartamento                      |
+| url                                  | URL del apartamento                                       |
 
 ### Imagenes
 
@@ -163,6 +175,13 @@ file: [images.csv](data/processed/images.csv)
 |--------------|--------------------------------------------------|
 | codigo       | Código único que identifica cada apartamento.    |
 | url_imagen   | Enlace URL de la imagen asociada al apartamento. |
+
+### Datos del 2023
+Con la **versión 2.0.0**, se realizó una actualización crucial en la estructura de datos, lo que conllevó a la eliminación de los datos anteriores a 2024 de nuestra base de datos. Si necesitas acceder a esta información del 2023, puedes descargarla desde la siguiente URL: [https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1](https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1)
+
+Esta actualización asegura una estructura más optimizada y acorde con las necesidades actuales de los datos, por lo que te invitamos a obtener los datos actualizados del 2024 y posteriores para aprovechar al máximo nuestras últimas mejoras.
+
+**Nota:** Los datos del 2023 ya estan procesados y no requieren de ningún procesamiento adicional.
 
 ## Actualización de los Datos
 
