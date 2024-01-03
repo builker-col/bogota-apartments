@@ -50,7 +50,7 @@ class MetrocuadradoSpider(scrapy.Spider):
             yield SplashRequest(
                 url=f'https://metrocuadrado.com{item["link"]}',
                 callback=self.details_parse,
-                args={'wait': 2},
+                args={'wait': 0.8},
                 headers={
                     'User-Agent': UserAgent().random
                 }
