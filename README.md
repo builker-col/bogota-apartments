@@ -95,7 +95,7 @@ A continuación se detalla el tiempo aproximado de extracción por apartamento p
 | Sitio Web | Tiempo por Apartamento |
 |-----------|------------------------------------|
 | Habi | 0.187 segundos |
-| Metrocuadrado | 0.5 segundos |
+| Metrocuadrado | 0.194 segundos |
 
 Estos tiempos representan el promedio aproximado de tiempo que tomó extraer cada apartamento de los respectivos sitios web durante la ejecución del scraper. El tiempo de extracción de cada apartamento puede variar dependiendo de la velocidad de la conexión a Internet y de la carga del servidor del sitio web.
 ## Data Source
