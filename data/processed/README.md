@@ -51,7 +51,10 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | barrio                               | Barrio en el que se encuentra el apartamento              |
 | estacion_tm_cercana                  | Nombre de la estacion de transporte masivo mas cercana    |
 | distancia_estacion_tm_m              | Distancia a la estación de transporte masivo más cercana  |
-| is_cerca_estacion_tm                 | Indica si está cerca de una estación de transporte masivo |
+| is_cerca_estacion_tm                 | Indica si está cerca de una estación de transporte masivo <= 500m |
+| parque_cercano                       | Nombre del parque más cercano al apartamento              |
+| distancia_parque_m                   | Distancia al parque más cercano al apartamento en metros  |
+| is_cerca_parque                      | Indica si está cerca de un parque <= 500m                  |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | last_view                            | Fecha de la última vez que el scraper visito el apartamento |

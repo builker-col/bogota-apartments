@@ -15,22 +15,23 @@ La última fecha de scrapeo fue: **03 de Enero de 2024**
 Version: **V2.0.0 JUNARY.1 2024**
 
 ## Índice
-- [Descripción](#descripción)
-- [Configuración](#configuración)
-- [Tiempos de Ejecución por Apartamento](#tiempos-de-ejecución-por-apartamento)
-- [Data Source](#data-source)
-- [Datos](#datos)
-    - [Raw Data](#raw-data)
+- [Bogota Apartments](#bogota-apartments)
+  - [Índice](#índice)
+  - [Descripción](#descripción)
+  - [Configuración](#configuración)
+    - [Quitar Configuración de mongoDB](#quitar-configuración-de-mongodb)
+  - [Tiempos de Ejecución por Apartamento](#tiempos-de-ejecución-por-apartamento)
+  - [Data Source](#data-source)
+  - [Datos](#datos)
     - [Apartamentos](#apartamentos)
-    - [Imágenes](#imágenes)
+    - [Imagenes](#imagenes)
     - [Datos del 2023](#datos-del-2023)
-- [Actualización de los Datos](#actualización-de-los-datos)
-- [MongoDB Dashboard](#mongodb-dashboard)
-- [Cómo contribuir](#cómo-contribuir)
-- [Mantenimiento](#mantenimiento)
-- [Licencia](#licencia)
-- [Créditos](#créditos)
-- [Versiones](releases.md)
+  - [Actualización de los Datos](#actualización-de-los-datos)
+  - [MongoDB Dashboard](#mongodb-dashboard)
+  - [Cómo contribuir](#cómo-contribuir)
+  - [Mantenimiento](#mantenimiento)
+  - [Licencia](#licencia)
+  - [Créditos](#créditos)
 
 **Datos:**
 - [Datos Procesados](data/processed/)
@@ -162,7 +163,10 @@ file: [apartments.csv](data/processed/apartments.csv)
 | barrio                               | Barrio en el que se encuentra el apartamento              |
 | estacion_tm_cercana                  | Nombre de la estacion de transporte masivo mas cercana    |
 | distancia_estacion_tm_m              | Distancia a la estación de transporte masivo más cercana  |
-| is_cerca_estacion_tm                    | Indica si está cerca de una estación de transporte masivo |
+| is_cerca_estacion_tm                 | Indica si está cerca de una estación de transporte masivo <= 500m |
+| parque_cercano                       | Nombre del parque más cercano al apartamento              |
+| distancia_parque_m                   | Distancia al parque más cercano al apartamento en metros  |
+| is_cerca_parque                      | Indica si está cerca de un parque <= 500m                  |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | last_view                            | Fecha de la ultima vez que el scraper visito el apartamento |

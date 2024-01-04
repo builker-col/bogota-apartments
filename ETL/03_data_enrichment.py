@@ -149,6 +149,55 @@ def is_cerca_estacion(row):
 logging.info('Adding is_cerca_estacion_tm column...')
 apartments['is_cerca_estacion_tm'] = apartments.apply(is_cerca_estacion, axis=1)
 
+logging.info('Adding parks data...')
+# Get parks data
+parques = pd.read_csv('data/external/espacios_para_deporte_bogota/directorio-parques-y-escenarios-2023-datos-abiertos-v1.0.csv')
+
+def get_distance_to_park(lat, lon, localidad = None) -> (str, float):
+    """
+    Calculates the distance between a given location and the nearest park.
+
+    Parameters:
+    - lat (float): Latitude of the location.
+    - lon (float): Longitude of the location.
+    - localidad (str, optional): Name of the locality. If provided, only parks within the specified locality will be considered.
+
+    Returns:
+    - tuple: A tuple containing the name of the nearest park and the distance to it.
+    """
+    try:
+        if localidad is not None:
+            parques_localidad = parques.loc[parques['LOCALIDAD'] == localidad]
+        else:
+            parques_localidad = parques.copy()
+
+        parques_localidad['distancia'] = parques_localidad.apply(lambda x: haversine_m(lat, lon, x['LATITUD'], x['LONGITUD']), axis=1)
+        parque_cercano = parques_localidad.loc[parques_localidad['distancia'].idxmin()]
+        nombre = 'PARQUE ' + parque_cercano['TIPO DE PARQUE'] + ' ' + parque_cercano['NOMBRE DEL PARQUE O ESCENARIO']
+        return nombre, round(parque_cercano['distancia'], 2)
+    except Exception as e:
+        print(lat, lon, localidad)
+        return None, None
+    
+def is_near_park(distancia):
+    """
+    Determines if a location is near a park based on the given distance.
+
+    Parameters:
+    distancia (float): The distance to the nearest park in meters.
+
+    Returns:
+    int: 1 if the location is near a park, 0 otherwise.
+    """
+    if distancia <= 500:
+        return 1
+    else:
+        return 0
+
+logging.info('Adding parque_cercano and distancia_al_parque columns...')
+apartments[['parque_cercano', 'distancia_parque_m']] = apartments.apply(lambda x: get_distance_to_park(x['latitud'], x['longitud'], x['localidad']), axis=1, result_type='expand')
+apartments['is_cerca_parque'] = apartments['distancia_al_parque'].apply(is_near_park)
+
 # Save processed data
 logging.info('Saving processed data...')
 apartments.to_csv('data/processed/apartments.csv', index=False)
