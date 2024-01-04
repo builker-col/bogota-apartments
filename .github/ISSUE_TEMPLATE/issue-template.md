@@ -1,48 +1,47 @@
 ---
-name: issue template
-about: Proporcionamos una descripción breve del problema o tarea y las tareas necesarias
-  para resolverlo.
+name: Scraper or Data Issue 🐛
+about: Describe an issue or task related to the scraper or data and the necessary steps to resolve it.
 title: ''
 labels: ''
 assignees: Erik172
 
 ---
 
-## Título del Issue
+## Issue Title
 
-Breve descripción del problema o tarea que se debe abordar.
+Brief description of the problem or task related to the scraper or data that needs addressing.
 
-### Descripción
+### Description
 
-Proporcione una descripción más detallada del problema o tarea.
+Provide a detailed description of the issue or task related to the scraper or data.
 
-### Pasos para reproducir el problema
+### Steps to Reproduce (If Applicable)
 
-Si se trata de un problema, proporcione los pasos específicos para reproducir el problema:
+If it's a problem, provide specific steps to reproduce it:
 
 1. 
 2. 
 3. 
 
-### Comportamiento esperado
+### Expected Behavior
 
-Si se trata de un problema, describa el comportamiento esperado.
+If it's a problem, describe the expected behavior related to the scraper or data.
 
-### Comportamiento actual
+### Current Behavior
 
-Si se trata de un problema, describa el comportamiento actual.
+If it's a problem, describe the current behavior related to the scraper or data.
 
-### Capturas de pantalla
+### Screenshots or Code Snippets
 
-Si es posible, proporcione capturas de pantalla que muestren el problema o la tarea.
+If possible, provide screenshots or code snippets illustrating the problem or task.
 
-### Información adicional
+### Additional Information
 
-Proporcione cualquier otra información relevante que pueda ayudar a abordar el problema o tarea.
+Provide any other relevant information that might help in addressing the issue or task related to the scraper or data.
 
 ### Checklist
 
-- [ ] He leído las normas de contribución del proyecto.
-- [ ] He verificado que este problema/tarea no ha sido previamente reportado/a.
-- [ ] He verificado que este problema/tarea no está actualmente en proceso por otro contribuidor.
-- [ ] Estoy asignándome a mí mismo/a este issue o se lo estoy asignando al miembro del equipo adecuado.
+- [ ] I have read the project's contribution guidelines.
+- [ ] I have checked that this issue/task has not been previously reported.
+- [ ] I have verified that this issue/task is not currently being addressed by another contributor.
+- [ ] I am assigning this issue to myself or to the appropriate team member.

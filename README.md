@@ -201,6 +201,8 @@ Los datos extraídos mediante web scraping serán actualizados regularmente para
 
 ## MongoDB Dashboard
 
+Explora el tablero web para obtener una perspectiva interactiva de los apartamentos en Bogotá.
+
 [MonogoDB Dashboard](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
 
 [Dashboard from the web](https://builker-col.github.io/bogota-apartments/)
