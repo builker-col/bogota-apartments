@@ -21,6 +21,9 @@
 - **Columna de Timeline en Datos de Apartamentos**:
   - Se agregó la columna `timeline` a los datos extraídos de la página web de **Metrocuadrado** y **habi** para almacenar el historial de precios de los apartamentos, permitiendo un seguimiento detallado de la variación de precios a lo largo del tiempo.
 
+- **Información de Parques Cercanos al Apartamento**:
+  - Se agregaron las columnas `parque_cercano`, que contiene el nombre del parque más cercano al apartamento, `distancia_parque_m`, que indica la distancia en metros al parque cercano, y `is_cerca_parque`, que determina si el apartamento está cerca de un parque a menos de 500 metros.
+
 - **Creación de API para Interactuar con el Scraper en Tiempo Real**:
   - Se está desarrollando una API que permitirá visualizar los datos en tiempo real y ofrecerá interacciones con el scraper en ejecución para mayor control y supervisión.
 
