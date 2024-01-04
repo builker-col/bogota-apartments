@@ -195,7 +195,7 @@ def is_near_park(distancia):
         return 0
 
 logging.info('Adding parque_cercano and distancia_al_parque columns...')
-apartments[['parque_cercano', 'distancia_parque_m']] = apartments.apply(lambda x: get_distance_to_park(x['latitud'], x['longitud'], x['localidad']), axis=1, result_type='expand')
+apartments[['parque_cercano', 'distancia_parque_m']] = apartments.apply(lambda x: get_distance_to_park(x['latitud'], x['longitud']), axis=1, result_type='expand')
 apartments['is_cerca_parque'] = apartments['distancia_al_parque'].apply(is_near_park)
 
 # Save processed data
