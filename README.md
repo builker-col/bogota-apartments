@@ -189,6 +189,8 @@ Esta actualización asegura una estructura más optimizada y acorde con las nece
 
 **Nota:** Los datos del 2023 ya estan procesados y no requieren de ningún procesamiento adicional.
 
+![Apartamentos extraidos por mes](visualizations/2023/type_apartments_by_month2023.png)
+
 ## Actualización de los Datos
 
 Los datos extraídos mediante web scraping serán actualizados regularmente para mantenerlos al día. A continuación se detallan los aspectos clave de la actualización:
