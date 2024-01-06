@@ -104,7 +104,7 @@ class HabiSpider(scrapy.Spider):
         #direccion
         loader.add_value('direccion', details['detalles_propiedad']['direccion'])
         #featured_interior
-        loader.add_value('featured_interior', details['caracteristicas_propiedad'])
+        loader.add_value('caracteristicas', details['caracteristicas_propiedad'])
         #featured_exterior
         #featured_zona_comun
         #featured_sector
@@ -123,6 +123,8 @@ class HabiSpider(scrapy.Spider):
         loader.add_value('last_view', datetime.now())
         #datetime
         loader.add_value('datetime', datetime.now())
+        #url
+        loader.add_value('url', response.url)
 
         yield loader.load_item()
 

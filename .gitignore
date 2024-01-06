@@ -8,6 +8,9 @@ habi.json
 habi.jsonl
 data/raw/*.json
 logs/*
+bogota_apartments/spiders/gojom.py
+.vscode/
+data/interim/*.csv
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks

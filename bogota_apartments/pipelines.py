@@ -9,7 +9,9 @@ Classes:
 # useful for handling different item types with a single interface
 from bogota_apartments.items import ApartmentsItem
 from scrapy.exceptions import DropItem
+from scrapy.utils.project import get_project_settings
 from datetime import datetime
+import logging
 import pymongo
 
 class MongoDBPipeline(object):
@@ -28,7 +30,7 @@ class MongoDBPipeline(object):
         process_item(self, item, spider): Processes the item and stores it in the MongoDB database.
     """
 
-    collection = 'scrapy_bogota_apartments'
+    collection = get_project_settings().get('MONGO_COLLECTION_RAW')
 
     def __init__(self, mongo_uri, mongo_db):
         """
@@ -40,6 +42,7 @@ class MongoDBPipeline(object):
         """
         self.mongo_uri = mongo_uri
         self.mongo_db = mongo_db
+        self.logger = logging.getLogger(__name__)
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -93,35 +96,39 @@ class MongoDBPipeline(object):
 
         if spider.name == 'metrocuadrado':
             existing_item = self.db[self.collection].find_one({'codigo': data['codigo']})
+            data['caracteristicas'] = []
+            for key in ['featured_interior', 'featured_exterior', 'featured_zona_comun', 'featured_sector']:
+                if key in data:
+                    data['caracteristicas'] += data[key]
+                    del data[key]
 
             if existing_item:
-                # Comprueba y actualiza los campos opcionales si es necesario
-                if 'imagenes' not in existing_item:
-                    existing_item['imagenes'] = data.get('imagenes')
+                existing_item['last_view'] = datetime.now()
 
-                if 'compañia' not in existing_item:
-                    existing_item['compañia'] = data.get('compañia')
+                if 'timeline' not in existing_item:
+                    existing_item['timeline'] = []
 
                 try:
-                    # Actualiza el precio de venta si ha cambiado
-                    if data['precio_venta'] != existing_item['precio_venta']:
-                        existing_item['precio_venta_anterior'] = existing_item['precio_venta']
-                        existing_item['precio_venta'] = data['precio_venta']
-                        existing_item['fecha_actualizacion_precio_venta'] = datetime.now()
+                    fields = ['precio_venta', 'precio_arriendo']
+                    
+                    for field in fields:
+                        if field in data and field in existing_item and data[field] != existing_item[field]:
+                            if len(existing_item['timeline']) == 0:
+                                existing_item['timeline'].append({
+                                    'fecha': existing_item['datetime'],
+                                    field: existing_item[field],
+                                })
 
+                            existing_item['timeline'].append({
+                                'fecha': datetime.now(),
+                                field: data[field],
+                            })
+                            
+                            existing_item[field] = data[field]
                 except KeyError:
-                    pass
-
-                try:
-                    # Actualiza el precio de arriendo si ha cambiado
-                    if data['precio_arriendo'] != existing_item['precio_arriendo']:
-                        existing_item['precio_arriendo_anterior'] = existing_item['precio_arriendo']
-                        existing_item['precio_arriendo'] = data['precio_arriendo']
-                        existing_item['fecha_actualizacion_precio_arriendo'] = datetime.now()
-                except KeyError:
+                    self.logger.error('Error al actualizar el item: %s', data['codigo'])
                     pass
                 
-                existing_item['last_view'] = datetime.now()
                 # Actualiza el item en la base de datos
                 self.db[self.collection].update_one({'codigo': data['codigo']}, {'$set': existing_item})
 
@@ -135,13 +142,37 @@ class MongoDBPipeline(object):
             existing_item = self.db[self.collection].find_one({'codigo': data['codigo']})
             if existing_item:
                 existing_item['last_view'] = datetime.now()
-                # Actualiza el item en la base de datos
+                
+                if 'timeline' not in existing_item:
+                    existing_item['timeline'] = []
+
+                try:
+                    # Actualiza el precio de venta si ha cambiado
+                    if data['precio_venta'] != existing_item['precio_venta']:
+                        if len(existing_item['timeline']) == 0:
+                            existing_item['timeline'].append({
+                                'fecha': existing_item['datetime'],
+                                'precio_venta': existing_item['precio_venta'],
+                            })
+
+                        existing_item['timeline'].append({
+                            'fecha': datetime.now(),
+                            'precio_venta': data['precio_venta'],
+                        })
+                        
+                        existing_item['precio_venta'] = data['precio_venta']
+                except KeyError:
+                    pass
+
                 self.db[self.collection].update_one({'codigo': data['codigo']}, {'$set': existing_item})
 
             else:
                 # Inserta el item en la base de datos si no existe
                 self.db[self.collection].insert_one(data)
 
+            return item
+        
+        elif spider.name == 'metrocuadrado_search':
             return item
             
         self.db[self.collection].insert_one(data)

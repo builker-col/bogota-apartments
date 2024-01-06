@@ -140,6 +140,7 @@ class ApartmentsItem(scrapy.Item):
     featured_exterior = scrapy.Field(output_processor = MapCompose(normalize_text_upper))
     featured_zona_comun = scrapy.Field(output_processor = MapCompose(normalize_text_upper))
     featured_sector = scrapy.Field(output_processor = MapCompose(normalize_text_upper))
+    caracteristicas = scrapy.Field(output_processor = MapCompose(normalize_text_upper))
 
     descripcion = scrapy.Field(
         input_processor = MapCompose(normalize_text_lower),
@@ -158,3 +159,5 @@ class ApartmentsItem(scrapy.Item):
     datetime = scrapy.Field(output_processor = TakeFirst())
 
     last_view = scrapy.Field(output_processor = TakeFirst()) # fecha de la ultima vez que el scraper vio el inmueble
+
+    url = scrapy.Field(output_processor = TakeFirst()) # url del inmueble

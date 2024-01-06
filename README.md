@@ -10,25 +10,28 @@
 
 ![Bogota Apartments](https://i.ibb.co/6nfN4Z0/bogota-apartments02.png)
 
-La última fecha de scrapeo fue: **12 October 2023**
+La última fecha de scrapeo fue: **03 de Enero de 2024**
 
-Version: **V1.3.0 OCTOBER.1 2023**
+Version: **V2.0.0 JUNARY.1 2024**
 
 ## Índice
-- [Descripción](#descripción)
-- [Configuración](#configuración)
-- [Data Source](#data-source)
-- [Datos](#datos)
-    - [Raw Data](#raw-data)
+- [Bogota Apartments](#bogota-apartments)
+  - [Índice](#índice)
+  - [Descripción](#descripción)
+  - [Configuración](#configuración)
+    - [Quitar Configuración de mongoDB](#quitar-configuración-de-mongodb)
+  - [Tiempos de Ejecución por Apartamento](#tiempos-de-ejecución-por-apartamento)
+  - [Data Source](#data-source)
+  - [Datos](#datos)
     - [Apartamentos](#apartamentos)
-    - [Imágenes](#imágenes)
-- [Actualización de los Datos](#actualización-de-los-datos)
-- [MongoDB Dashboard](#mongodb-dashboard)
-- [Cómo contribuir](#cómo-contribuir)
-- [Mantenimiento](#mantenimiento)
-- [Licencia](#licencia)
-- [Créditos](#créditos)
-- [Versiones](releases.md)
+    - [Imagenes](#imagenes)
+    - [Datos del 2023](#datos-del-2023)
+  - [Actualización de los Datos](#actualización-de-los-datos)
+  - [MongoDB Dashboard](#mongodb-dashboard)
+  - [Cómo contribuir](#cómo-contribuir)
+  - [Mantenimiento](#mantenimiento)
+  - [Licencia](#licencia)
+  - [Créditos](#créditos)
 
 **Datos:**
 - [Datos Procesados](data/processed/)
@@ -43,38 +46,58 @@ From **Bogota** co to the world 🌎
 
 ## Descripción
 
-El Proyecto Bogotá Apartments es una iniciativa de código abierto que tiene como objetivo recopilar y analizar datos sobre el mercado inmobiliario de apartamentos en la ciudad de Bogotá, Colombia. El proyecto utiliza técnicas avanzadas de web scraping y análisis de datos para recopilar información detallada sobre las ventas y arriendo de apartamentos en la ciudad y proporcionar un conjunto de datos completo y actualizado.
+El Proyecto Bogotá Apartments es una iniciativa de código abierto que busca recopilar y analizar datos sobre el mercado inmobiliario de apartamentos en la ciudad de Bogotá, Colombia. Utilizando avanzadas técnicas de web scraping y análisis de datos, este proyecto recopila información detallada sobre las ventas y alquileres de apartamentos en la ciudad, incluyendo un histórico de precios que brinda una visión temporal de la evolución del mercado.
 
-El conjunto de datos está disponible para cualquier persona interesada en aprender más sobre el mercado inmobiliario de Bogotá y sus tendencias. Además, el proyecto incluye un análisis exploratorio de datos detallado que proporciona información valiosa sobre los precios, las ubicaciones y las características de los apartamentos en la ciudad.
+El conjunto de datos generado está disponible para cualquier persona interesada en conocer más sobre el mercado inmobiliario de Bogotá y sus tendencias. Además, el proyecto presenta un análisis exploratorio de datos minucioso que proporciona información valiosa acerca de los precios, ubicaciones y características de los apartamentos en la ciudad.
 
-El objetivo del proyecto es fomentar la investigación y el aprendizaje en el campo del análisis de datos y la ciencia de datos. El conjunto de datos se puede utilizar para entrenar modelos de aprendizaje automático y para realizar análisis más profundos sobre el mercado inmobiliario de la ciudad.
+El propósito fundamental del proyecto es estimular la investigación y el aprendizaje en el ámbito del análisis de datos y la ciencia de datos. El conjunto de datos puede ser utilizado para entrenar modelos de aprendizaje automático y realizar análisis más profundos sobre el mercado inmobiliario de la ciudad.
 
-_Este proyecto hace parte de [Builker](https://github.com/Builker-col)_.
+_Este proyecto hace parte [Builker](https://github.com/Builker-col)._
 
 ## Configuración
+
+Es esencial tener un servidor de Scrapy-Splash funcionando en el puerto **8050** para ejecutar el scraper con éxito. Para mas información sobre como instalar scrapy-splash puede visitar la [documentación oficial](https://splash.readthedocs.io/en/stable/install.html).
+
+```bash
+sudo docker run -d -p 8050:8050 scrapinghub/splash
+```
 
 Si quieres ejecutar el proyecto con los servicios de mongoDB debes crear un archivo `.env` en la raiz del proyecto con las siguientes variables de entorno:
 
 ```bash
 MONGO_URI=<<URI de conexión a MongoDB>>
 MONGO_DATABASE=<<Nombre de la base de datos en MongoDB>>
+MONGO_COLLECTION_RAW = 'scrapy_bogota_apartments' # Nombre de la colección donde se guardaran los datos RAW
+MONGO_COLLECTION_PROCESSED = 'scrapy_bogota_apartments_processed' # Nombre de la colección donde se guardaran los datos procesados
 ```
 
 ### Quitar Configuración de mongoDB
 
-si no quieres usar mongoDB puedes comentar las siguientes lineas de codigo en el archivo `settings.py`:
+Si prefieres no utilizar MongoDB, puedes comentar las siguientes líneas de código en el archivo `settings.py`:
 
 ```python
-MONGO_URI = os.getenv('MONGO_URI')
-MONGO_DATABASE = os.getenv('MONGO_DATABASE')
+# MONGO_URI = os.getenv('MONGO_URI')
+# MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 ```
 
 ```python
-ITEM_PIPELINES = {
-    'bogota_apartments.pipelines.MongoDBPipeline': 500
-}
+#ITEM_PIPELINES = {
+#    'bogota_apartments.pipelines.MongoDBPipeline': 500
+#}
 ```
 
+## Tiempos de Ejecución por Apartamento
+
+A continuación se detalla el tiempo aproximado de extracción por apartamento para cada sitio web:
+
+> ⚠️ Es importante destacar que estos tiempos son aproximados y pueden variar dependiendo de la velocidad de la conexión a Internet y de la carga del servidor del sitio web.
+
+| Sitio Web | Tiempo por Apartamento |
+|-----------|------------------------------------|
+| Habi | 0.187 segundos |
+| Metrocuadrado | 0.194 segundos |
+
+Estos tiempos representan el promedio aproximado de tiempo que tomó extraer cada apartamento de los respectivos sitios web durante la ejecución del scraper. El tiempo de extracción de cada apartamento puede variar dependiendo de la velocidad de la conexión a Internet y de la carga del servidor del sitio web.
 ## Data Source
 
 > ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
@@ -84,15 +107,15 @@ Los datos del proyecto fueron extraídos mediante web scraping de los siguientes
 - [Metrocuadrado](https://www.metrocuadrado.com/)
 - [Habi](https://www.habi.co/)
 
-Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con [Selenium](https://www.selenium.dev/).
+Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con [scrpay-splash](https://github.com/scrapy-plugins/scrapy-splash) para poder extraer los datos.
 
 ## Datos
 
 ![Apartamentos extraidos por mes](visualizations/apartments_by_month.png)
 
-### Raw Data
+<!-- ### Raw Data -->
 
-Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1](https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1)
+<!-- Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1](https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1) -->
 
 ### Apartamentos
 
@@ -124,6 +147,10 @@ file: [apartments.csv](data/processed/apartments.csv)
 | descripcion                          | Descripción detallada del apartamento                     |
 | datetime                             | Fecha y hora de extracción de los datos                   |
 | jacuzzi                              | Indica si el apartamento cuenta con jacuzzi               |
+| piscina                              | Indica si el apartamento cuenta con piscina               |
+| salon_comunal                        | Indica si el apartamento cuenta con salón comunal         |
+| terraza                              | Indica si el apartamento cuenta con terraza               |
+| vigilancia                           | Indica si el apartamento cuenta con vigilancia privada    |
 | piso                                 | Número de piso en el que se encuentra el apartamento      |
 | closets                              | Número de closets en el apartamento                       |
 | chimenea                             | Indica si el apartamento cuenta con chimenea              |
@@ -136,14 +163,15 @@ file: [apartments.csv](data/processed/apartments.csv)
 | barrio                               | Barrio en el que se encuentra el apartamento              |
 | estacion_tm_cercana                  | Nombre de la estacion de transporte masivo mas cercana    |
 | distancia_estacion_tm_m              | Distancia a la estación de transporte masivo más cercana  |
-| is_cerca_estacion_tm                    | Indica si está cerca de una estación de transporte masivo |
+| is_cerca_estacion_tm                 | Indica si está cerca de una estación de transporte masivo <= 500m |
+| parque_cercano                       | Nombre del parque más cercano al apartamento              |
+| distancia_parque_m                   | Distancia al parque más cercano al apartamento en metros  |
+| is_cerca_parque                      | Indica si está cerca de un parque <= 500m                  |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
-| fecha_actualizacion_precio_venta     | Fecha de actualización del precio de venta (scrapeado)    |
-| precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
-| fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
-| precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
 | last_view                            | Fecha de la ultima vez que el scraper visito el apartamento |
+| timeline                             | Historial de precios del apartamento                      |
+| url                                  | URL del apartamento                                       |
 
 ### Imagenes
 
@@ -153,6 +181,15 @@ file: [images.csv](data/processed/images.csv)
 |--------------|--------------------------------------------------|
 | codigo       | Código único que identifica cada apartamento.    |
 | url_imagen   | Enlace URL de la imagen asociada al apartamento. |
+
+### Datos del 2023
+Con la **versión 2.0.0**, se realizó una actualización crucial en la estructura de datos, lo que conllevó a la eliminación de los datos anteriores a 2024 de nuestra base de datos. Si necesitas acceder a esta información del 2023, puedes descargarla desde la siguiente URL: [https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1](https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1)
+
+Esta actualización asegura una estructura más optimizada y acorde con las necesidades actuales de los datos, por lo que te invitamos a obtener los datos actualizados del 2024 y posteriores para aprovechar al máximo nuestras últimas mejoras.
+
+**Nota:** Los datos del 2023 ya estan procesados y no requieren de ningún procesamiento adicional.
+
+![Apartamentos extraidos por mes](visualizations/2023/type_apartments_by_month2023.png)
 
 ## Actualización de los Datos
 
@@ -165,6 +202,8 @@ Los datos extraídos mediante web scraping serán actualizados regularmente para
 - Se publicará la fecha de la última actualización en este README para que los usuarios puedan verificar la frescura de los datos.
 
 ## MongoDB Dashboard
+
+Explora el tablero web para obtener una perspectiva interactiva de los apartamentos en Bogotá.
 
 [MonogoDB Dashboard](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
 

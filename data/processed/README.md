@@ -35,6 +35,10 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | descripcion                          | Descripción detallada del apartamento                     |
 | datetime                             | Fecha y hora de extracción de los datos                   |
 | jacuzzi                              | Indica si el apartamento cuenta con jacuzzi               |
+| piscina                              | Indica si el apartamento cuenta con piscina               |
+| salon_comunal                        | Indica si el apartamento cuenta con salón comunal         |
+| terraza                              | Indica si el apartamento cuenta con terraza               |
+| vigilancia                           | Indica si el apartamento cuenta con vigilancia privada    |
 | piso                                 | Número de piso en el que se encuentra el apartamento      |
 | closets                              | Número de closets en el apartamento                       |
 | chimenea                             | Indica si el apartamento cuenta con chimenea              |
@@ -47,14 +51,15 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | barrio                               | Barrio en el que se encuentra el apartamento              |
 | estacion_tm_cercana                  | Nombre de la estacion de transporte masivo mas cercana    |
 | distancia_estacion_tm_m              | Distancia a la estación de transporte masivo más cercana  |
-| is_cerca_estacion_tm                 | Indica si está cerca de una estación de transporte masivo |
+| is_cerca_estacion_tm                 | Indica si está cerca de una estación de transporte masivo <= 500m |
+| parque_cercano                       | Nombre del parque más cercano al apartamento              |
+| distancia_parque_m                   | Distancia al parque más cercano al apartamento en metros  |
+| is_cerca_parque                      | Indica si está cerca de un parque <= 500m                  |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
-| fecha_actualizacion_precio_venta     | Fecha de actualización del precio de venta (scrapeado)    |
-| precio_venta_anterior                | Precio de venta anterior de la propiedad COP              |
-| fecha_actualizacion_precio_arriendo  | Fecha de actualización del precio de arriendo (scrapeado) |
-| precio_arriendo_anterior             | Precio de arriendo anterior de la propiedad COP           |
 | last_view                            | Fecha de la última vez que el scraper visito el apartamento |
+| timeline                             | Historial de precios del apartamento                      |
+| url                                  | URL del apartamento                                       |
 
 ### Imagenes
 
@@ -64,3 +69,10 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 |--------------|--------------------------------------------------|
 | codigo       | Código único que identifica cada apartamento.    |
 | url_imagen   | Enlace URL de la imagen asociada al apartamento. |
+
+## Datos del 2023
+Con la versión 2.0.0, se realizó una actualización crucial en la estructura de datos, lo que conllevó a la eliminación de los datos anteriores a 2024 de nuestra base de datos. Si necesitas acceder a esta información del 2023, puedes descargarla desde la siguiente URL: [https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1](https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1)
+
+Esta actualización asegura una estructura más optimizada y acorde con las necesidades actuales de los datos, por lo que te invitamos a obtener los datos actualizados del 2024 y posteriores para aprovechar al máximo nuestras últimas mejoras.
+
+**Nota:** Los datos del 2023 ya estan procesados y no requieren de ningún procesamiento adicional.
