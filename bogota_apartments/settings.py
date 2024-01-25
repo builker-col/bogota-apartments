@@ -28,6 +28,9 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage' # stores the cache
 MONGO_URI = os.getenv('MONGO_URI')
 MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 
+# save the images in the local file system
+SAVE_IMAGES = False
+
 if not os.getenv('MONGO_COLLECTION_RAW') or not os.getenv('MONGO_COLLECTION_PROCESSED'):
     MONGO_COLLECTION_RAW = 'scrapy_bogota_apartments'
     MONGO_COLLECTION_PROCESSED = 'scrapy_bogota_apartments_processed'
@@ -90,7 +93,7 @@ EXTENSIONS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'bogota_apartments.pipelines.MongoDBPipeline': 500 # uncomment if you want to use MongoDB
+    # 'bogota_apartments.pipelines.MongoDBPipeline': 500 # uncomment if you want to use MongoDB
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -1,4 +1,5 @@
-#!/usr/bin/python3.11
+# Author: Erik Garcia (@erik172)
+# Version: Unreleased
 from datetime import datetime
 import subprocess
 import logging
@@ -22,15 +23,18 @@ def run_data_pipeline():
     # check if run splash (sudo docker run -d -p 8050:8050 scrapinghub/splash) 
     if platform.system() == 'Linux':
         if os.system('sudo docker ps | grep splash') != 0:
-            logging.error('Splash is not running')
+            # logging.error('Splash is not running')
+            os.system('sudo docker run -d -p 8050:8050 scrapinghub/splash')
             return
     elif platform.system() == 'Windows':
         if os.system('docker ps | findstr splash') != 0:
-            logging.error('Splash is not running')
+            # logging.error('Splash is not running')
+            os.system('docker run -d -p 8050:8050 scrapinghub/splash')
             return
     elif platform.system() == 'Darwin':
         if os.system('docker ps | grep splash') != 0:
-            logging.error('Splash is not running')
+            # logging.error('Splash is not running')
+            os.system('docker run -d -p 8050:8050 scrapinghub/splash')
             return
     else:
         logging.error('Unsupported operating system')

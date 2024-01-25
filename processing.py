@@ -1,4 +1,5 @@
-#!/usr/bin/python3.11
+# Author: Erik Garcia (@erik172)
+# Version: Stable
 from datetime import datetime
 import subprocess
 import logging
