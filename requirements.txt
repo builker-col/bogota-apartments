@@ -1,4 +1,4 @@
-fake-useragent==1.4.0
+fake-useragent==1.5.1
 python-dotenv
 requests
 pymongo
