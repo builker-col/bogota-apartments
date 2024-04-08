@@ -2,7 +2,7 @@ humanize
 Unidecode==1.3.8
 plotly
 pandas
-matplotlib==3.8.2
+matplotlib==3.8.4
 numpy
 requests==2.31.0
 seaborn==0.13.1
