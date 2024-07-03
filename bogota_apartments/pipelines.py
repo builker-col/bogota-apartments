@@ -5,6 +5,7 @@ from scrapy.utils.project import get_project_settings
 from datetime import datetime
 import logging
 import pymongo
+import json
 
 class MongoDBPipeline(object):
     collection = get_project_settings().get('MONGO_COLLECTION_RAW')
@@ -113,4 +114,16 @@ class MongoDBPipeline(object):
             
         self.db[self.collection].insert_one(data)
         self.logger.info(f'Inserting new item with codigo: {data["codigo"]}')
+        return item
+
+class JsonWriterPipeline(object):
+    def open_spider(self, spider):
+        self.file = open('items.jl', 'w')
+
+    def close_spider(self, spider):
+        self.file.close()
+
+    def process_item(self, item, spider):
+        line = json.dumps(dict(item)) + "\n"
+        self.file.write(line)
         return item

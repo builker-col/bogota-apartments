@@ -85,7 +85,8 @@ EXTENSIONS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'bogota_apartments.pipelines.MongoDBPipeline': 500 # uncomment if you want to use MongoDB
+    'bogota_apartments.pipelines.MongoDBPipeline': 500, # uncomment if you want to use MongoDB
+    # 'bogota_apartments.pipelines.JsonWriterPipeline': 800,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
