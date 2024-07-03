@@ -28,22 +28,14 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage' # stores the cache
 MONGO_URI = os.getenv('MONGO_URI')
 MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 
-# save the images in the local file system
-SAVE_IMAGES = False
-
-if not os.getenv('MONGO_COLLECTION_RAW') or not os.getenv('MONGO_COLLECTION_PROCESSED'):
-    MONGO_COLLECTION_RAW = 'scrapy_bogota_apartments'
-    MONGO_COLLECTION_PROCESSED = 'scrapy_bogota_apartments_processed'
-    
-else:
-    MONGO_COLLECTION_RAW = os.getenv('MONGO_COLLECTION_RAW')
-    MONGO_COLLECTION_PROCESSED = os.getenv('MONGO_COLLECTION_PROCESSED')
+MONGO_COLLECTION_RAW = os.getenv('MONGO_COLLECTION_RAW', 'scrapy_bogota_apartments')
+MONGO_COLLECTION_PROCESSED = os.getenv('MONGO_COLLECTION_PROCESSED', 'scrapy_bogota_apartments_processed')
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "bogota_apartments (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -78,10 +70,10 @@ ROBOTSTXT_OBEY = True
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = { 
-    # 'scrapy_splash.SplashCookiesMiddleware': 723,  # This middleware handles cookies in requests made to Splash, and it is assigned the priority of 723
-    # 'scrapy_splash.SplashMiddleware': 725,  # This middleware provides the integration between Scrapy and Splash and is assigned the priority of 725.
-    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,  # This middleware is responsible for handling HTTP compression, and it is assigned the priority of 810.
-    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 500,
+    'scrapy_splash.SplashCookiesMiddleware': 723,  # Handle cookies in requests made to Splash.
+    'scrapy_splash.SplashMiddleware': 725,  # Integration between Scrapy and Splash.
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,  # Handle HTTP compression.
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 500,  # Retry middleware for handling retries.
 }
 
 # Enable or disable extensions
@@ -93,7 +85,7 @@ EXTENSIONS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    # 'bogota_apartments.pipelines.MongoDBPipeline': 500 # uncomment if you want to use MongoDB
+    'bogota_apartments.pipelines.MongoDBPipeline': 500 # uncomment if you want to use MongoDB
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -123,6 +115,9 @@ TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 FEED_EXPORT_ENCODING = 'utf-8'
 
 # Logging settings
-# LOG_STDOUT = True
-# LOG_FILE = f'logs/scrapy_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
-# LOG_LEVEL = 'DEBUG'
+# See https://docs.scrapy.org/en/latest/topics/logging.html
+LOG_ENABLED = True
+LOG_ENCODING = 'utf-8'
+# LOG_STDOUT = False
+# LOG_FILE = 'scrapy.log'
+LOG_LEVEL = 'DEBUG'
