@@ -12,131 +12,101 @@ from scrapy.selector import Selector
 from scrapy.loader import ItemLoader
 import scrapy
 
+import logging
+
 class MetrocuadradoSpider(scrapy.Spider):
-    """
-    Spider to scrape apartment data from metrocuadrado.com
-    """
     name = 'metrocuadrado'
     allowed_domains = ['metrocuadrado.com']
     base_url = 'https://www.metrocuadrado.com/rest-search/search'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        logging.basicConfig(
+            filename='metrocuadrado_spider.log',
+            format='%(levelname)s: %(message)s',
+            level=logging.INFO
+        )
+        self.logger = logging.getLogger(self.name)
+
     def start_requests(self):
-        """
-        Generates the initial requests to scrape apartment data
-        """
+        user_agent = UserAgent().random
         headers = {
             'X-Api-Key': 'P1MfFHfQMOtL16Zpg36NcntJYCLFm8FqFfudnavl',
-            'User-Agent': UserAgent().random
+            'User-Agent': user_agent
         }
 
         for type in ['venta', 'arriendo']:
             for offset in range(0, 9950, 50):
                 url = f'{self.base_url}?realEstateTypeList=apartamento&realEstateBusinessList={type}&city=bogot%C3%A1&from={offset}&size=50'
-
+                self.logger.info(f'Sending request to URL: {url}')
                 yield scrapy.Request(url, headers=headers, callback=self.parse)
 
     def parse(self, response):
-        """
-        Parses the response from the initial requests and generates requests to scrape apartment details
-        """
         result = json.loads(response.body)['results']
-        self.logger.info(f'Found {len(result)} apartments')
+        self.logger.info(f'Found {len(result)} apartments in response')
+
+        user_agent = UserAgent().random
 
         for item in result:
+            self.logger.info(f'Parsing details for apartment: {item["link"]}')
             yield SplashRequest(
                 url=f'https://metrocuadrado.com{item["link"]}',
                 callback=self.details_parse,
                 args={'wait': 0.1},
-                headers={
-                    'User-Agent': UserAgent().random
-                }
+                headers={'User-Agent': user_agent}
             )
 
     def details_parse(self, response):
-        """
-        Parses the response from the requests to scrape apartment details and yields the scraped data
-        """
-        save_images = self.settings.get('SAVE_IMAGES')
-
         script_data = response.xpath('//script[@id="__NEXT_DATA__"]/text()').get()
+        
+        if not script_data:
+            self.logger.warning(f'No script data found in response for URL: {response.url}')
+            return
+
         script_data = json.loads(script_data)['props']['initialProps']['pageProps']['realEstate']
+        self.logger.info(f'Parsing data for property ID: {script_data["propertyId"]}')
 
-        for item in script_data:
-            loader = ItemLoader(item=ApartmentsItem(), selector=item)
+        loader = self.populate_loader(script_data)
+        loader.add_value('last_view', datetime.now())
+        loader.add_value('datetime', datetime.now())
+        loader.add_value('url', response.url)
 
-            #codigo
-            loader.add_value('codigo', script_data['propertyId'])
-            #tipo_propiedad
-            loader.add_value('tipo_propiedad', script_data['propertyType']['nombre'])
-            #tipo_operacion
-            loader.add_value('tipo_operacion', script_data['businessType'])
-            #precio_venta
-            loader.add_value('precio_venta', script_data['salePrice'])
-            #precio_arriendo
-            loader.add_value('precio_arriendo', script_data['rentPrice'])
-            #area
-            loader.add_value('area', script_data['area'])
-            #habitaciones
-            loader.add_value('habitaciones', script_data['rooms'])
-            #banos
-            loader.add_value('banos', script_data['bathrooms'])
-            #administracion
-            loader.add_value('administracion', script_data['detail']['adminPrice'])
-            #parqueaderos
-            loader.add_value('parqueaderos', script_data['garages'])
-            #sector
-            loader.add_value('sector', self.try_get(script_data, ['sector', 'nombre']))
-            #estrato
-            loader.add_value('estrato', script_data['stratum'] if 'stratum' in script_data else None)
-            #antiguedad
-            loader.add_value('antiguedad', script_data['builtTime'])
-            #estado
-            loader.add_value('estado', script_data['propertyState'])
-            #longitud
-            loader.add_value('longitud', script_data['coordinates']['lon'])
-            #latitud
-            loader.add_value('latitud', script_data['coordinates']['lat'])
-            #featured_interior
-            loader.add_value('featured_interior', self.try_get(script_data, ['featured', 0, 'items']))
-            #featured_exterior
-            loader.add_value('featured_exterior', self.try_get(script_data, ['featured', 1, 'items']))
-            #featured_zona_comun
-            loader.add_value('featured_zona_comun', self.try_get(script_data, ['featured', 2, 'items']))
-            #featured_sector
-            loader.add_value('featured_sector', self.try_get(script_data, ['featured', 3, 'items']))
-            #Imagenes
-            try:
-                imagenes = []
-                for img in script_data['images']:
-                    imagenes.append(img['image'])
+        yield loader.load_item()
 
-                loader.add_value('imagenes', imagenes)
+    def populate_loader(self, script_data):
+        loader = ItemLoader(item=ApartmentsItem())
+        # Resto del código de populate_loader aquí
+        loader.add_value('codigo', script_data['propertyId'])
+        loader.add_value('tipo_propiedad', script_data['propertyType']['nombre'])
+        loader.add_value('tipo_operacion', script_data['businessType'])
+        loader.add_value('precio_venta', script_data['salePrice'])
+        loader.add_value('precio_arriendo', script_data['rentPrice'])
+        loader.add_value('area', script_data['area'])
+        loader.add_value('habitaciones', script_data['rooms'])
+        loader.add_value('banos', script_data['bathrooms'])
+        loader.add_value('administracion', script_data['detail']['adminPrice'])
+        loader.add_value('parqueaderos', script_data['garages'])
+        loader.add_value('sector', self.try_get(script_data, ['sector', 'nombre']))
+        loader.add_value('estrato', script_data.get('stratum'))
+        loader.add_value('antiguedad', script_data['builtTime'])
+        loader.add_value('estado', script_data['propertyState'])
+        loader.add_value('longitud', script_data['coordinates']['lon'])
+        loader.add_value('latitud', script_data['coordinates']['lat'])
+        loader.add_value('featured_interior', self.try_get(script_data, ['featured', 0, 'items']))
+        loader.add_value('featured_exterior', self.try_get(script_data, ['featured', 1, 'items']))
+        loader.add_value('featured_zona_comun', self.try_get(script_data, ['featured', 2, 'items']))
+        loader.add_value('featured_sector', self.try_get(script_data, ['featured', 3, 'items']))
 
-                if save_images and len(imagenes) > 0:
-                    # loader.add_value('imagenes_paths', [self.save_image(img) for img in imagenes])
-                    for img in imagenes:
-                        self.save_image(img)
-            except:
-                pass
-            #compania
-            loader.add_value('compañia', script_data['companyName'] if 'companyName' in script_data else None)
-            #descripcion            
-            loader.add_value('descripcion', script_data['comment'])
-            #website
-            loader.add_value('website', 'metrocuadrado.com')
-            # last_view
-            loader.add_value('last_view', datetime.now())
-            #datetime
-            loader.add_value('datetime', datetime.now())
-            #url 
-            loader.add_value('url', response.url)
+        if 'images' in script_data:
+            images = [img['image'] for img in script_data['images']]
+            loader.add_value('imagenes', images)
+        loader.add_value('compañia', script_data.get('companyName'))
+        loader.add_value('descripcion', script_data['comment'])
+        loader.add_value('website', 'metrocuadrado.com')
 
-            yield loader.load_item()
+        return loader
 
-    def try_get(self, dictionary, keys: list):
-        """
-        Tries to get a value from a nested data structure and returns None if the key is not found or if an index is out of range.
-        """
+    def try_get(self, dictionary, keys):
         try:
             value = dictionary
             for key in keys:
@@ -145,24 +115,7 @@ class MetrocuadradoSpider(scrapy.Spider):
                 elif isinstance(value, dict) and key in value:
                     value = value[key]
                 else:
-                    return None  # Key or index is not valid
+                    return None
             return value
         except (KeyError, TypeError, IndexError):
-            return None  # Key or index is not valid
-
-    def save_image(self, url):
-        """
-        Saves an image from a URL and returns the path to the saved image
-        """
-        import requests 
-        import os
-
-        filename = url.split('/')[-1]
-
-        if not os.path.exists('images/metrocuadrado'):
-            os.makedirs('images/metrocuadrado')
-
-        with open(f'images/metrocuadrado/{filename}', 'wb') as f:
-            f.write(requests.get(url).content)
-
-        return f'images/metrocuadrado/{filename}'
+            return None
