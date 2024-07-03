@@ -3,43 +3,12 @@
 from datetime import datetime
 import subprocess
 import logging
-import os
-import platform
 
 filename = f'logs/data_pipeline.log'
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', filename=filename)
 
 def run_data_pipeline():
-    """
-    Runs the data pipeline for web scraping, data processing, and data saving.
-
-    This function checks if the Splash container is running and then proceeds to execute
-    the web scraping, data processing, and data saving steps.
-
-    Returns:
-        None
-    """
-    # check if run splash (sudo docker run -d -p 8050:8050 scrapinghub/splash) 
-    if platform.system() == 'Linux':
-        if os.system('sudo docker ps | grep splash') != 0:
-            # logging.error('Splash is not running')
-            os.system('sudo docker run -d -p 8050:8050 scrapinghub/splash')
-            return
-    elif platform.system() == 'Windows':
-        if os.system('docker ps | findstr splash') != 0:
-            # logging.error('Splash is not running')
-            os.system('docker run -d -p 8050:8050 scrapinghub/splash')
-            return
-    elif platform.system() == 'Darwin':
-        if os.system('docker ps | grep splash') != 0:
-            # logging.error('Splash is not running')
-            os.system('docker run -d -p 8050:8050 scrapinghub/splash')
-            return
-    else:
-        logging.error('Unsupported operating system')
-        return
-
     logging.info(f'Start data pipeline at {datetime.now()}')
 
     logging.info('Start web scraping HABI')
