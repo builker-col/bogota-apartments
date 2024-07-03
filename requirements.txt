@@ -5,7 +5,6 @@ pymongo
 numpy
 Scrapy
 scrapyd
-scrapy-splash
 dnspython
 nbformat
 session_info
