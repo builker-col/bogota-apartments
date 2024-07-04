@@ -1,3 +1,5 @@
+# Author: Erik Garcia (@erik172)
+# Version: Stable
 from fake_useragent import UserAgent
 from datetime import datetime
 import json
