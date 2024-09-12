@@ -154,6 +154,8 @@ class ApartmentsItem(scrapy.Item):
 
     imagenes = scrapy.Field()
 
+    # imagenes_paths = scrapy.Field()
+
     website = scrapy.Field(output_processor = TakeFirst())
 
     datetime = scrapy.Field(output_processor = TakeFirst())
