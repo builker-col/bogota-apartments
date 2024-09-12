@@ -7,10 +7,14 @@ apiv2.habi.co.json
 habi.json
 habi.jsonl
 data/raw/*.json
+data/processed/*.csv
+data/processed/*.json
 logs/*
 bogota_apartments/spiders/gojom.py
 .vscode/
 data/interim/*.csv
+images/
+html/
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks

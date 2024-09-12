@@ -82,7 +82,7 @@ apartments = pd.read_csv('data/interim/apartments.csv', low_memory=False)
 
 # Get TransMilenio stations data
 logging.info('Getting TransMilenio stations data...')
-response = requests.get('https://gis.transmilenio.gov.co/arcgis/rest/services/Troncal/consulta_estaciones_troncales/FeatureServer/1/query?where=1%3D1&outFields=*&f=json').json()
+response = requests.get('https://gis.transmilenio.gov.co/arcgis/rest/services/Troncal/consulta_estaciones_troncales/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json').json()
 troncal_transmilenio = pd.DataFrame(response['features'])
 troncal_transmilenio = pd.json_normalize(troncal_transmilenio['attributes'])
 
@@ -153,7 +153,7 @@ logging.info('Adding parks data...')
 # Get parks data
 parques = pd.read_csv('data/external/espacios_para_deporte_bogota/directorio-parques-y-escenarios-2023-datos-abiertos-v1.0.csv')
 
-def get_distance_to_park(lat, lon, localidad = None) -> (str, float):
+def get_distance_to_park(lat, lon, localidad = None):
     """
     Calculates the distance between a given location and the nearest park.
 

@@ -1,11 +1,10 @@
-fake-useragent==1.4.0
+fake-useragent
 python-dotenv
 requests
 pymongo
 numpy
 Scrapy
 scrapyd
-scrapy-splash
 dnspython
 nbformat
 session_info
