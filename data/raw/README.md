@@ -2,7 +2,7 @@
 
 > ⚠️ **Advertencia: Los siguientes datos están en formato raw y pueden requerir procesamiento adicional antes de su uso. Verificar la integridad y calidad de los datos es recomendado.**
 
-[Raw apartment sales data](./bogota_apartments_raw.json)
+[Raw apartment sales data V2.0.0 August 2 2024](https://github.com/builker-col/bogota-apartments/releases/download/v2.0.0-august.2-2024/raw_v2.0.0_august_2_2024.json)
 
 <!-- Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1](https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1)
 
