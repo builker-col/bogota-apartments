@@ -1,11 +1,11 @@
 humanize
-Unidecode==1.3.8
+Unidecode
 plotly
 pandas
-matplotlib==3.8.2
+matplotlib
 numpy
-requests==2.31.0
-seaborn==0.13.2
-session_info==1.0.0
+requests
+seaborn
+session_info
 shapely
 geopandas

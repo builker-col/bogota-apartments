@@ -1,5 +1,7 @@
 # Registro de Cambios (Changelog)
 
+## [v2.2.0] - 2024-06-18
+
 ## [V2.1.0] - 2024-02-01
 
 > ⚠️ Durante el proceso de web scraping, se mantuvo el cumplimiento con las políticas y condiciones de uso de los sitios web involucrados.

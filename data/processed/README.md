@@ -8,7 +8,7 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 
 ### Apartamentos
 
-**File:** [apartments.csv](apartments.csv)
+**File:** [processed_v2.0.0_august_2_2024.json](https://github.com/builker-col/bogota-apartments/releases/download/v2.0.0-august.2-2024/processed_v2.0.0_august_2_2024.json)
 
 > ⚠️ **Advertencia**: La columna `coords_modified` indica si las coordenadas geográficas fueron modificadas durante el procesamiento de los datos. Si el valor es `True`, esto significa que las coordenadas originales fueron ajustadas o corregidas. Se recomienda precaución al utilizar estos datos, ya que pueden no reflejar las coordenadas geográficas exactas del apartamento. Es importante verificar la precisión y la fuente de las coordenadas antes de utilizarlas en aplicaciones o análisis que requieran una ubicación geográfica precisa.
 
@@ -61,14 +61,14 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | timeline                             | Historial de precios del apartamento                      |
 | url                                  | URL del apartamento                                       |
 
-### Imagenes
+<!-- ### Imagenes
 
 **File:** [images.csv](images.csv)
 
 | Columna      | Descripción                                      |
 |--------------|--------------------------------------------------|
 | codigo       | Código único que identifica cada apartamento.    |
-| url_imagen   | Enlace URL de la imagen asociada al apartamento. |
+| url_imagen   | Enlace URL de la imagen asociada al apartamento. | -->
 
 ## Datos del 2023
 Con la versión 2.0.0, se realizó una actualización crucial en la estructura de datos, lo que conllevó a la eliminación de los datos anteriores a 2024 de nuestra base de datos. Si necesitas acceder a esta información del 2023, puedes descargarla desde la siguiente URL: [https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1](https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1)
