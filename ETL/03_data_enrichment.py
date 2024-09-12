@@ -153,7 +153,7 @@ logging.info('Adding parks data...')
 # Get parks data
 parques = pd.read_csv('data/external/espacios_para_deporte_bogota/directorio-parques-y-escenarios-2023-datos-abiertos-v1.0.csv')
 
-def get_distance_to_park(lat, lon, localidad = None) -> (str, float):
+def get_distance_to_park(lat, lon, localidad = None):
     """
     Calculates the distance between a given location and the nearest park.
 

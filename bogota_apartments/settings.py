@@ -1,5 +1,4 @@
 from dotenv import load_dotenv
-from datetime import datetime
 import os
 
 load_dotenv()
@@ -9,7 +8,7 @@ BOT_NAME = 'bogota_apartments'
 SPIDER_MODULES = ['bogota_apartments.spiders']
 NEWSPIDER_MODULE = 'bogota_apartments.spiders'
 
-VERSION = '2.0.0'
+VERSION = '2.1.0'
 
 
 # Database settings - uncomment if you want to use MongoDB
@@ -22,7 +21,7 @@ MONGO_COLLECTION_RAW = os.getenv('MONGO_COLLECTION_RAW', 'scrapy_bogota_apartmen
 MONGO_COLLECTION_PROCESSED = os.getenv('MONGO_COLLECTION_PROCESSED', 'scrapy_bogota_apartments_processed')
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "bogota_apartments (+http://www.yourdomain.com)"
+USER_AGENT = "bogota_apartments (+http://erik172.cloud)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -105,6 +104,6 @@ TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 FEED_EXPORT_ENCODING = 'utf-8'
 
 # Logging settings
-LOG_STDOUT = True
-LOG_FILE = f'logs/scrapy_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
-LOG_LEVEL = 'DEBUG'
+LOG_STDOUT = False
+# LOG_FILE = f'logs/scrapy_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+# LOG_LEVEL = 'DEBUG'

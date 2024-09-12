@@ -10,9 +10,13 @@
 
 ![Bogota Apartments](https://i.ibb.co/6nfN4Z0/bogota-apartments02.png)
 
-La última fecha de scrapeo fue: **03 de Enero de 2024**
+La última fecha de scrapeo fue: **1 de Septiembre 2024**
 
-Version: **V2.0.0 JUNARY.1 2024**
+Inicio de scrapeo: **Julio 2024**
+
+Version: **V2.0.0 AUGUST.2 2024**
+
+Descargar ultimos datos: [https://github.com/builker-col/bogota-apartments/releases/tag/v2.0.0-august.2-2024](https://github.com/builker-col/bogota-apartments/releases/tag/v2.0.0-august.2-2024)
 
 ## Índice
 - [Bogota Apartments](#bogota-apartments)
@@ -55,12 +59,6 @@ El propósito fundamental del proyecto es estimular la investigación y el apren
 _Este proyecto hace parte [Builker](https://github.com/Builker-col)._
 
 ## Configuración
-
-Es esencial tener un servidor de Scrapy-Splash funcionando en el puerto **8050** para ejecutar el scraper con éxito. Para mas información sobre como instalar scrapy-splash puede visitar la [documentación oficial](https://splash.readthedocs.io/en/stable/install.html).
-
-```bash
-sudo docker run -d -p 8050:8050 scrapinghub/splash
-```
 
 Si quieres ejecutar el proyecto con los servicios de mongoDB debes crear un archivo `.env` en la raiz del proyecto con las siguientes variables de entorno:
 
@@ -107,7 +105,7 @@ Los datos del proyecto fueron extraídos mediante web scraping de los siguientes
 - [Metrocuadrado](https://www.metrocuadrado.com/)
 - [Habi](https://www.habi.co/)
 
-Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con [scrpay-splash](https://github.com/scrapy-plugins/scrapy-splash) para poder extraer los datos.
+Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con Selenium para poder extraer los datos.
 
 ## Datos
 
@@ -119,7 +117,7 @@ Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y
 
 ### Apartamentos
 
-file: [apartments.csv](data/processed/apartments.csv)
+file: [processed_v2.0.0_august_2_2024.json](https://github.com/builker-col/bogota-apartments/releases/download/v2.0.0-august.2-2024/processed_v2.0.0_august_2_2024.json)
 
 > ⚠️ **Advertencia**: La columna `coords_modified` indica si las coordenadas geográficas fueron modificadas durante el procesamiento de los datos. Si el valor es `True`, esto significa que las coordenadas originales fueron ajustadas o corregidas. Se recomienda precaución al utilizar estos datos, ya que pueden no reflejar las coordenadas geográficas exactas del apartamento. Es importante verificar la precisión y la fuente de las coordenadas antes de utilizarlas en aplicaciones o análisis que requieran una ubicación geográfica precisa.
 
@@ -173,14 +171,14 @@ file: [apartments.csv](data/processed/apartments.csv)
 | timeline                             | Historial de precios del apartamento                      |
 | url                                  | URL del apartamento                                       |
 
-### Imagenes
+<!-- ### Imagenes
 
 file: [images.csv](data/processed/images.csv)
 
 | Columna      | Descripción                                      |
 |--------------|--------------------------------------------------|
 | codigo       | Código único que identifica cada apartamento.    |
-| url_imagen   | Enlace URL de la imagen asociada al apartamento. |
+| url_imagen   | Enlace URL de la imagen asociada al apartamento. | -->
 
 ### Datos del 2023
 Con la **versión 2.0.0**, se realizó una actualización crucial en la estructura de datos, lo que conllevó a la eliminación de los datos anteriores a 2024 de nuestra base de datos. Si necesitas acceder a esta información del 2023, puedes descargarla desde la siguiente URL: [https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1](https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1)
@@ -188,8 +186,6 @@ Con la **versión 2.0.0**, se realizó una actualización crucial en la estructu
 Esta actualización asegura una estructura más optimizada y acorde con las necesidades actuales de los datos, por lo que te invitamos a obtener los datos actualizados del 2024 y posteriores para aprovechar al máximo nuestras últimas mejoras.
 
 **Nota:** Los datos del 2023 ya estan procesados y no requieren de ningún procesamiento adicional.
-
-![Apartamentos extraidos por mes](visualizations/2023/type_apartments_by_month2023.png)
 
 ## Actualización de los Datos
 
