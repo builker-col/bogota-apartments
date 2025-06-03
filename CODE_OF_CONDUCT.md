@@ -1,56 +1,254 @@
-# Code of Conduct for Ethical Use of the Scraper
+# 📜 Código de Conducta - Bogotá Apartments
 
-The scraper used in the "**Bogotá Apartments**" repository is a powerful tool that collects data from the real estate market of apartments in Bogotá. To ensure a responsible and ethical use of this tool, it is important to follow this code of conduct:
+## 🌟 Nuestra Promesa
 
-## Legal and Ethical Responsibilities
+En el interés de fomentar un ambiente abierto y acogedor, como contribuyentes y mantenedores de **Bogotá Apartments**, nos comprometemos a hacer de la participación en nuestro proyecto una experiencia libre de acoso para todos, independientemente de edad, tamaño corporal, discapacidad, etnia, identidad y expresión de género, nivel de experiencia, nacionalidad, apariencia personal, raza, religión o identidad u orientación sexual.
 
-- **Legal Compliance:** Use the scraper in a legal manner and in compliance with all applicable laws and regulations. Avoid illegal activities such as unauthorized access to websites, extraction of copyrighted information, or any other activity that violates the law.
+## 🎯 Alcance del Proyecto
 
-- **Respect Terms of Service:** Be sure to respect the terms of service of the websites from which data is extracted. If a website has specific restrictions or policies regarding data extraction, respect them and adjust the scraper accordingly.
+Este proyecto tiene una **naturaleza dual**:
+- **🔓 Open Source**: Código abierto para la comunidad global
+- **🏢 Uso Comercial**: Utilización interna en **Builker** para desarrollo de productos y negocios
 
-- **Speed and Frequency Limitations:** Configure the scraper so as not to overload or negatively affect the performance of the target websites. Adjust the speed and frequency of extraction to avoid jeopardizing the availability or proper functioning of the websites.
+Por lo tanto, este código de conducta se aplica a:
+- Contribuciones al repositorio público
+- Interacciones en espacios del proyecto
+- Uso comercial e interno en **Builker**
+- Representación del proyecto en espacios públicos
 
-## Privacy and Confidentiality
+> ⚠️ **AVISO COMERCIAL IMPORTANTE**: Cualquier uso comercial de este proyecto por parte de terceros requiere autorización previa de **Builker**. Contacta [business@builker.com](mailto:business@builker.com) antes de implementar soluciones comerciales basadas en este proyecto.
 
-- **Respect Privacy:** Respect the privacy and confidentiality of collected data. Do not share personal or confidential information obtained through the scraper without proper consent and necessary safeguards.
+---
 
-- **Transparency in Data Collection:** If you share or publish data collected with the scraper, be sure to provide proper attribution and references to the original sources. Do not present the data as your own if it was obtained through the tool.
+## 🔧 Uso Ético del Scraper
 
-## Maintenance and Improvement of the Scraper
+### ⚖️ Responsabilidades Legales y Éticas
 
-- **Maintain and Improve:** If you are responsible for developing and maintaining the scraper, make sure to perform regular updates and fix any issues or bugs detected. Encourage code transparency and facilitate collaboration with other community members to improve the tool.
+#### **Cumplimiento Legal**
+- ✅ Utilizar el scraper conforme a todas las leyes aplicables
+- ✅ Respetar los derechos de propiedad intelectual
+- ❌ Evitar acceso no autorizado a sistemas
+- ❌ No extraer datos protegidos por derechos de autor sin autorización
 
-## Reporting Issues and Suggestions
+#### **Términos de Servicio**
+- 📋 Revisar y cumplir los términos de servicio de los sitios web objetivo
+- 🔄 Ajustar el scraper cuando los términos cambien
+- 📞 Contactar a los propietarios de sitios web cuando sea necesario
+- 🛡️ Implementar medidas de protección contra violaciones
 
-- **Constructive Communication:** If you encounter problems or have suggestions for improving the scraper, report them constructively in the repository. Participate in open and collaborative discussions to help maintain and improve the quality and efficiency of the scraper.
+#### **Limitaciones Técnicas**
+- ⏱️ Configurar delays apropiados entre peticiones (min. 1-2 segundos)
+- 📊 Monitorear el impacto en el rendimiento de sitios objetivo
+- 🚫 No sobrecargar servidores con peticiones excesivas
+- 🔄 Implementar retry logic responsable
 
-Remember that the use of the scraper must be responsible and ethical. By following this code of conduct, you contribute to ensuring a proper use of the tool and to maintain an environment of respect and compliance with the rules in the "**Bogotá Apartments**" repository.
+### 🔒 Privacidad y Protección de Datos
 
+#### **GDPR y Privacidad**
+- 🛡️ Cumplir con GDPR y regulaciones de privacidad locales
+- 📝 Documentar qué datos se recopilan y por qué
+- 🗑️ Implementar mecanismos de eliminación de datos
+- 🔐 Cifrar datos sensibles en almacenamiento y transmisión
 
-# Código de Conducta para el Uso Ético del Scraper
+#### **Transparencia**
+- 📋 Proporcionar atribución adecuada a fuentes originales
+- 📊 Documentar metodología de recopilación
+- 🏷️ Etiquetar claramente datos derivados
+- 📈 Mantener registros de auditoría
 
-El scraper empleado en el repositorio "**Bogotá Apartments**" es una herramienta poderosa que recopila datos del mercado inmobiliario de apartamentos en Bogotá. Para garantizar un uso responsable y ético de esta herramienta, es crucial seguir este código de conducta:
+---
 
-## Responsabilidades Legales y Éticas
+## 🏢 Uso Comercial en Builker
 
-- **Cumplimiento Legal:** Utiliza el scraper de manera legal y conforme a todas las leyes y regulaciones aplicables. Evita actividades ilegales como acceso no autorizado a sitios web, extracción de información protegida por derechos de autor u otras acciones que violen la ley.
+### 💼 Responsabilidades Corporativas
 
-- **Respeto a los Términos de Servicio:** Asegúrate de respetar los términos de servicio de los sitios web de los que se extraen datos. Si un sitio tiene restricciones específicas o políticas sobre la extracción de datos, respétalas y ajusta el scraper en consecuencia.
+#### **Uso Interno - Builker**
+- ✅ **Builker** tiene derechos completos de uso de los datos para sus operaciones comerciales
+- ✅ Mantener estándares de calidad y precisión de datos
+- ✅ Implementar controles de acceso apropiados
+- ✅ Documentar casos de uso cuando sea necesario
 
-- **Limitaciones de Velocidad y Frecuencia:** Configura el scraper para no sobrecargar ni afectar negativamente el rendimiento de los sitios web objetivo. Ajusta la velocidad y frecuencia de extracción para no comprometer la disponibilidad o el funcionamiento adecuado de los sitios.
+#### **Uso Comercial Externo**
+- 🏢 **Cualquier empresa o entidad** que desee utilizar este proyecto o sus datos para fines comerciales **DEBE contactar primero con Builker**
+- 📧 Contacto obligatorio: [business@builker.com](mailto:business@builker.com)
+- 📋 **Builker** evaluará y autorizará el uso comercial caso por caso
+- 💼 Se pueden establecer acuerdos de licencia, colaboración o asociación según corresponda
 
-## Privacidad y Confidencialidad
+#### **Restricciones para Terceros**
+- ❌ **Prohibido el uso comercial directo** sin autorización previa de **Builker**
+- ❌ No vender datos o servicios basados en este proyecto sin permiso
+- ❌ No crear productos competitivos sin coordinación con **Builker**
+- ❌ No reclamar propiedad sobre el proyecto o sus datos
 
-- **Respeto a la Privacidad:** Respeta la privacidad y confidencialidad de los datos recopilados. No compartas información personal o confidencial obtenida a través del scraper sin el consentimiento adecuado y las salvaguardias necesarias.
+---
 
-- **Transparencia en la Recopilación de Datos:** Si compartes o publicas datos recopilados con el scraper, asegúrate de proporcionar la atribución adecuada y referencias a las fuentes originales. No presentes los datos como propios si fueron obtenidos a través de la herramienta.
+## 🤝 Estándares de Comunidad
 
-## Mantenimiento y Mejora del Scraper
+### ✅ Comportamientos Esperados
 
-- **Actualización y Mantenimiento:** Si eres responsable del desarrollo y mantenimiento del scraper, realiza actualizaciones periódicas y soluciona cualquier problema o error detectado. Fomenta la transparencia del código y facilita la colaboración con otros miembros de la comunidad para mejorar la herramienta.
+- 🎯 **Enfoque en la misión**: Mejorar la transparencia del mercado inmobiliario
+- 🤝 **Colaboración**: Trabajar juntos hacia objetivos comunes
+- 📚 **Aprendizaje**: Compartir conocimiento y mejores prácticas
+- 🌍 **Inclusión**: Dar la bienvenida a perspectivas diversas
+- 💡 **Innovación**: Proponer mejoras técnicas y funcionales
+- 🛡️ **Responsabilidad**: Asumir responsabilidad por el impacto del código
 
-## Reporte de Problemas y Sugerencias
+### ❌ Comportamientos Inaceptables
 
-- **Comunicación Constructiva:** Si encuentras problemas o tienes sugerencias para mejorar el scraper, repórtalos de manera constructiva en el repositorio. Participa en discusiones abiertas y colaborativas para ayudar a mantener y mejorar la calidad y eficiencia del scraper.
+- 🚫 Lenguaje o imágenes sexualizadas
+- 🚫 Comentarios insultantes o despectivos
+- 🚫 Acoso público o privado
+- 🚫 Publicar información privada de terceros
+- 🚫 Uso del proyecto para actividades ilegales
+- 🚫 Violación deliberada de términos de servicio
+- 🚫 Spam o autopromoción excesiva
 
-Recuerda que el uso del scraper debe ser responsable y ético. Al seguir este código de conducta, contribuyes a garantizar un uso adecuado de la herramienta y a mantener un entorno de respeto y cumplimiento con las reglas en el repositorio "**Bogotá Apartments**".
+---
+
+## 📊 Gobernanza y Decisiones
+
+### 🔄 Proceso de Toma de Decisiones
+
+#### **Contribuciones Open Source**
+1. 💭 Propuesta vía Issues o Pull Requests
+2. 💬 Discusión abierta en la comunidad
+3. 👥 Revisión por mantenedores
+4. ✅ Decisión consensuada
+5. 📝 Documentación de cambios
+
+#### **Decisiones Comerciales (Builker)**
+1. 🏢 Evaluación de impacto comercial
+2. ⚖️ Revisión de cumplimiento legal
+3. 🔒 Consideraciones de privacidad
+4. 📈 Análisis de valor de negocio
+5. ✅ Aprobación de stakeholders
+
+### 🎯 Prioridades del Proyecto
+
+1. **🔐 Cumplimiento Legal**: Siempre primera prioridad
+2. **🌍 Beneficio Comunitario**: Valor para la comunidad open source
+3. **💼 Objetivos Comerciales**: Éxito de productos **Builker**
+4. **🔧 Excelencia Técnica**: Código de calidad y mantenible
+5. **📊 Transparencia**: Comunicación clara sobre el proyecto
+
+---
+
+## 📋 Responsabilidades de los Mantenedores
+
+Los mantenedores del proyecto son responsables de:
+
+### 🔧 Técnicas
+- ✅ Mantener la calidad del código
+- ✅ Revisar y mergear pull requests
+- ✅ Actualizar documentación
+- ✅ Monitorear el rendimiento del scraper
+- ✅ Implementar mejoras de seguridad
+
+### 🤝 Comunidad
+- ✅ Clarificar estándares de comportamiento
+- ✅ Tomar acciones correctivas apropiadas
+- ✅ Facilitar discusiones constructivas
+- ✅ Proteger la integridad del proyecto
+- ✅ Fomentar un ambiente inclusivo
+
+### 🏢 Comerciales (Builker)
+- ✅ Asegurar cumplimiento legal en uso comercial
+- ✅ Coordinar con equipos de producto
+- ✅ Mantener estándares de calidad de datos
+- ✅ Documentar casos de uso comercial
+
+---
+
+## 🚨 Reporte de Problemas
+
+### 📧 Canales de Comunicación
+
+#### **Problemas Técnicos**
+- 🐛 **Issues**: Para bugs y mejoras técnicas
+- 💬 **Discussions**: Para preguntas y propuestas
+- 📋 **Pull Requests**: Para contribuciones de código
+
+#### **Violaciones de Conducta**
+- 📧 **Email**: [conducta@builker.com](mailto:conducta@builker.com)
+- 🔒 **Confidencial**: Para reportes sensibles
+- ⚡ **Respuesta**: Dentro de 48 horas
+
+#### **Problemas Legales/Éticos**
+- 📧 **Legal**: [legal@builker.com](mailto:legal@builker.com)
+- 🛡️ **Privacidad**: [privacy@builker.com](mailto:privacy@builker.com)
+- ⚖️ **Cumplimiento**: [compliance@builker.com](mailto:compliance@builker.com)
+
+### 🔄 Proceso de Resolución
+
+1. **📥 Recepción**: Confirmación de recibo en 24h
+2. **🔍 Investigación**: Análisis detallado del problema
+3. **💬 Comunicación**: Diálogo con partes involucradas
+4. **⚖️ Decisión**: Resolución basada en evidencia
+5. **📊 Seguimiento**: Monitoreo de cumplimiento
+
+---
+
+## ⚖️ Consecuencias
+
+### 📋 Niveles de Respuesta
+
+#### **🟡 Advertencia**
+- Primera violación menor
+- Clarificación de expectativas
+- Guía para mejora
+
+#### **🟠 Advertencia Temporal**
+- Violaciones repetidas
+- Restricción temporal de participación
+- Plan de mejora requerido
+
+#### **🔴 Suspensión**
+- Violaciones graves
+- Prohibición temporal de contribuciones
+- Revisión antes de reintegración
+
+#### **⚫ Expulsión Permanente**
+- Violaciones extremas
+- Prohibición permanente
+- Reporte a autoridades si aplica
+
+---
+
+## 🔄 Actualizaciones del Código
+
+Este código de conducta será revisado:
+- 📅 **Trimestralmente**: Revisión de rutina
+- 🔄 **Cuando sea necesario**: Cambios en leyes o circunstancias
+- 💬 **Por solicitud**: Sugerencias de la comunidad
+- 🏢 **Por cambios comerciales**: Evolución de **Builker**
+
+---
+
+## 📞 Contacto
+
+Para preguntas sobre este código de conducta:
+
+- 📧 **General**: [opensource@builker.com](mailto:opensource@builker.com)
+- 🏢 **Uso Comercial (OBLIGATORIO)**: [business@builker.com](mailto:business@builker.com)
+- 📋 **Issues Técnicos**: [GitHub Issues](https://github.com/erik172/bogota-apartments/issues)
+
+> ⚠️ **IMPORTANTE**: Cualquier uso comercial de este proyecto requiere autorización previa de **Builker**. Contacta antes de implementar.
+
+---
+
+## 📚 Reconocimientos
+
+Este código de conducta está inspirado en:
+- [Contributor Covenant](https://www.contributor-covenant.org/)
+- [Mozilla Community Participation Guidelines](https://www.mozilla.org/en-US/about/governance/policies/participation/)
+- Mejores prácticas de web scraping ético
+
+---
+
+**Versión**: 3.0.0  
+**Última actualización**: 2025  
+**Licencia**: MIT (código) / CC BY 4.0 (documentación)
+
+---
+
+*Al participar en este proyecto, ya sea como contribuyente open source o como parte del equipo de **Builker**, aceptas cumplir con este código de conducta. Juntos creamos una comunidad mejor y productos más responsables.* 🌟 

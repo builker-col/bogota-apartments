@@ -1,0 +1,20 @@
+# 🏠 Bogotá Apartments - Crontab para Automatización
+# ==================================================
+# Ejecutar scraping automático y tareas de mantenimiento
+
+# 🕷️ Scraping Metrocuadrado - Cada 6 horas
+0 */6 * * * /home/scraper/app/python /home/scraper/app/run_scraper.py --spider metrocuadrado --log-level INFO >> /home/scraper/app/logs/cron.log 2>&1
+
+# 🏢 Scraping Habi - Cada 8 horas (offset para evitar solapamiento)
+30 2,10,18 * * * /home/scraper/app/python /home/scraper/app/run_scraper.py --spider habi --log-level INFO >> /home/scraper/app/logs/cron.log 2>&1
+
+# 💾 Backup automático - Diario a las 3:00 AM
+0 3 * * * /home/scraper/app/scripts/docker-backup.sh >> /home/scraper/app/logs/backup.log 2>&1
+
+# 🗑️ Limpieza de logs - Semanal los domingos a las 4:00 AM
+0 4 * * 0 find /home/scraper/app/logs -name "*.log" -mtime +30 -delete
+
+# 📊 Reporte de estadísticas - Diario a las 7:00 AM
+0 7 * * * /home/scraper/app/python /home/scraper/app/processing.py --generate-stats >> /home/scraper/app/logs/processing.log 2>&1
+
+# Línea en blanco al final (requerida por cron) 

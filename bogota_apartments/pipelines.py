@@ -95,7 +95,17 @@ class MongoDBPipeline(object):
         data = dict(ApartmentsItem(item))
 
         if spider.name == 'metrocuadrado':
-            existing_item = self.db[self.collection].find_one({'codigo': data['codigo']})
+            # Buscar apartamento existente por codigo o midinmueble
+            search_filter = {'codigo': data['codigo']}
+            if 'midinmueble' in data and data['midinmueble']:
+                search_filter = {
+                    '$or': [
+                        {'codigo': data['codigo']},
+                        {'midinmueble': data['midinmueble']}
+                    ]
+                }
+            
+            existing_item = self.db[self.collection].find_one(search_filter)
             data['caracteristicas'] = []
             for key in ['featured_interior', 'featured_exterior', 'featured_zona_comun', 'featured_sector']:
                 if key in data:
@@ -130,7 +140,16 @@ class MongoDBPipeline(object):
                     pass
                 
                 # Actualiza el item en la base de datos
-                self.db[self.collection].update_one({'codigo': data['codigo']}, {'$set': existing_item})
+                update_filter = {'codigo': data['codigo']}
+                if 'midinmueble' in data and data['midinmueble']:
+                    update_filter = {
+                        '$or': [
+                            {'codigo': data['codigo']},
+                            {'midinmueble': data['midinmueble']}
+                        ]
+                    }
+                
+                self.db[self.collection].update_one(update_filter, {'$set': existing_item})
 
             else:
                 # Inserta el item en la base de datos si no existe
