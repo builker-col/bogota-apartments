@@ -1,0 +1,55 @@
+# 📊 Jupyter Lab - Dockerfile para Análisis de Datos
+FROM python:3.11-slim
+
+# 📋 Metadatos
+LABEL maintainer="erik172@builker.com"
+LABEL description="Jupyter Lab para análisis de Bogotá Apartments"
+
+# 🔧 Variables de entorno
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV JUPYTER_ENABLE_LAB=yes
+
+# 📦 Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    make \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# 👤 Crear usuario para Jupyter
+RUN useradd --create-home --shell /bin/bash scraper
+USER scraper
+WORKDIR /home/scraper
+
+# 🐍 Instalar dependencias Python para análisis
+COPY --chown=scraper:scraper requirements.txt requirements.txt
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# 📊 Instalar dependencias adicionales para análisis
+RUN pip install --user --no-cache-dir \
+    jupyterlab==4.0.8 \
+    jupyter-dash==0.4.2 \
+    plotly==5.17.0 \
+    seaborn==0.13.0 \
+    folium==0.15.0 \
+    geopandas==0.14.1 \
+    scikit-learn==1.3.2 \
+    statsmodels==0.14.0 \
+    wordcloud==1.9.2 \
+    altair==5.2.0 \
+    streamlit==1.28.2 \
+    dash==2.16.1 \
+    ipywidgets==8.1.1 \
+    voila==0.5.5
+
+# 📁 Crear directorios
+RUN mkdir -p notebooks data logs
+
+# 🚀 Puerto Jupyter
+EXPOSE 8888
+
+# 🏃 Comando por defecto
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=${JUPYTER_TOKEN}"] 

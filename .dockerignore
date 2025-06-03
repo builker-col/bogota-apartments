@@ -1,0 +1,67 @@
+# 🐳 Bogotá Apartments - Docker Ignore
+# ====================================
+# Archivos y directorios a excluir del contexto de build
+
+# 📂 Git
+.git/
+.gitignore
+.github/
+
+# 🐳 Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# 📊 Logs y datos temporales
+logs/*
+*.log
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# 📈 Datos y backups (se montan como volúmenes)
+data/raw/*
+data/processed/*
+data/backups/*
+!data/.gitkeep
+
+# 📓 Notebooks temporales
+notebooks/output/*
+notebooks/.ipynb_checkpoints/
+
+# 🔧 IDE y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 📄 Documentation
+*.md
+!README.md
+docs/
+.cursorignore
+
+# 🌐 Environment files
+.env
+.env.*
+!env.example
+
+# 📦 Package managers
+node_modules/
+npm-debug.log*
+
+# 🗂️ OS específicos
+.DS_Store
+Thumbs.db
+*.tmp
+
+# 🔍 Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 📈 Visualizations output
+visualizations/output/* 

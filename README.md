@@ -8,9 +8,10 @@
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=for-the-badge)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Scrapy](https://img.shields.io/badge/Scrapy-2.0+-60A839?style=for-the-badge&logo=scrapy&logoColor=white)](https://scrapy.org/)
+<!-- [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/) -->
 
 [![Kaggle Dataset](https://img.shields.io/badge/Kaggle-Dataset-20BEFF?style=for-the-badge&logo=Kaggle&logoColor=white)](https://www.kaggle.com/datasets/erik172/bogota-apartments)
-[![MongoDB Dashboard](https://img.shields.io/badge/MongoDB-Dashboard-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
+<!-- [![MongoDB Dashboard](https://img.shields.io/badge/MongoDB-Dashboard-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca) -->
 
 ---
 
@@ -26,10 +27,12 @@
 |-------------|-----------|
 | **Última Actualización** | 📅 1 de Diciembre 2024 |
 | **Versión Actual** | 🚀 v3.0.0 |
+| **Próxima Versión** | 🔧 v3.1.0 (En desarrollo) |
 | **Inicio del Proyecto** | 📅 Julio 2024 |
-| **Apartamentos Procesados** | 📈 75,000+ |
-| **Fuentes de Datos** | 🌐 2 sitios web principales |
-| **Frecuencia de Actualización** | ⏰ Cada 3 semanas |
+| **Apartamentos Procesados** | 📈 1,000+ → 20,000+ (V3.1.0) |
+| **Fuentes de Datos** | 🌐 2 sitios |
+| **Frecuencia de Actualización** | ⏰ Cada 3 semanas|
+
 
 ## 🎯 Descripción del Proyecto
 

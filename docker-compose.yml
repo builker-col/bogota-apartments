@@ -1,0 +1,166 @@
+# 🏠 Bogotá Apartments - Docker Compose Stack
+# Orquestación completa: Scraper + MongoDB + Jupyter + MongoExpress
+version: '3.8'
+
+services:
+  # 🗄️ Base de Datos MongoDB
+  mongodb:
+    image: mongo:7.0
+    container_name: bogota-apartments-db
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-apartamentos123}
+      MONGO_INITDB_DATABASE: bogota_apartments
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+      - ./data/backups:/backups
+    ports:
+      - "27017:27017"
+    networks:
+      - bogota-apartments
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # 🕷️ Scraper Principal
+  scraper:
+    build: .
+    container_name: bogota-apartments-scraper
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://admin:${MONGO_ROOT_PASSWORD:-apartamentos123}@mongodb:27017/bogota_apartments?authSource=admin
+      MONGO_DATABASE: bogota_apartments
+      MONGO_COLLECTION_RAW: apartments_raw
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      SCRAPY_SETTINGS_MODULE: bogota_apartments.settings
+      # Selenium en Docker
+      DISPLAY: :99
+    volumes:
+      - ./logs:/home/scraper/app/logs
+      - ./data:/home/scraper/app/data
+      - ./notebooks:/home/scraper/app/notebooks
+      - /dev/shm:/dev/shm  # Para Chrome en Docker
+    networks:
+      - bogota-apartments
+    command: ["python", "run_scraper.py", "--spider", "metrocuadrado", "--log-level", "INFO"]
+    # Opcional: ejecutar solo manualmente
+    # profiles: ["manual"]
+
+  # 🕷️ Scraper Habi (separado para paralelismo)
+  scraper-habi:
+    build: .
+    container_name: bogota-apartments-scraper-habi
+    restart: "no"  # Solo manual
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://admin:${MONGO_ROOT_PASSWORD:-apartamentos123}@mongodb:27017/bogota_apartments?authSource=admin
+      MONGO_DATABASE: bogota_apartments
+      MONGO_COLLECTION_RAW: apartments_raw
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - ./logs:/home/scraper/app/logs
+      - ./data:/home/scraper/app/data
+    networks:
+      - bogota-apartments
+    profiles: ["habi"]  # Solo se ejecuta con --profile habi
+    command: ["python", "run_scraper.py", "--spider", "habi", "--log-level", "INFO"]
+
+  # 📊 Jupyter Lab para Análisis
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    container_name: bogota-apartments-jupyter
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: mongodb://admin:${MONGO_ROOT_PASSWORD:-apartamentos123}@mongodb:27017/bogota_apartments?authSource=admin
+      JUPYTER_TOKEN: ${JUPYTER_TOKEN:-apartamentos123}
+    volumes:
+      - ./notebooks:/home/scraper/notebooks
+      - ./data:/home/scraper/data
+      - ./logs:/home/scraper/logs:ro  # Solo lectura
+    ports:
+      - "8888:8888"
+    networks:
+      - bogota-apartments
+    profiles: ["analysis"]  # Solo con --profile analysis
+
+  # 🌐 MongoDB Web Interface
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: bogota-apartments-mongo-express
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_ROOT_PASSWORD:-apartamentos123}
+      ME_CONFIG_MONGODB_URL: mongodb://admin:${MONGO_ROOT_PASSWORD:-apartamentos123}@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD:-admin123}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+    ports:
+      - "8081:8081"
+    networks:
+      - bogota-apartments
+    profiles: ["analysis"]
+
+  # ⏰ Cron Scheduler para automatización
+  scheduler:
+    build: .
+    container_name: bogota-apartments-scheduler
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://admin:${MONGO_ROOT_PASSWORD:-apartamentos123}@mongodb:27017/bogota_apartments?authSource=admin
+      LOG_LEVEL: INFO
+    volumes:
+      - ./logs:/home/scraper/app/logs
+      - ./data:/home/scraper/app/data
+      - ./scripts/crontab:/etc/cron.d/apartment-scraper
+    networks:
+      - bogota-apartments
+    profiles: ["scheduler"]
+    command: ["cron", "-f"]
+
+  # 📈 Monitoring (opcional)
+  monitoring:
+    image: prom/prometheus:latest
+    container_name: bogota-apartments-monitoring
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - bogota-apartments
+    profiles: ["monitoring"]
+
+# 🌐 Redes
+networks:
+  bogota-apartments:
+    driver: bridge
+    name: bogota-apartments-network
+
+# 💾 Volúmenes
+volumes:
+  mongodb_data:
+    driver: local
+    name: bogota-apartments-mongodb-data
+  mongodb_config:
+    driver: local
+    name: bogota-apartments-mongodb-config 
