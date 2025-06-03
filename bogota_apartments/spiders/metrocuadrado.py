@@ -176,8 +176,8 @@ class MetrocuadradoSpider(scrapy.Spider):
             existing_in_batch = 0
 
             for item in result:
-                # 🔧 NUEVO: Verificar si el apartamento ya existe en la base de datos
-                property_id = item.get('midinmueble')
+                # 🔧 ACTUALIZADO: Usar solo codigo como identificador único
+                property_id = item.get('midinmueble')  # Obtener de la API
                 if not property_id:
                     continue
                 
@@ -221,7 +221,7 @@ class MetrocuadradoSpider(scrapy.Spider):
         🔍 Verifica si un apartamento ya existe en la base de datos
         
         Args:
-            property_id (str): ID del apartamento (midinmueble)
+            property_id (str): ID del apartamento (codigo único)
             
         Returns:
             dict: Datos del apartamento existente o None si no existe
@@ -230,13 +230,8 @@ class MetrocuadradoSpider(scrapy.Spider):
             return None
             
         try:
-            # Buscar por midinmueble primero, luego por codigo como fallback
-            existing = self.db[self.collection_name].find_one({
-                '$or': [
-                    {'midinmueble': property_id},
-                    {'codigo': property_id}
-                ]
-            })
+            # Buscar solo por codigo (ya que midinmueble = codigo)
+            existing = self.db[self.collection_name].find_one({'codigo': property_id})
             return existing
         except Exception as e:
             self.spider_logger.error(f"❌ Error verificando apartamento {property_id}: {e}")
@@ -252,7 +247,7 @@ class MetrocuadradoSpider(scrapy.Spider):
             existing_data (dict): Datos existentes en la BD
             operation_type (str): Tipo de operación
         """
-        property_id = api_data.get('midinmueble')
+        property_id = api_data.get('midinmueble')  # Obtener de API, será usado como codigo
         
         try:
             # Extraer precios de la API
@@ -277,33 +272,14 @@ class MetrocuadradoSpider(scrapy.Spider):
                 price_changed = True
                 self.spider_logger.info(f'💰 Cambio precio arriendo {property_id}: ${existing_price_arriendo:,} → ${api_price_arriendo:,}')
             
-            # Actualizar timeline si hubo cambio de precio
+            # 🔄 NOTA: Timeline management is now handled centrally in pipelines.py
+            # This avoids duplication and ensures consistent timeline structure
             if price_changed:
                 self.stats['price_changes'] += 1
-                
-                # Inicializar timeline si no existe
-                if 'timeline' not in existing_data:
-                    existing_data['timeline'] = []
-                
-                # Agregar entrada al timeline
-                timeline_entry = {'fecha': datetime.now()}
-                if api_price_venta and api_price_venta != existing_price_venta:
-                    timeline_entry['precio_venta'] = api_price_venta
-                if api_price_arriendo and api_price_arriendo != existing_price_arriendo:
-                    timeline_entry['precio_arriendo'] = api_price_arriendo
-                
-                existing_data['timeline'].append(timeline_entry)
-                updates['timeline'] = existing_data['timeline']
             
-            # Actualizar en la base de datos
-            update_filter = {}
-            if 'midinmueble' in existing_data and existing_data['midinmueble']:
-                update_filter['midinmueble'] = existing_data['midinmueble']
-            else:
-                update_filter['codigo'] = existing_data['codigo']
-            
+            # Actualizar en la base de datos usando solo codigo
             self.db[self.collection_name].update_one(
-                update_filter,
+                {'codigo': existing_data['codigo']},
                 {'$set': updates}
             )
             
@@ -363,10 +339,11 @@ class MetrocuadradoSpider(scrapy.Spider):
             # 🔧 CORREGIDO: script_data ahora es un diccionario, no una lista
             loader = ItemLoader(item=ApartmentsItem(), selector=script_data)
 
-            #codigo
-            loader.add_value('codigo', script_data.get('propertyId'))
-            #midinmueble - ID específico de la API
-            loader.add_value('midinmueble', api_data.get('midinmueble'))
+            # 🔧 ACTUALIZADO: Usar midinmueble de API como codigo único
+            # Priorizar el ID de la API si está disponible, sino usar propertyId del script
+            codigo_final = api_data.get('midinmueble') or script_data.get('propertyId')
+            loader.add_value('codigo', codigo_final)
+            
             #tipo_propiedad
             loader.add_value('tipo_propiedad', try_get(script_data, ['propertyType', 'nombre']))
             #tipo_operacion
