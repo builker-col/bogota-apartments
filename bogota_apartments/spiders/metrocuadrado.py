@@ -190,6 +190,30 @@ class MetrocuadradoSpider(scrapy.Spider):
                     # self.spider_logger.info(f'🔄 Apartamento EXISTENTE: {property_id} - Verificando cambios de precio (evitando Selenium)')
                     self._process_existing_apartment(item, existing_apartment, operation_type)
                     self.stats['selenium_avoided'] += 1
+                    
+                    # 🔄 NUEVO: Crear item con datos de la API para que el pipeline procese los cambios
+                    loader = ItemLoader(item=ApartmentsItem())
+                    
+                    # Usar midinmueble de API como codigo único
+                    loader.add_value('codigo', property_id)
+                    
+                    # Agregar precios de la API para comparación en pipeline
+                    if item.get('mvalorventa'):
+                        loader.add_value('precio_venta', item.get('mvalorventa'))
+                    if item.get('mvalorarriendo'):
+                        loader.add_value('precio_arriendo', item.get('mvalorarriendo'))
+                    
+                    # Agregar otros campos disponibles de la API
+                    loader.add_value('area', item.get('marea'))
+                    loader.add_value('habitaciones', item.get('mnrocuartos'))
+                    loader.add_value('banos', item.get('mnrobanos'))
+                    loader.add_value('parqueaderos', item.get('mnrogarajes'))
+                    loader.add_value('tipo_operacion', operation_type)
+                    loader.add_value('website', 'metrocuadrado.com')
+                    loader.add_value('last_view', datetime.now())
+                    
+                    # Yield el item para que el pipeline lo procese
+                    yield loader.load_item()
                 else:
                     # Apartamento nuevo, hacer scraping completo con Selenium
                     new_in_batch += 1
@@ -240,7 +264,7 @@ class MetrocuadradoSpider(scrapy.Spider):
     def _process_existing_apartment(self, api_data, existing_data, operation_type):
         """
         🔄 Procesa un apartamento que ya existe en la base de datos
-        Compara precios y actualiza si es necesario
+        Detecta cambios de precio pero NO actualiza MongoDB (lo hace el pipeline)
         
         Args:
             api_data (dict): Datos desde la API
@@ -258,42 +282,32 @@ class MetrocuadradoSpider(scrapy.Spider):
             existing_price_venta = existing_data.get('precio_venta')
             existing_price_arriendo = existing_data.get('precio_arriendo')
             
-            # Verificar cambios de precio
+            # Verificar cambios de precio (solo para estadísticas y logging)
             price_changed = False
-            updates = {'last_view': datetime.now()}
             
             if api_price_venta and api_price_venta != existing_price_venta:
-                updates['precio_venta'] = api_price_venta
                 price_changed = True
-                self.spider_logger.info(f'💰 Cambio precio venta {property_id}: ${existing_price_venta:,} → ${api_price_venta:,}')
+                self.spider_logger.info(f'💰 Detectado cambio precio venta {property_id}: ${existing_price_venta:,} → ${api_price_venta:,}')
             
             if api_price_arriendo and api_price_arriendo != existing_price_arriendo:
-                updates['precio_arriendo'] = api_price_arriendo
                 price_changed = True
-                self.spider_logger.info(f'💰 Cambio precio arriendo {property_id}: ${existing_price_arriendo:,} → ${api_price_arriendo:,}')
+                self.spider_logger.info(f'💰 Detectado cambio precio arriendo {property_id}: ${existing_price_arriendo:,} → ${api_price_arriendo:,}')
             
-            # 🔄 NOTA: Timeline management is now handled centrally in pipelines.py
-            # This avoids duplication and ensures consistent timeline structure
+            # 🔄 IMPORTANTE: NO actualizamos MongoDB aquí
+            # El pipeline manejará toda la actualización (precios + timeline + last_view)
             if price_changed:
                 self.stats['price_changes'] += 1
+                self.spider_logger.debug(f'🔄 Cambios detectados para {property_id} - pipeline manejará actualización')
+            else:
+                self.spider_logger.debug(f'✅ Sin cambios para {property_id} - pipeline actualizará last_view')
             
-            # Actualizar en la base de datos usando solo codigo
-            self.db[self.collection_name].update_one(
-                {'codigo': existing_data['codigo']},
-                {'$set': updates}
-            )
-            
+            # Solo actualizar estadísticas (no MongoDB)
             self.stats['apartments_updated'] += 1
             
             # Actualizar progreso
             if self.progress_logger:
                 status_icon = "💰" if price_changed else "✅"
                 self.progress_logger.update(1, f"{status_icon} {property_id} (existente)")
-            
-            if price_changed:
-                self.spider_logger.debug(f'🔄 Apartamento {property_id} actualizado con nuevos precios')
-            else:
-                self.spider_logger.debug(f'✅ Apartamento {property_id} sin cambios, last_view actualizado')
                 
         except Exception as e:
             self.spider_logger.error(f"❌ Error procesando apartamento existente {property_id}: {e}")
