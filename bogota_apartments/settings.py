@@ -8,7 +8,7 @@ BOT_NAME = 'bogota_apartments'
 SPIDER_MODULES = ['bogota_apartments.spiders']
 NEWSPIDER_MODULE = 'bogota_apartments.spiders'
 
-VERSION = '2.1.0'
+VERSION = '3.0.0'
 
 
 # Database settings - uncomment if you want to use MongoDB
@@ -21,7 +21,7 @@ MONGO_COLLECTION_RAW = os.getenv('MONGO_COLLECTION_RAW', 'scrapy_bogota_apartmen
 MONGO_COLLECTION_PROCESSED = os.getenv('MONGO_COLLECTION_PROCESSED', 'scrapy_bogota_apartments_processed')
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = "bogota_apartments (+http://erik172.cloud)"
+USER_AGENT = "bogota_apartments (https://builker.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False

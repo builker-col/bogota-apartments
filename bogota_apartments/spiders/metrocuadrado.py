@@ -10,6 +10,11 @@ from scrapy.selector import Selector
 from scrapy.loader import ItemLoader
 import scrapy
 import logging
+import os
+
+# 🔧 NUEVO: Importar parser y utilidades separadas
+from bogota_apartments.parsers import MetrocuadradoParser
+from bogota_apartments.utils import try_get, setup_spider_logging, log_scraping_stats, log_error_with_context, ProgressLogger
 
 class MetrocuadradoSpider(scrapy.Spider):
     """
@@ -18,12 +23,14 @@ class MetrocuadradoSpider(scrapy.Spider):
     name = 'metrocuadrado'
     allowed_domains = ['metrocuadrado.com']
     base_url = 'https://www.metrocuadrado.com/rest-search/search'
-    logger = logging.getLogger(__name__)
 
     def __init__(self):
         """
         Initializes the spider with a headless Chrome browser instance
         """
+        # 🔧 CORREGIDO: Usar nombre diferente para evitar conflicto con logger de Scrapy
+        self.spider_logger = setup_spider_logging(self.name)
+        
         chrome_options = Options()
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--headless=new')
@@ -32,117 +39,226 @@ class MetrocuadradoSpider(scrapy.Spider):
         chrome_options.add_argument('--disk-cache=true')
 
         self.driver = webdriver.Chrome(options=chrome_options,)
+        
+        # 🔧 NUEVO: Inicializar parser especializado
+        self.parser = MetrocuadradoParser(self.spider_logger)
+        
+        # 📊 Estadísticas de scraping
+        self.stats = {
+            'total_requests': 0,
+            'successful_parses': 0,
+            'failed_parses': 0,
+            'total_apartments': 0,
+            'venta_apartments': 0,
+            'arriendo_apartments': 0
+        }
+        
+        # 📈 Progress tracker
+        self.progress_logger = None
 
     def start_requests(self):
         """
-        Generates the initial requests to scrape apartment data
+        Generación dinámica de requests basada en totales reales de API
         """
+        self.spider_logger.info("🚀 Iniciando descubrimiento de apartamentos disponibles...")
+        
         headers = {
             'X-Api-Key': 'P1MfFHfQMOtL16Zpg36NcntJYCLFm8FqFfudnavl',
             'User-Agent': UserAgent().random
         }
-
-        for type in ['venta', 'arriendo']:
-            for offset in range(0, 9950, 50):
-                self.logger.info(f'Getting {type} apartments from offset {offset}')
-                url = f'{self.base_url}?realEstateTypeList=apartamento&realEstateBusinessList={type}&city=bogot%C3%A1&from={offset}&size=50'
-
-                yield scrapy.Request(url, headers=headers, callback=self.parse)
-
         
-    def parse(self, response,):
+        # Paso 1: Descubrir totales para cada tipo de operación
+        for operation_type in ['venta', 'arriendo']:
+            discovery_url = f'{self.base_url}?realEstateTypeList=apartamento&realEstateBusinessList={operation_type}&city=bogot%C3%A1&from=0&size=50'
+            
+            self.spider_logger.info(f"🔍 Descubriendo totales para: {operation_type}")
+            
+            yield scrapy.Request(
+                url=discovery_url,
+                headers=headers,
+                callback=self.discover_and_paginate,
+                meta={'operation_type': operation_type, 'headers': headers}
+            )
+
+    def discover_and_paginate(self, response):
+        """
+        Descubre el total real y genera todas las peticiones de paginación
+        """
+        operation_type = response.meta['operation_type']
+        headers = response.meta['headers']
+        
+        try:
+            # Extraer metadatos reales de la API
+            api_data = json.loads(response.body)
+            total_hits = api_data.get('totalHits', 0)
+            total_accessible = min(total_hits, api_data.get('totalEntries', 0))
+            
+            self.spider_logger.info(f"🎯 {operation_type}: {total_accessible:,} apartamentos accesibles de {total_hits:,} totales")
+            
+            # 📊 Actualizar estadísticas
+            self.stats[f'{operation_type}_apartments'] = total_accessible
+            self.stats['total_apartments'] += total_accessible
+            
+            # Inicializar progress logger en el primer descubrimiento
+            if not self.progress_logger:
+                self.progress_logger = ProgressLogger(self.spider_logger, total_accessible * 2)  # venta + arriendo
+            
+            # Generar requests dinámicamente
+            page_size = 50
+            requests_generated = 0
+            
+            for offset in range(0, total_accessible, page_size):
+                if offset + page_size > total_accessible:
+                    # Ajustar último batch para no exceder límites
+                    continue
+                
+                url = f'{self.base_url}?realEstateTypeList=apartamento&realEstateBusinessList={operation_type}&city=bogot%C3%A1&from={offset}&size={page_size}'
+                
+                requests_generated += 1
+                self.stats['total_requests'] += 1
+                
+                yield scrapy.Request(
+                    url=url,
+                    headers=headers,
+                    callback=self.parse,
+                    meta={'operation_type': operation_type, 'current_offset': offset}
+                )
+            
+            self.spider_logger.info(f"📤 Generadas {requests_generated} peticiones para {operation_type}")
+            
+        except Exception as e:
+            log_error_with_context(
+                self.spider_logger, 
+                e, 
+                {
+                    'operation_type': operation_type,
+                    'url': response.url,
+                    'response_status': response.status
+                }
+            )
+
+    def parse(self, response):
         """
         Parses the response from the initial requests and generates requests to scrape apartment details
         """
-        logging.info('Parsing response')
-        result = json.loads(response.body)['results']
-        self.logger.info(f'Found {len(result)} apartments')
+        operation_type = response.meta['operation_type']
+        current_offset = response.meta['current_offset']
+        
+        try:
+            result = json.loads(response.body)['results']
+            self.spider_logger.info(f'📦 {operation_type} | Offset {current_offset}: {len(result)} apartamentos encontrados')
 
-        for item in result:
-            yield scrapy.Request(
-                url=f'https://metrocuadrado.com{item["link"]}',
-                callback=self.details_parse
+            for item in result:
+                yield scrapy.Request(
+                    url=f'https://metrocuadrado.com{item["link"]}',
+                    callback=self.details_parse,
+                    meta={'operation_type': operation_type}
+                )
+                
+        except Exception as e:
+            log_error_with_context(
+                self.spider_logger,
+                e,
+                {
+                    'operation_type': operation_type,
+                    'offset': current_offset,
+                    'url': response.url
+                }
             )
 
     def details_parse(self, response):
         """
         Parses the response from the requests to scrape apartment details and yields the scraped data
         """
-        self.driver.get(response.url)   
+        operation_type = response.meta.get('operation_type', 'unknown')
         
-        self.logger.info(f'Getting details from {response.url}')
-
-        script_data = Selector(text=self.driver.page_source).xpath(
-            '//script[@id="__NEXT_DATA__"]/text()'
-        ).get()
-
-        if not script_data:
-            self.logger.error('No script data found')
-            self.driver.get(response.url)
-            self.driver.implicitly_wait(10)
-            script_data = Selector(text=self.driver.page_source).xpath('//script[@id="__NEXT_DATA__"]/text()').get()
-
         try:
-            script_data = json.loads(script_data)['props']['initialProps']['pageProps']['realEstate']
-        except json.JSONDecodeError as e:
-            logging.error(f'Error decoding JSON: {e}')
+            self.driver.get(response.url)   
+            
+            self.spider_logger.debug(f'🏠 Procesando apartamento: {response.url}')
 
-        for item in script_data:
-            loader = ItemLoader(item=ApartmentsItem(), selector=item)
+            # 🎯 Extraer el script específico con xpath
+            script_data = Selector(text=self.driver.page_source).xpath(
+                '/html/body/script[10]/text()'
+            ).get()
+
+            if not script_data:
+                self.spider_logger.warning('⚠️ No se encontró script en primera búsqueda, reintentando...')
+                self.driver.get(response.url)
+                self.driver.implicitly_wait(10)
+                script_data = Selector(text=self.driver.page_source).xpath('/html/body/script[10]/text()').get()
+
+            # 🔧 ACTUALIZADO: Usar parser separado
+            script_data = self.parser.parse_nextjs_data(script_data)
+            
+            if not script_data:
+                self.spider_logger.error(f'❌ No se pudo extraer datos JSON del script Next.js: {response.url}')
+                self.stats['failed_parses'] += 1
+                return
+
+            # 📊 Actualizar progreso
+            self.stats['successful_parses'] += 1
+            if self.progress_logger:
+                self.progress_logger.update(1, f"✅ {script_data.get('propertyId', 'N/A')}")
+
+            # 🔧 CORREGIDO: script_data ahora es un diccionario, no una lista
+            loader = ItemLoader(item=ApartmentsItem(), selector=script_data)
 
             #codigo
-            loader.add_value('codigo', script_data['propertyId'])
+            loader.add_value('codigo', script_data.get('propertyId'))
             #tipo_propiedad
-            loader.add_value('tipo_propiedad', script_data['propertyType']['nombre'])
+            loader.add_value('tipo_propiedad', try_get(script_data, ['propertyType', 'nombre']))
             #tipo_operacion
-            loader.add_value('tipo_operacion', script_data['businessType'])
+            loader.add_value('tipo_operacion', script_data.get('businessType'))
             #precio_venta
-            loader.add_value('precio_venta', script_data['salePrice'])
+            loader.add_value('precio_venta', script_data.get('salePrice'))
             #precio_arriendo
-            loader.add_value('precio_arriendo', script_data['rentPrice'])
+            loader.add_value('precio_arriendo', script_data.get('rentPrice'))
             #area
-            loader.add_value('area', script_data['area'])
+            loader.add_value('area', script_data.get('area'))
             #habitaciones
-            loader.add_value('habitaciones', script_data['rooms'])
+            loader.add_value('habitaciones', script_data.get('rooms'))
             #banos
-            loader.add_value('banos', script_data['bathrooms'])
+            loader.add_value('banos', script_data.get('bathrooms'))
             #administracion
-            loader.add_value('administracion', script_data['detail']['adminPrice'])
+            loader.add_value('administracion', try_get(script_data, ['detail', 'adminPrice']))
             #parqueaderos
-            loader.add_value('parqueaderos', script_data['garages'])
+            loader.add_value('parqueaderos', script_data.get('garages'))
             #sector
-            loader.add_value('sector', self.try_get(script_data, ['sector', 'nombre']))
+            loader.add_value('sector', try_get(script_data, ['sector', 'nombre']))
             #estrato
-            loader.add_value('estrato', script_data['stratum'] if 'stratum' in script_data else None)
+            loader.add_value('estrato', script_data.get('stratum'))
             #antiguedad
-            loader.add_value('antiguedad', script_data['builtTime'])
+            loader.add_value('antiguedad', script_data.get('builtTime'))
             #estado
-            loader.add_value('estado', script_data['propertyState'])
+            loader.add_value('estado', script_data.get('propertyState'))
             #longitud
-            loader.add_value('longitud', script_data['coordinates']['lon'])
+            loader.add_value('longitud', try_get(script_data, ['coordinates', 'lon']))
             #latitud
-            loader.add_value('latitud', script_data['coordinates']['lat'])
+            loader.add_value('latitud', try_get(script_data, ['coordinates', 'lat']))
             #featured_interior
-            loader.add_value('featured_interior', self.try_get(script_data, ['featured', 0, 'items']))
+            loader.add_value('featured_interior', try_get(script_data, ['featured', 0, 'items']))
             #featured_exterior
-            loader.add_value('featured_exterior', self.try_get(script_data, ['featured', 1, 'items']))
+            loader.add_value('featured_exterior', try_get(script_data, ['featured', 1, 'items']))
             #featured_zona_comun
-            loader.add_value('featured_zona_comun', self.try_get(script_data, ['featured', 2, 'items']))
+            loader.add_value('featured_zona_comun', try_get(script_data, ['featured', 2, 'items']))
             #featured_sector
-            loader.add_value('featured_sector', self.try_get(script_data, ['featured', 3, 'items']))
+            loader.add_value('featured_sector', try_get(script_data, ['featured', 3, 'items']))
             #Imagenes
             try:
                 imagenes = []
-                for img in script_data['images']:
-                    imagenes.append(img['image'])
+                images_data = script_data.get('images', [])
+                for img in images_data:
+                    if isinstance(img, dict) and 'image' in img:
+                        imagenes.append(img['image'])
 
                 loader.add_value('imagenes', imagenes)
-            except:
-                pass
+            except Exception as e:
+                self.spider_logger.warning(f'⚠️ Error procesando imágenes: {e}')
             #compania
-            loader.add_value('compañia', script_data['companyName'] if 'companyName' in script_data else None)
+            loader.add_value('compañia', script_data.get('companyName'))
             #descripcion            
-            loader.add_value('descripcion', script_data['comment'])
+            loader.add_value('descripcion', script_data.get('comment'))
             #website
             loader.add_value('website', 'metrocuadrado.com')
             # last_view
@@ -150,21 +266,45 @@ class MetrocuadradoSpider(scrapy.Spider):
             #datetime
             loader.add_value('datetime', datetime.now())
 
-        yield loader.load_item()
-
-    def try_get(self, dictionary, keys: list):
+            yield loader.load_item()
+            
+        except Exception as e:
+            self.stats['failed_parses'] += 1
+            log_error_with_context(
+                self.spider_logger,
+                e,
+                {
+                    'url': response.url,
+                    'operation_type': operation_type,
+                    'failed_parses': self.stats['failed_parses']
+                }
+            )
+    
+    def closed(self, reason):
         """
-        Tries to get a value from a nested data structure and returns None if the key is not found or if an index is out of range.
+        Callback cuando el spider termina - registra estadísticas finales
         """
-        try:
-            value = dictionary
-            for key in keys:
-                if isinstance(value, list) and isinstance(key, int) and 0 <= key < len(value):
-                    value = value[key]
-                elif isinstance(value, dict) and key in value:
-                    value = value[key]
-                else:
-                    return None  # Key or index is not valid
-            return value
-        except (KeyError, TypeError, IndexError):
-            return None  # Key or index is not valid
+        self.spider_logger.info("🏁 Spider terminando...")
+        
+        # Finalizar progress logger
+        if self.progress_logger:
+            self.progress_logger.finish("Scraping de Metrocuadrado completado")
+        
+        # Calcular estadísticas finales
+        success_rate = 0
+        if self.stats['successful_parses'] + self.stats['failed_parses'] > 0:
+            success_rate = (self.stats['successful_parses'] / (self.stats['successful_parses'] + self.stats['failed_parses'])) * 100
+        
+        final_stats = {
+            **self.stats,
+            'success_rate': f"{success_rate:.1f}%",
+            'reason': reason
+        }
+        
+        # Registrar estadísticas finales
+        log_scraping_stats(self.spider_logger, final_stats)
+        
+        # Cerrar navegador
+        if hasattr(self, 'driver'):
+            self.driver.quit()
+            self.spider_logger.info("🔒 Navegador cerrado correctamente")

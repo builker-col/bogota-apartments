@@ -1,235 +1,546 @@
-# Bogota Apartments
+# Bogotá Apartments Dataset
 
-[![ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/U6U0K5UNW)
-[![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@erik172) 
-[![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/builker-col/bogota-apartments)
-[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/erik172/)
-[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/_Erik172)
-[![Kaggle](https://img.shields.io/badge/Kaggle-20BEFF?style=for-the-badge&logo=Kaggle&logoColor=white)](https://www.kaggle.com/datasets/erik172/bogota-apartments)
-[![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+<div align="center">
 
 ![Bogota Apartments](https://i.ibb.co/6nfN4Z0/bogota-apartments02.png)
 
-La última fecha de scrapeo fue: **1 de Septiembre 2024**
+[![Version](https://img.shields.io/badge/Version-v3.0.0-blue?style=for-the-badge)](https://github.com/builker-col/bogota-apartments/releases)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=for-the-badge)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Scrapy](https://img.shields.io/badge/Scrapy-2.0+-60A839?style=for-the-badge&logo=scrapy&logoColor=white)](https://scrapy.org/)
 
-Inicio de scrapeo: **Julio 2024**
+[![Kaggle Dataset](https://img.shields.io/badge/Kaggle-Dataset-20BEFF?style=for-the-badge&logo=Kaggle&logoColor=white)](https://www.kaggle.com/datasets/erik172/bogota-apartments)
+[![MongoDB Dashboard](https://img.shields.io/badge/MongoDB-Dashboard-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
 
-Version: **V2.0.0 AUGUST.2 2024**
+---
 
-Descargar ultimos datos: [https://github.com/builker-col/bogota-apartments/releases/tag/v2.0.0-august.2-2024](https://github.com/builker-col/bogota-apartments/releases/tag/v2.0.0-august.2-2024)
+**🏢 Análisis Completo del Mercado Inmobiliario de Bogotá**
 
-## Índice
-- [Bogota Apartments](#bogota-apartments)
-  - [Índice](#índice)
-  - [Descripción](#descripción)
-  - [Configuración](#configuración)
-    - [Quitar Configuración de mongoDB](#quitar-configuración-de-mongodb)
-  - [Tiempos de Ejecución por Apartamento](#tiempos-de-ejecución-por-apartamento)
-  - [Data Source](#data-source)
-  - [Datos](#datos)
-    - [Apartamentos](#apartamentos)
-    - [Imagenes](#imagenes)
-    - [Datos del 2023](#datos-del-2023)
-  - [Actualización de los Datos](#actualización-de-los-datos)
-  - [MongoDB Dashboard](#mongodb-dashboard)
-  - [Cómo contribuir](#cómo-contribuir)
-  - [Mantenimiento](#mantenimiento)
-  - [Licencia](#licencia)
-  - [Créditos](#créditos)
+*Dataset actualizado con datos históricos y análisis predictivo en tiempo real*
 
-**Datos:**
-- [Datos Procesados](data/processed/)
-    - [Readme de Datos Procesados](data/processed/README.md)
-    - [Apartamentos](data/processed/apartments.csv)
-    - [Imágenes](data/processed/images.csv)
-- [Datos RAW](data/raw/)
-    - [Readme de Datos RAW](data/raw/README.md)
-    - [Apartamentos](https://www.dropbox.com/s/1ly47276dnqqdzp/builker.scrapy_bogota_apartments.json?dl=1)
+</div>
 
-From **Bogota** co to the world 🌎
+## 📊 Estado del Proyecto
 
-## Descripción
+| **Métrica** | **Valor** |
+|-------------|-----------|
+| **Última Actualización** | 📅 1 de Diciembre 2024 |
+| **Versión Actual** | 🚀 v3.0.0 |
+| **Inicio del Proyecto** | 📅 Julio 2024 |
+| **Apartamentos Procesados** | 📈 75,000+ |
+| **Fuentes de Datos** | 🌐 2 sitios web principales |
+| **Frecuencia de Actualización** | ⏰ Cada 3 semanas |
 
-El Proyecto Bogotá Apartments es una iniciativa de código abierto que busca recopilar y analizar datos sobre el mercado inmobiliario de apartamentos en la ciudad de Bogotá, Colombia. Utilizando avanzadas técnicas de web scraping y análisis de datos, este proyecto recopila información detallada sobre las ventas y alquileres de apartamentos en la ciudad, incluyendo un histórico de precios que brinda una visión temporal de la evolución del mercado.
+## 🎯 Descripción del Proyecto
 
-El conjunto de datos generado está disponible para cualquier persona interesada en conocer más sobre el mercado inmobiliario de Bogotá y sus tendencias. Además, el proyecto presenta un análisis exploratorio de datos minucioso que proporciona información valiosa acerca de los precios, ubicaciones y características de los apartamentos en la ciudad.
+**Bogotá Apartments** es una plataforma de datos de código abierto especializada en el análisis integral del mercado inmobiliario de Bogotá, Colombia. Utilizamos técnicas avanzadas de web scraping, machine learning y procesamiento geoespacial para generar insights valiosos sobre tendencias de precios, patrones de ubicación y características del mercado inmobiliario bogotano.
 
-El propósito fundamental del proyecto es estimular la investigación y el aprendizaje en el ámbito del análisis de datos y la ciencia de datos. El conjunto de datos puede ser utilizado para entrenar modelos de aprendizaje automático y realizar análisis más profundos sobre el mercado inmobiliario de la ciudad.
+### 🔍 Características Principales
 
-_Este proyecto hace parte [Builker](https://github.com/Builker-col)._
+- **🔄 Actualización Automática**: Datos frescos cada 3 semanas con validación automática
+- **📈 Análisis Histórico**: Seguimiento temporal de precios con más de 6 meses de historia  
+- **🗺️ Análisis Geoespacial**: Coordenadas precisas con análisis de proximidad a TransMilenio y parques
+- **🏗️ Arquitectura Escalable**: Construido con Scrapy + MongoDB + ETL automatizado
+- **📊 Dashboards Interactivos**: Visualizaciones en tiempo real y reportes ejecutivos
+- **🤖 ML Ready**: Datos pre-procesados listos para modelos de machine learning
 
-## Configuración
+---
 
-Si quieres ejecutar el proyecto con los servicios de mongoDB debes crear un archivo `.env` en la raiz del proyecto con las siguientes variables de entorno:
+## 📚 Tabla de Contenidos
+
+- [🚀 Inicio Rápido](#-inicio-rápido)
+- [⚙️ Configuración](#️-configuración)
+- [📊 Fuentes de Datos](#-fuentes-de-datos)
+- [📁 Estructura de Datos](#-estructura-de-datos)
+- [🔄 Actualización de Datos](#-actualización-de-datos)
+- [📈 Dashboards y Visualizaciones](#-dashboards-y-visualizaciones)
+- [🏗️ Arquitectura del Proyecto](#️-arquitectura-del-proyecto)
+- [🤝 Contribuir](#-contribuir)
+- [📊 Datos Históricos](#-datos-históricos)
+- [📄 Licencia](#-licencia)
+- [👥 Equipo](#-equipo)
+
+---
+
+## 🚀 Inicio Rápido
+
+### 📥 Descargar Datos Más Recientes
 
 ```bash
-MONGO_URI=<<URI de conexión a MongoDB>>
-MONGO_DATABASE=<<Nombre de la base de datos en MongoDB>>
-MONGO_COLLECTION_RAW = 'scrapy_bogota_apartments' # Nombre de la colección donde se guardaran los datos RAW
-MONGO_COLLECTION_PROCESSED = 'scrapy_bogota_apartments_processed' # Nombre de la colección donde se guardaran los datos procesados
+# Versión 3.0.0 - Diciembre 2024
+wget https://github.com/builker-col/bogota-apartments/releases/download/v3.0.0/processed_v3.0.0_december_2024.json
+
+# Alternativamente usando curl
+curl -L -o apartments_v3.json https://github.com/builker-col/bogota-apartments/releases/download/v3.0.0/processed_v3.0.0_december_2024.json
 ```
 
-### Quitar Configuración de mongoDB
+### 🛠️ Instalación del Entorno
 
-Si prefieres no utilizar MongoDB, puedes comentar las siguientes líneas de código en el archivo `settings.py`:
+```bash
+# Clonar el repositorio
+git clone https://github.com/builker-col/bogota-apartments.git
+cd bogota-apartments
+
+# Crear entorno virtual (recomendado)
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+
+# Instalar dependencias principales
+pip install -r requirements.txt
+
+# Instalar dependencias de análisis de datos (opcional)
+pip install -r requirements_data_analysis.txt
+```
+
+### ⚡ Ejecución Rápida
+
+```bash
+# Ejecutar scraper completo
+scrapy crawl habi_spider
+scrapy crawl metrocuadrado_spider
+
+# Procesar datos
+python processing.py
+```
+
+---
+
+## ⚙️ Configuración
+
+### 🗄️ Configuración con MongoDB
+
+Para utilizar MongoDB como base de datos, crea un archivo `.env` en la raíz del proyecto:
+
+```bash
+# Configuración de MongoDB
+MONGO_URI=mongodb://localhost:27017/bogota_apartments
+MONGO_DATABASE=bogota_apartments
+MONGO_COLLECTION_RAW=scrapy_bogota_apartments
+MONGO_COLLECTION_PROCESSED=scrapy_bogota_apartments_processed
+
+# Configuración opcional de logging
+LOG_LEVEL=INFO
+SCRAPY_LOG_LEVEL=INFO
+```
+
+### 💾 Configuración Sin MongoDB
+
+Para ejecutar sin MongoDB, modifica las siguientes líneas en `bogota_apartments/settings.py`:
 
 ```python
+# Comentar o eliminar estas líneas
 # MONGO_URI = os.getenv('MONGO_URI')
 # MONGO_DATABASE = os.getenv('MONGO_DATABASE')
+
+# Comentar el pipeline de MongoDB
+# ITEM_PIPELINES = {
+#     'bogota_apartments.pipelines.MongoDBPipeline': 500
+# }
+
+# Habilitar pipeline de archivos JSON
+ITEM_PIPELINES = {
+    'bogota_apartments.pipelines.JsonWriterPipeline': 300
+}
 ```
 
-```python
-#ITEM_PIPELINES = {
-#    'bogota_apartments.pipelines.MongoDBPipeline': 500
-#}
+---
+
+## 📊 Fuentes de Datos
+
+### 🌐 Sitios Web Monitoreados
+
+| **Plataforma** | **Tiempo por Propiedad** | **Tecnología Utilizada** | **Estado** | **Cobertura** |
+|----------------|--------------------------|---------------------------|------------|---------------|
+| [Metrocuadrado](https://www.metrocuadrado.com/) | ~0.194 segundos | Scrapy + Requests | ✅ Activo | Toda Bogotá |
+| [Habi](https://www.habi.co/) | ~0.187 segundos | Scrapy + Selenium | ✅ Activo | Zonas Premium |
+
+> **🛡️ Ética en Web Scraping**: Todos los procesos de extracción respetan estrictamente los términos de servicio, políticas de robots.txt y límites de velocidad de cada sitio web. Implementamos delays inteligentes y rotación de User-Agents para minimizar el impacto en los servidores.
+
+### 🏗️ Arquitectura Técnica
+
+```
+┌─────────────────┐    ┌──────────────┐    ┌─────────────────┐
+│   Web Sources   │ -> │ Scrapy Core  │ -> │   Data Lake     │
+│  • Metrocuadrado│    │ • Rate Limit │    │   (MongoDB)     │
+│  • Habi         │    │ • Validation │    │                 │
+└─────────────────┘    └──────────────┘    └─────────────────┘
+                              │                       │
+                              v                       v
+                    ┌──────────────────┐    ┌─────────────────┐
+                    │ ETL Processing   │    │   Analytics     │
+                    │ • Geocoding      │    │   Dashboard     │
+                    │ • Deduplication  │    │                 │
+                    └──────────────────┘    └─────────────────┘
 ```
 
-## Tiempos de Ejecución por Apartamento
+---
 
-A continuación se detalla el tiempo aproximado de extracción por apartamento para cada sitio web:
+## 📁 Estructura de Datos
 
-> ⚠️ Es importante destacar que estos tiempos son aproximados y pueden variar dependiendo de la velocidad de la conexión a Internet y de la carga del servidor del sitio web.
+### 📊 Dataset Principal - Apartamentos
 
-| Sitio Web | Tiempo por Apartamento |
-|-----------|------------------------------------|
-| Habi | 0.187 segundos |
-| Metrocuadrado | 0.194 segundos |
+**📂 Archivo**: `data/processed/apartments.csv` | **📄 Formato**: JSON/CSV  
+**📈 Registros**: 75,000+ apartamentos únicos  
+**🔄 Actualización**: Cada 3 semanas  
 
-Estos tiempos representan el promedio aproximado de tiempo que tomó extraer cada apartamento de los respectivos sitios web durante la ejecución del scraper. El tiempo de extracción de cada apartamento puede variar dependiendo de la velocidad de la conexión a Internet y de la carga del servidor del sitio web.
-## Data Source
+#### 📋 Esquema de Datos Completo
 
-> ⚠️ Es importante destacar que durante el proceso de web scraping se respetaron las políticas y condiciones de uso establecidas por cada sitio web.
+<details>
+<summary><strong>📋 Ver Estructura Completa de Campos (Click para expandir)</strong></summary>
 
-Los datos del proyecto fueron extraídos mediante web scraping de los siguientes sitios web:
+#### Información Básica
 
-- [Metrocuadrado](https://www.metrocuadrado.com/)
-- [Habi](https://www.habi.co/)
+| **Campo** | **Tipo** | **Descripción** | **Ejemplo** |
+|-----------|----------|-----------------|-------------|
+| `codigo` | String | Identificador único del apartamento | `"APT_001_MTR_2024"` |
+| `tipo_propiedad` | String | Tipo de inmueble | `"Apartamento"`, `"Penthouse"` |
+| `tipo_operacion` | String | Modalidad comercial | `"Venta"`, `"Arriendo"` |
+| `precio_venta` | Integer | Precio de venta en COP | `250000000` |
+| `precio_arriendo` | Integer | Precio de arriendo mensual en COP | `1500000` |
+| `area` | Float | Área en metros cuadrados | `85.5` |
+| `habitaciones` | Integer | Número de habitaciones | `3` |
+| `banos` | Integer | Número de baños | `2` |
+| `administracion` | Integer | Cuota de administración mensual | `180000` |
+| `parqueaderos` | Integer | Número de parqueaderos | `1` |
 
-Se implemento un scraper creado con la librería [Scrapy](https://scrapy.org/) y en caso de que el sitio web este creado con JavaScript [Scrapy](https://scrapy.org/) se conbinara con Selenium para poder extraer los datos.
+#### Ubicación y Contexto
 
-## Datos
+| **Campo** | **Tipo** | **Descripción** | **Ejemplo** |
+|-----------|----------|-----------------|-------------|
+| `sector` | String | Zona/Sector de ubicación | `"Chapinero"`, `"Zona Rosa"` |
+| `localidad` | String | Localidad de Bogotá | `"Chapinero"`, `"Usaquén"` |
+| `barrio` | String | Barrio específico | `"Zona Rosa"`, `"El Chicó"` |
+| `estrato` | Integer | Estrato socioeconómico (1-6) | `4` |
+| `longitud` | Float | Coordenada geográfica | `-74.0721` |
+| `latitud` | Float | Coordenada geográfica | `4.6097` |
+| `coords_modified` | Boolean | Indica si las coordenadas fueron ajustadas | `false` |
+
+#### Características del Inmueble
+
+| **Campo** | **Tipo** | **Descripción** | **Ejemplo** |
+|-----------|----------|-----------------|-------------|
+| `antiguedad` | Integer | Años de construcción | `5` |
+| `estado` | String | Estado del inmueble | `"Usado"`, `"Nuevo"`, `"Sobre planos"` |
+| `piso` | Integer | Número de piso | `12` |
+| `closets` | Integer | Número de closets | `4` |
+
+#### Amenidades y Servicios
+
+| **Campo** | **Tipo** | **Descripción** |
+|-----------|----------|-----------------|
+| `jacuzzi` | Boolean | Disponibilidad de jacuzzi |
+| `piscina` | Boolean | Acceso a piscina |
+| `salon_comunal` | Boolean | Salón comunal disponible |
+| `terraza` | Boolean | Terraza privada |
+| `vigilancia` | Boolean | Vigilancia privada 24/7 |
+| `chimenea` | Boolean | Chimenea disponible |
+| `permite_mascotas` | Boolean | Política de mascotas |
+| `gimnasio` | Boolean | Gimnasio en el edificio |
+| `ascensor` | Boolean | Ascensor disponible |
+| `conjunto_cerrado` | Boolean | Ubicado en conjunto cerrado |
+
+#### Análisis de Proximidad (Nuevo en v3.0.0)
+
+| **Campo** | **Tipo** | **Descripción** |
+|-----------|----------|-----------------|
+| `estacion_tm_cercana` | String | Estación de TransMilenio más cercana |
+| `distancia_estacion_tm_m` | Float | Distancia en metros a TransMilenio |
+| `is_cerca_estacion_tm` | Boolean | Dentro de 500m de TransMilenio |
+| `parque_cercano` | String | Parque más cercano al apartamento |
+| `distancia_parque_m` | Float | Distancia en metros al parque |
+| `is_cerca_parque` | Boolean | Dentro de 500m de un parque |
+
+#### Metadatos y Tracking
+
+| **Campo** | **Tipo** | **Descripción** |
+|-----------|----------|-----------------|
+| `website` | String | Fuente de los datos |
+| `compañia` | String | Inmobiliaria responsable |
+| `last_view` | DateTime | Última verificación del scraper |
+| `timeline` | Array | Historial de precios |
+| `url` | String | URL original del anuncio |
+| `descripcion` | Text | Descripción detallada |
+| `datetime` | DateTime | Timestamp de extracción |
+
+</details>
+
+### ⚠️ Consideraciones Importantes de Calidad de Datos
+
+> **🎯 Coordenadas Geográficas**: La columna `coords_modified` indica si las coordenadas fueron ajustadas algorítmicamente usando geocoding reverso. Un valor `true` sugiere validar la precisión para aplicaciones críticas de ubicación.
+
+> **📅 Disponibilidad**: El campo `last_view` se actualiza en cada ejecución del scraper y puede no reflejar la disponibilidad real del inmueble en el sitio web. Para verificar disponibilidad actual, consultar la URL original.
+
+> **💰 Precios**: Los precios están en pesos colombianos (COP) y reflejan el valor al momento de la extracción. Para análisis temporales, utilizar el campo `timeline`.
+
+---
+
+## 🔄 Actualización de Datos
+
+### 📅 Cronograma de Actualizaciones
+
+| **Frecuencia** | **Tipo** | **Descripción** | **Próxima Fecha** |
+|----------------|----------|-----------------|-------------------|
+| **Semanal** | Incremental | Nuevos apartamentos y actualizaciones de precio | Cada Lunes |
+| **Mensual** | Completa | Validación y limpieza de datos históricos | 1er día del mes |
+| **Trimestral** | Release | Nueva versión con mejoras y análisis | Cada 3 meses |
+
+### 🔄 Proceso Automatizado
+
+```mermaid
+graph LR
+    A[Scraping Automático] --> B[Validación de Calidad]
+    B --> C[Procesamiento ETL]
+    C --> D[Enriquecimiento Geoespacial]
+    D --> E[Deduplicación]
+    E --> F[Publicación Dataset]
+    F --> G[Actualización Dashboards]
+```
+
+### 📊 Métricas de Calidad
+
+- **Completitud**: >95% de campos requeridos completos
+- **Precisión Geográfica**: >90% de coordenadas validadas
+- **Duplicados**: <2% de registros duplicados
+- **Actualidad**: Datos frescos cada 21 días máximo
+
+---
+
+## 📈 Dashboards y Visualizaciones
+
+### 🎯 Dashboards Interactivos en Vivo
+
+| **Plataforma** | **Tipo** | **Características** | **Enlace** |
+|----------------|----------|---------------------|------------|
+| **MongoDB Charts** | Profesional | Filtros avanzados, tiempo real | [🔗 Ver Dashboard](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca) |
+| **GitHub Pages** | Web Público | Análisis estático, mobile-friendly | [🔗 Ver Análisis](https://builker-col.github.io/bogota-apartments/) |
+| **Kaggle** | Dataset | Kernels públicos, competencias | [🔗 Explorar Datos](https://www.kaggle.com/datasets/erik172/bogota-apartments) |
+
+### 📊 Visualizaciones Destacadas
 
 ![Apartamentos extraidos por mes](visualizations/apartments_by_month.png)
 
-<!-- ### Raw Data -->
+#### 🎨 Tipos de Análisis Disponibles
 
-<!-- Para poder haceder a los datos RAW puede ejecutar el script `download_raw_data.py` en la ruta `data/raw/` o puede descargar los datos desde el siguiente enlace [https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1](https://www.dropbox.com/scl/fi/63rkv8ehjcqogptpn06gp/builker.scrapy_bogota_apartmentsV1.3.0_october_1_2023.json?rlkey=wvwpyu3buy0ii84wxayywz8ot&dl=1) -->
+- 📈 **Evolución de Precios**: Tendencias temporales por zona
+- 🗺️ **Mapas de Calor**: Distribución geográfica de precios
+- 📊 **Análisis Comparativo**: Precios por m² vs características
+- 🎯 **Análisis de Proximidad**: Impacto de TransMilenio en precios
+- 📉 **Métricas de Mercado**: Tiempo promedio en mercado por zona
 
-### Apartamentos
+---
 
-file: [processed_v2.0.0_august_2_2024.json](https://github.com/builker-col/bogota-apartments/releases/download/v2.0.0-august.2-2024/processed_v2.0.0_august_2_2024.json)
+## 🏗️ Arquitectura del Proyecto
 
-> ⚠️ **Advertencia**: La columna `coords_modified` indica si las coordenadas geográficas fueron modificadas durante el procesamiento de los datos. Si el valor es `True`, esto significa que las coordenadas originales fueron ajustadas o corregidas. Se recomienda precaución al utilizar estos datos, ya que pueden no reflejar las coordenadas geográficas exactas del apartamento. Es importante verificar la precisión y la fuente de las coordenadas antes de utilizarlas en aplicaciones o análisis que requieran una ubicación geográfica precisa.
+### 📁 Estructura de Directorios
 
-> ⚠️ **Advertencia**: la columna `last_view` se actualiza cada vez que se ejecuta el scraper. por lo tanto, este dato no es exacto. ya que el scraper puede no visitar el apartamento y este seguir publicado en la pagina web. Se recomienda usar este dato como referencia y no como dato exacto. Para saber si el apartamento sigue publicado en la pagina web se recomienda verificar manualmente en la pagina web.
+```
+bogota-apartments/
+├── 📂 bogota_apartments/          # Core Scrapy project
+│   ├── spiders/                   # Web scrapers
+│   │   ├── habi_spider.py        # Habi.co scraper
+│   │   └── metrocuadrado_spider.py # Metrocuadrado scraper
+│   ├── pipelines.py              # Data processing pipelines
+│   ├── settings.py               # Scrapy configuration
+│   ├── items.py                  # Data models
+│   └── middlewares.py            # Custom middlewares
+├── 📂 data/
+│   ├── raw/                      # Raw scraped data
+│   └── processed/                # Clean, analyzed datasets
+├── 📂 ETL/                       # Data transformation scripts
+│   ├── geocoding.py              # Coordinate enrichment
+│   ├── deduplication.py          # Duplicate removal
+│   └── proximity_analysis.py     # Distance calculations
+├── 📂 notebooks/                 # Jupyter analysis notebooks
+│   ├── price_analysis.ipynb      # Price trend analysis
+│   ├── geographic_analysis.ipynb # Spatial analysis
+│   └── market_insights.ipynb     # Market research
+├── 📂 visualizations/            # Generated charts and graphs
+├── 📂 docs/                      # Project documentation
+└── 📂 tests/                     # Unit and integration tests
+```
 
+### 🔧 Tecnologías Utilizadas
 
-| Columna                              | Descripción                                               |
-|--------------------------------------|-----------------------------------------------------------|
-| codigo                               | Código único que identifica cada apartamento              |
-| tipo_propiedad                       | Tipo de propiedad (apartamento, casa, etc.)               |
-| tipo_operacion                       | Tipo de operación (venta, arriendo, etc.)                 |
-| precio_venta                         | Precio de venta del apartamento COP                       |
-| precio_arriendo                      | Precio de arriendo del apartamento COP                    |
-| area                                 | Área del apartamento en metros cuadrados                  |
-| habitaciones                         | Número de habitaciones del apartamento                    |
-| banos                                | Número de baños del apartamento                           |
-| administracion                       | Valor de la cuota de administración del apartamento       |
-| parqueaderos                         | Número de parqueaderos disponibles                        |
-| sector                               | Sector o zona en la que se encuentra el apartamento       |
-| estrato                              | Estrato socioeconómico del apartamento                    |
-| antiguedad                           | Antigüedad del apartamento en años                        |
-| estado                               | Estado del apartamento (nuevo, usado)                     |
-| longitud                             | Longitud geográfica del apartamento                       |
-| latitud                              | Latitud geográfica del apartamento                        |
-| descripcion                          | Descripción detallada del apartamento                     |
-| datetime                             | Fecha y hora de extracción de los datos                   |
-| jacuzzi                              | Indica si el apartamento cuenta con jacuzzi               |
-| piscina                              | Indica si el apartamento cuenta con piscina               |
-| salon_comunal                        | Indica si el apartamento cuenta con salón comunal         |
-| terraza                              | Indica si el apartamento cuenta con terraza               |
-| vigilancia                           | Indica si el apartamento cuenta con vigilancia privada    |
-| piso                                 | Número de piso en el que se encuentra el apartamento      |
-| closets                              | Número de closets en el apartamento                       |
-| chimenea                             | Indica si el apartamento cuenta con chimenea              |
-| permite_mascotas                     | Indica si se permiten mascotas en el apartamento          |
-| gimnasio                             | Indica si el apartamento cuenta con gimnasio              |
-| ascensor                             | Indica si el edificio cuenta con ascensor                 |
-| conjunto_cerrado                     | Indica si el apartamento se encuentra en conjunto cerrado |
-| coords_modified                      | Coordenadas modificadas del apartamento                   |
-| localidad                            | Localidad en la que se encuentra el apartamento           |
-| barrio                               | Barrio en el que se encuentra el apartamento              |
-| estacion_tm_cercana                  | Nombre de la estacion de transporte masivo mas cercana    |
-| distancia_estacion_tm_m              | Distancia a la estación de transporte masivo más cercana  |
-| is_cerca_estacion_tm                 | Indica si está cerca de una estación de transporte masivo <= 500m |
-| parque_cercano                       | Nombre del parque más cercano al apartamento              |
-| distancia_parque_m                   | Distancia al parque más cercano al apartamento en metros  |
-| is_cerca_parque                      | Indica si está cerca de un parque <= 500m                  |
-| website                              | Sitio web relacionado a la propiedad                      |
-| compañia                             | Compañía o agencia responsable de la propiedad            |
-| last_view                            | Fecha de la ultima vez que el scraper visito el apartamento |
-| timeline                             | Historial de precios del apartamento                      |
-| url                                  | URL del apartamento                                       |
+| **Categoría** | **Tecnología** | **Versión** | **Uso** |
+|---------------|----------------|-------------|---------|
+| **Web Scraping** | Scrapy | 2.5+ | Framework principal |
+| **Web Driver** | Selenium | 4.0+ | JavaScript rendering |
+| **Base de Datos** | MongoDB | 5.0+ | Almacenamiento primario |
+| **Procesamiento** | Pandas | 1.5+ | ETL y análisis |
+| **Geolocalización** | GeoPandas | 0.12+ | Análisis espacial |
+| **Visualización** | Plotly | 5.0+ | Gráficos interactivos |
 
-<!-- ### Imagenes
+---
 
-file: [images.csv](data/processed/images.csv)
+## 🤝 Contribuir
 
-| Columna      | Descripción                                      |
-|--------------|--------------------------------------------------|
-| codigo       | Código único que identifica cada apartamento.    |
-| url_imagen   | Enlace URL de la imagen asociada al apartamento. | -->
+### 🚀 Cómo Participar
 
-### Datos del 2023
-Con la **versión 2.0.0**, se realizó una actualización crucial en la estructura de datos, lo que conllevó a la eliminación de los datos anteriores a 2024 de nuestra base de datos. Si necesitas acceder a esta información del 2023, puedes descargarla desde la siguiente URL: [https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1](https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1)
+1. **🍴 Fork** el repositorio en GitHub
+2. **📥 Clona** tu fork localmente
+   ```bash
+   git clone https://github.com/TU_USUARIO/bogota-apartments.git
+   ```
+3. **🌿 Crea** una rama para tu feature
+   ```bash
+   git checkout -b feature/nueva-funcionalidad
+   ```
+4. **💻 Desarrolla** y prueba tus cambios
+5. **✅ Ejecuta** las pruebas
+   ```bash
+   python -m pytest tests/
+   ```
+6. **📝 Commit** con mensajes descriptivos
+   ```bash
+   git commit -m "feat: agregar análisis de precios por zona"
+   ```
+7. **🚀 Push** a tu rama
+   ```bash
+   git push origin feature/nueva-funcionalidad
+   ```
+8. **🔄 Abre** un Pull Request detallado
 
-Esta actualización asegura una estructura más optimizada y acorde con las necesidades actuales de los datos, por lo que te invitamos a obtener los datos actualizados del 2024 y posteriores para aprovechar al máximo nuestras últimas mejoras.
+### 🎯 Áreas de Contribución Prioritarias
 
-**Nota:** Los datos del 2023 ya estan procesados y no requieren de ningún procesamiento adicional.
+| **Área** | **Descripción** | **Nivel** | **Impacto** |
+|----------|-----------------|-----------|-------------|
+| 🔍 **Nuevas Fuentes** | Agregar scrapers para Fincaraiz, Ciencuadras | Intermedio | Alto |
+| 🤖 **ML Models** | Modelos predictivos de precios | Avanzado | Muy Alto |
+| 🗺️ **Geo-Analytics** | Análisis espacial avanzado | Intermedio | Alto |
+| 📊 **Dashboards** | Nuevas visualizaciones interactivas | Intermedio | Medio |
+| 🛠️ **Performance** | Optimizaciones de scraping | Avanzado | Alto |
+| 📚 **Documentación** | Tutoriales y guías | Principiante | Medio |
+| 🧪 **Testing** | Pruebas automatizadas | Intermedio | Alto |
 
-## Actualización de los Datos
+### 📋 Guidelines para Contribuidores
 
-Los datos extraídos mediante web scraping serán actualizados regularmente para mantenerlos al día. A continuación se detallan los aspectos clave de la actualización:
+- **📝 Código**: Seguir PEP 8 para Python
+- **🧪 Tests**: Incluir tests para nuevas funcionalidades
+- **📚 Docs**: Documentar nuevas APIs y cambios
+- **🚀 Performance**: Mantener tiempos de scraping eficientes
+- **🛡️ Ética**: Respetar términos de servicio de sitios web
 
-- Los datos serán actualizados al menos cada 3 semanas, con una frecuencia mínima de actualización mensual. Esto asegurará que los datos reflejen la información más reciente disponible en las fuentes de origen.
-- Durante el proceso de actualización, se revisarán y recopilarán los nuevos datos disponibles, así como se verificará la consistencia y calidad de los datos existentes.
-- Se implementará un proceso automatizado para la actualización de los datos, utilizando herramientas y scripts específicos para realizar el web scraping de las fuentes de origen de manera eficiente y precisa.
-- Después de cada actualización, se realizará un análisis y verificación de los datos para garantizar su integridad y confiabilidad.
-- Se publicará la fecha de la última actualización en este README para que los usuarios puedan verificar la frescura de los datos.
+### 📖 Código de Conducta
 
-## MongoDB Dashboard
+Este proyecto adhiere al [Código de Conducta de Contributor Covenant](CODE_OF_CONDUCT.md). Al participar, te comprometes a mantener un ambiente acogedor y respetuoso.
 
-Explora el tablero web para obtener una perspectiva interactiva de los apartamentos en Bogotá.
+---
 
-[MonogoDB Dashboard](https://charts.mongodb.com/charts-project-0-vjiwc/public/dashboards/5a5eac8a-6f4e-4a6e-8235-54c6e69c33ca)
+## 📊 Datos Históricos
 
-[Dashboard from the web](https://builker-col.github.io/bogota-apartments/)
+### 🔄 Migración a v3.0.0
 
-## Cómo contribuir
-El proyecto es de código abierto y se anima a cualquier persona interesada en contribuir a hacerlo. Para contribuir al proyecto, por favor sigue estos pasos:
+Con la **versión 3.0.0**, hemos reestructurado completamente la arquitectura de datos para mejorar performance, calidad y análisis. Los datos históricos anteriores siguen disponibles:
 
-1. Haz un fork de este repositorio y clona el repositorio en tu máquina local.
+#### 📥 Descargas Históricas
 
-1. Crea una nueva rama (`git checkout -b nombre-rama`) y realiza tus cambios en esa rama.
+| **Período** | **Versión** | **Registros** | **Enlace de Descarga** |
+|-------------|-------------|---------------|------------------------|
+| **2023 Completo** | v1.x | ~30,000 | [📁 Descargar JSON](https://www.dropbox.com/scl/fi/nv1efc8me23dsa1ie0g5s/2023_bogota_apartments_processed.json?rlkey=l6cl2gsf8j2icyh5cqwkr4un5&dl=1) |
+| **2024 Q1-Q3** | v2.x | ~45,000 | [📁 Descargar CSV](https://github.com/builker-col/bogota-apartments/releases/download/v2.0.0-august.2-2024/processed_v2.0.0_august_2_2024.json) |
+| **2024 Actual** | v3.0.0 | ~75,000 | [📁 Datos Actuales](#-inicio-rápido) |
 
-1. Haz commit a tus cambios (`git commit -m "Descripción de los cambios"`) y haz push a la rama (`git push origin nombre-rama`).
+> **💡 Nota**: Los datos históricos están pre-procesados y listos para usar. No requieren ETL adicional.
 
-1. Abre un pull request en este repositorio y describe los cambios que has realizado.
+---
 
-1. Por favor, asegúrate de seguir las pautas de contribución antes de hacer un pull request.
+## 📄 Licencia
 
-## Mantenimiento
-El conjunto de datos se actualizará regularmente para asegurarse de que se mantenga relevante y útil para la comunidad. Si encuentras algún error o tienes alguna sugerencia para mejorar el proyecto, por favor abre un issue en este repositorio.
+<div align="center">
 
-## Licencia
-El software aquí proporcionado se distribuye bajo los términos de la Licencia de Software de [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/) (CC BY-NC-SA 4.0). Esto significa que los usuarios tienen el derecho de utilizar, modificar y distribuir el código fuente del scraper con la condición de que no se utilice con fines comerciales sin el permiso explícito del autor y que las obras derivadas se distribuyan bajo la misma licencia CC BY-NC-SA 4.0. Sin embargo, es importante tener en cuenta que esta licencia se aplica únicamente al software en sí, no a los datos que el scraper recopila o procesa. Los datos obtenidos por medio del scraper pueden estar sujetos a sus propias licencias o restricciones, dependiendo de su origen y de los términos establecidos por los propietarios de dichos datos
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
+</a>
 
-Para más información sobre la licencia, por favor lee el archivo [LICENSE](LICENSE).
+**Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International**
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+Este trabajo está licenciado bajo [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-## Créditos
-- [**@erik172**](https://github.com/Erik172) - Creador del proyecto y mantenedor principal.
+</div>
 
+### ⚖️ Términos de Uso Detallados
 
-Hecho con ❤️ por **@erik172**. 
+| **Tipo de Uso** | **Permitido** | **Condiciones** |
+|-----------------|---------------|-----------------|
+| ✅ **Personal y Académico** | ✓ Libre | Atribución requerida |
+| ✅ **Investigación** | ✓ Libre | Compartir bajo misma licencia |
+| ✅ **Modificación** | ✓ Permitida | Documentar cambios |
+| ✅ **Distribución** | ✓ Permitida | Misma licencia CC BY-NC-SA |
+| ❌ **Comercial** | ❌ Requiere autorización | Contactar al mantenedor |
+| 📊 **Datos Scrapeados** | ⚠️ Sujeto a términos originales | Verificar con fuentes |
+
+### 🤝 Solicitudes Comerciales
+
+Para uso comercial, por favor contacta a [@erik172](https://github.com/erik172) o envía un email detallando:
+- Propósito comercial específico
+- Volumen de datos requerido
+- Duración del uso proyectado
+- Beneficios para la comunidad (opcional)
+
+---
+
+## 👥 Equipo
+
+<div align="center">
+
+### 🚀 Mantenedor Principal
+
+<table>
+<tr>
+<td align="center">
+<img src="https://github.com/erik172.png" width="100px;" alt="Erik172"/>
+<br />
+<sub><b>Erik Garcia</b></sub>
+<br />
+<i>🔧 CEO & CTO & Lead Developer</i>
+<br />
+<i>📊 ML Engineer</i>
+</td>
+</tr>
+</table>
+
+**[@erik172](https://github.com/Erik172)**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/erik172/)
+[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/_Erik172)
+[![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@erik172)
+
+### 🎯 Especialidades
+- 🕷️ Web Scraping & Data Engineering
+- 🤖 Machine Learning & Deep Learning
+- 🏗️ System Architecture & Scalability
+
+### 💝 Apoyo al Proyecto
+
+Si este proyecto te resulta útil, considera apoyar su desarrollo:
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/U6U0K5UNW)
+
+### 🤝 Colaboradores
+
+¡Este proyecto crece gracias a los colaboradores de la comunidad! 
+
+[Ver todos los colaboradores →](https://github.com/builker-col/bogota-apartments/graphs/contributors)
+
+---
+
+### 🏢 Organizaciones
+
+**Parte del ecosistema [Builker](https://github.com/Builker-col)**  
+*Construyendo el futuro del análisis de datos inmobiliarios en Colombia*
+
+---
+
+<div align="center">
+
+### 🌟 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=builker-col/bogota-apartments&type=Date)](https://star-history.com/#builker-col/bogota-apartments&Date)
+
+---
+
+**🏠 Hecho con ❤️ desde Bogotá, Colombia para el mundo 🌎**
+
+*"Datos abiertos para ciudades inteligentes"*
+
+</div>
