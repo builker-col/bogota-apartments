@@ -30,6 +30,15 @@ Esta carpeta contiene **datasets externos** utilizados para enriquecer el análi
 - **Fuente**: [Datos Abiertos Bogotá](https://datosabiertos.bogota.gov.co/dataset/localidad-bogota-d-c)
 - **Uso**: Análisis agregado por localidad, estudios demográficos
 
+### `centros_comerciales_bogota/`
+**🏬 Principales Centros Comerciales de Bogotá**
+- **Descripción**: Listado de los principales centros comerciales de Bogotá
+- **Campos**: NAME, ADDRESS, URL, LATITUD, LONGITUD, LOCALIDAD
+- **Total**: 42 centros comerciales principales
+- **Formato**: CSV, Excel
+- **Fuente**: [Kaggle](https://www.kaggle.com/datasets/erik172/bogota-shopping-malls?select=centros_comerciales_bogota.csv)
+- **Uso ETL**: Análisis de proximidad (<800m), enriquecimiento de datos inmobiliarios
+
 ---
 
 ### 🚌 **Datos de Transporte Público**
@@ -118,6 +127,7 @@ python scripts/integrate_transport_data.py --apartments data/apartments.csv --tr
 | TransMilenio | 2024 | Mensual | 🟢 Actualizado |
 | SITP | 2024 | Trimestral | 🟢 Actualizado |
 | Deportes | 2023 | Anual | 🟢 Actualizado |
+| Centros Comerciales | 2024 | Anual | 🟢 Actualizado |
 
 ### 🔍 **Calidad de Datos**
 
@@ -128,6 +138,7 @@ python scripts/integrate_transport_data.py --apartments data/apartments.csv --tr
 | TransMilenio | 98% | Alta | Alta | ⭐⭐⭐⭐⭐ |
 | SITP | 92% | Media | Media | ⭐⭐⭐ |
 | Deportes | 88% | Media | Baja | ⭐⭐⭐ |
+| Centros Comerciales | 100% | Alta | Alta | ⭐⭐⭐⭐⭐ |
 
 ---
 
@@ -187,6 +198,7 @@ python scripts/validate_data_integrity.py
 | TransMilenio | Medio | Proximidad transporte | Medio |
 | SITP | Bajo | Conectividad detallada | Bajo |
 | Deportes | Medio | Índice amenidades | Medio |
+| Centros Comerciales | Medio | Proximidad retail, valorización | Medio |
 
 ---
 

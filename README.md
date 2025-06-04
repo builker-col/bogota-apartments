@@ -252,6 +252,9 @@ ITEM_PIPELINES = {
 | `parque_cercano` | String | Parque más cercano al apartamento |
 | `distancia_parque_m` | Float | Distancia en metros al parque |
 | `is_cerca_parque` | Boolean | Dentro de 500m de un parque |
+| `centro_comercial_cercano` | String | Centro comercial más cercano |
+| `distancia_centro_comercial_m` | Float | Distancia en metros al centro comercial |
+| `is_cerca_centro_comercial` | Boolean | Dentro de 800m de un centro comercial |
 
 #### Metadatos y Tracking
 
@@ -530,7 +533,7 @@ Si este proyecto te resulta útil, considera apoyar su desarrollo:
 ### 🏢 Organizaciones
 
 **Parte del ecosistema [Builker](https://github.com/Builker-col)**  
-*Construyendo el futuro del análisis de datos inmobiliarios en Colombia*
+*Innovar. Impactar. Trascender. Forjamos el futuro con cada solución.*
 
 ---
 
