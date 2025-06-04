@@ -20,7 +20,32 @@ from bogota_apartments.utils import try_get, setup_spider_logging, log_scraping_
 
 class MetrocuadradoSpider(scrapy.Spider):
     """
-    Spider to scrape apartment data from metrocuadrado.com
+    Spider encargado de extraer datos de apartamentos del portal metrocuadrado.com.
+
+    Este spider implementa una estrategia de dos fases:
+    1. Descubrimiento y Paginación: Realiza una consulta inicial a la API de Metrocuadrado
+       para determinar el número total de apartamentos en venta y arriendo en Bogotá.
+       Luego, genera todas las peticiones necesarias para paginar a través de estos resultados.
+    2. Procesamiento de Listados y Detalles:
+        - Para cada página de resultados de la API, verifica si los apartamentos listados
+          ya existen en la base de datos MongoDB.
+        - Apartamentos Existentes: Si un apartamento ya existe, utiliza los datos de la API
+          para detectar posibles cambios de precio. Esta información se pasa al pipeline
+          para actualizar el registro existente y su historial de precios, evitando una
+          costosa carga de la página con Selenium.
+        - Apartamentos Nuevos: Si un apartamento es nuevo, navega a su página de detalle
+          utilizando Selenium, extrae la información completa (incluyendo datos de un
+          script Next.js) y la envía al pipeline para su almacenamiento.
+
+    Características Principales:
+    - Uso de Selenium con Chrome headless para interactuar con JavaScript.
+    - User-Agent aleatorio para simular diferentes navegadores.
+    - Conexión a MongoDB para verificar la existencia de apartamentos y evitar
+      re-procesamiento innecesario, optimizando el tiempo de scraping.
+    - Parser especializado (`MetrocuadradoParser`) para extraer datos de la estructura
+      JSON de Next.js en las páginas de detalle.
+    - Logging detallado, incluyendo estadísticas de scraping y progreso.
+    - Manejo de errores robusto con contexto para facilitar la depuración.
     """
     name = 'metrocuadrado'
     allowed_domains = ['metrocuadrado.com']
@@ -28,7 +53,16 @@ class MetrocuadradoSpider(scrapy.Spider):
 
     def __init__(self):
         """
-        Initializes the spider with a headless Chrome browser instance
+        Inicializa el spider.
+
+        Configura:
+        - Logger especializado para este spider.
+        - Opciones del navegador Chrome (headless, user-agent aleatorio, etc.).
+        - Instancia del driver de Selenium.
+        - Parser especializado para Metrocuadrado.
+        - Conexión a MongoDB (URI, base de datos, colección) para verificación de datos.
+        - Estructura para almacenar estadísticas de scraping.
+        - Logger de progreso.
         """
         # 🔧 CORREGIDO: Usar nombre diferente para evitar conflicto con logger de Scrapy
         self.spider_logger = setup_spider_logging(self.name)
@@ -72,7 +106,13 @@ class MetrocuadradoSpider(scrapy.Spider):
 
     def start_requests(self):
         """
-        Generación dinámica de requests basada en totales reales de API
+        Inicia el proceso de scraping generando las primeras solicitudes.
+
+        Este método se encarga de:
+        1. Establecer la conexión con MongoDB para la verificación de apartamentos existentes.
+        2. Realizar solicitudes iniciales a la API de Metrocuadrado para "venta" y "arriendo"
+           para descubrir el número total de apartamentos disponibles para cada tipo de operación.
+        3. Delegar el manejo de estas respuestas al método `discover_and_paginate`.
         """
         # 🔧 NUEVO: Conectar a MongoDB al inicio
         try:
@@ -105,7 +145,17 @@ class MetrocuadradoSpider(scrapy.Spider):
 
     def discover_and_paginate(self, response):
         """
-        Descubre el total real y genera todas las peticiones de paginación
+        Descubre el total real de apartamentos y genera todas las peticiones de paginación.
+
+        A partir de la respuesta de la API (que contiene los totales):
+        1. Extrae el número total de apartamentos accesibles.
+        2. Actualiza las estadísticas generales del spider (total de apartamentos por tipo).
+        3. Inicializa el `ProgressLogger` si aún no se ha hecho.
+        4. Calcula el número de páginas necesarias y genera `scrapy.Request` para cada
+           página de resultados de la API, delegando el parseo al método `parse`.
+        
+        Args:
+            response (scrapy.http.Response): La respuesta de la API con los datos de descubrimiento.
         """
         operation_type = response.meta['operation_type']
         headers = response.meta['headers']
@@ -162,7 +212,24 @@ class MetrocuadradoSpider(scrapy.Spider):
 
     def parse(self, response):
         """
-        Parses the response from the initial requests and generates requests to scrape apartment details
+        Procesa una página de resultados de la API de Metrocuadrado.
+
+        Para cada apartamento en la lista de resultados:
+        1. Extrae el ID de la propiedad (`midinmueble`).
+        2. Verifica si el apartamento ya existe en la base de datos (`_check_existing_apartment`).
+        3. Si existe:
+            - Llama a `_process_existing_apartment` para registrar estadísticas y
+              preparar un `ApartmentsItem` con datos de la API para que el pipeline
+              maneje las actualizaciones (precio, last_view). Esto evita usar Selenium.
+        4. Si es nuevo:
+            - Genera un `scrapy.Request` para la URL de detalle del apartamento,
+              pasando los datos de la API en `meta` y delegando el parseo a `details_parse`.
+              Esto sí requerirá Selenium.
+
+        Registra un resumen del batch procesado (nuevos vs. existentes).
+
+        Args:
+            response (scrapy.http.Response): La respuesta de la API con una lista de apartamentos.
         """
         operation_type = response.meta['operation_type']
         current_offset = response.meta['current_offset']
@@ -242,13 +309,15 @@ class MetrocuadradoSpider(scrapy.Spider):
 
     def _check_existing_apartment(self, property_id):
         """
-        🔍 Verifica si un apartamento ya existe en la base de datos
+        Verifica si un apartamento, identificado por su `property_id` (código),
+        ya existe en la colección de MongoDB especificada.
         
         Args:
-            property_id (str): ID del apartamento (codigo único)
+            property_id (str): El ID único del apartamento (usualmente `midinmueble`).
             
         Returns:
-            dict: Datos del apartamento existente o None si no existe
+            dict: El documento del apartamento existente si se encuentra, sino None.
+                  Retorna None también si la conexión a la BD no está disponible.
         """
         if self.db is None:
             return None
@@ -263,13 +332,19 @@ class MetrocuadradoSpider(scrapy.Spider):
 
     def _process_existing_apartment(self, api_data, existing_data, operation_type):
         """
-        🔄 Procesa un apartamento que ya existe en la base de datos
-        Detecta cambios de precio pero NO actualiza MongoDB (lo hace el pipeline)
+        Procesa un apartamento que ya existe en la base de datos.
+
+        Su principal función es detectar cambios de precio comparando los datos de la API
+        con los datos existentes en la BD. No actualiza la BD directamente; esta tarea
+        se delega al pipeline, que recibirá un item con la información necesaria.
+
+        Actualiza las estadísticas del spider relacionadas con apartamentos actualizados,
+        cambios de precio y progreso.
         
         Args:
-            api_data (dict): Datos desde la API
-            existing_data (dict): Datos existentes en la BD
-            operation_type (str): Tipo de operación
+            api_data (dict): Datos del apartamento obtenidos directamente de la API de Metrocuadrado.
+            existing_data (dict): Datos del apartamento actualmente almacenados en MongoDB.
+            operation_type (str): Tipo de operación ('venta' o 'arriendo').
         """
         property_id = api_data.get('midinmueble')  # Obtener de API, será usado como codigo
         
@@ -314,7 +389,25 @@ class MetrocuadradoSpider(scrapy.Spider):
 
     def details_parse(self, response):
         """
-        Parses the response from the requests to scrape apartment details and yields the scraped data
+        Parsea la página de detalle de un apartamento NUEVO utilizando Selenium.
+
+        Este método se llama cuando se determina que un apartamento no existe en la BD.
+        1. Carga la URL del apartamento en el navegador Selenium.
+        2. Intenta extraer datos de un script JSON (tag <script>) em embebido en la página HTML.
+           Prueba con `/html/body/script[10]/text()` y, como fallback, con `/html/body/script[9]/text()`.
+           Si falla, reintenta cargando la página y probando los XPaths de nuevo.
+        3. Utiliza `MetrocuadradoParser` para procesar el contenido del script y convertirlo en un dict.
+        4. Si la extracción y parseo son exitosos:
+            - Actualiza estadísticas de parseos exitosos y apartamentos nuevos.
+            - Actualiza el `ProgressLogger`.
+            - Crea un `ItemLoader` con `ApartmentsItem` y lo puebla con todos los
+              datos extraídos (código, precios, área, habitaciones, características, etc.).
+            - Hace yield del item para que sea procesado por el pipeline.
+        5. Si hay errores, los registra y actualiza estadísticas de fallos.
+
+        Args:
+            response (scrapy.http.Response): La respuesta HTTP de la página de detalle del apartamento.
+                                         Contiene `api_data` en `response.meta`.
         """
         operation_type = response.meta.get('operation_type', 'unknown')
         api_data = response.meta.get('api_data', {})
@@ -325,16 +418,28 @@ class MetrocuadradoSpider(scrapy.Spider):
             property_id = api_data.get('midinmueble', 'unknown')
             self.spider_logger.debug(f'🏠 Procesando apartamento NUEVO: {property_id}')
 
-            # 🎯 Extraer el script específico con xpath
+            # 🎯 Extraer el script específico con xpath - intentar primero script[10]
             script_data = Selector(text=self.driver.page_source).xpath(
                 '/html/body/script[10]/text()'
             ).get()
 
             if not script_data:
-                self.spider_logger.warning(f'⚠️ No se encontró script para {property_id}, reintentando...')
-                self.driver.get(response.url)
-                self.driver.implicitly_wait(10)
-                script_data = Selector(text=self.driver.page_source).xpath('/html/body/script[10]/text()').get()
+                self.spider_logger.warning(f'⚠️ No se encontró script[10] para {property_id}, intentando con script[9]...')
+                # 🔧 NUEVO: Intentar con script[9] como alternativa
+                script_data = Selector(text=self.driver.page_source).xpath(
+                    '/html/body/script[9]/text()'
+                ).get()
+                
+                if not script_data:
+                    self.spider_logger.warning(f'⚠️ No se encontró script[9] para {property_id}, reintentando página...')
+                    self.driver.get(response.url)
+                    self.driver.implicitly_wait(10)
+                    # Reintentar primero con script[10]
+                    script_data = Selector(text=self.driver.page_source).xpath('/html/body/script[10]/text()').get()
+                    
+                    if not script_data:
+                        # Si aún no funciona, intentar con script[9]
+                        script_data = Selector(text=self.driver.page_source).xpath('/html/body/script[9]/text()').get()
 
             # 🔧 ACTUALIZADO: Usar parser separado
             script_data = self.parser.parse_nextjs_data(script_data)
@@ -435,7 +540,18 @@ class MetrocuadradoSpider(scrapy.Spider):
     
     def closed(self, reason):
         """
-        Callback cuando el spider termina - registra estadísticas finales
+        Callback invocado cuando el spider finaliza su ejecución.
+
+        Se encarga de:
+        1. Finalizar el `ProgressLogger`.
+        2. Calcular estadísticas finales del scraping (tasa de éxito, eficiencia de Selenium, etc.).
+        3. Registrar un resumen detallado de la optimización (apartamentos nuevos vs. existentes,
+           cambios de precio, Selenium evitado, tiempo estimado ahorrado).
+        4. Registrar todas las estadísticas finales usando `log_scraping_stats`.
+        5. Cerrar el driver de Selenium y la conexión a MongoDB.
+
+        Args:
+            reason (str): La razón por la cual el spider se cerró.
         """
         self.spider_logger.info("🏁 Spider terminando...")
         
