@@ -55,6 +55,9 @@ En esta carpeta se encuentran los datos procesados, es decir, los datos que han 
 | parque_cercano                       | Nombre del parque más cercano al apartamento              |
 | distancia_parque_m                   | Distancia al parque más cercano al apartamento en metros  |
 | is_cerca_parque                      | Indica si está cerca de un parque <= 500m                  |
+| centro_comercial_cercano             | Nombre del centro comercial más cercano al apartamento    |
+| distancia_centro_comercial_m         | Distancia al centro comercial más cercano en metros       |
+| is_cerca_centro_comercial            | Indica si está cerca de un centro comercial <= 800m       |
 | website                              | Sitio web relacionado a la propiedad                      |
 | compañia                             | Compañía o agencia responsable de la propiedad            |
 | last_view                            | Fecha de la última vez que el scraper visito el apartamento |

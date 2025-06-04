@@ -51,8 +51,6 @@ class ApartmentsItem(scrapy.Item):
     """
     codigo = scrapy.Field(output_processor = TakeFirst())
 
-    midinmueble = scrapy.Field(output_processor = TakeFirst())  # ID específico de Metrocuadrado
-
     tipo_propiedad = scrapy.Field(
         input_processor = MapCompose(normalize_text_upper),
         output_processor = TakeFirst()
