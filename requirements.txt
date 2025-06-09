@@ -69,7 +69,7 @@ pytz==2025.2
 pywin32==310
 queuelib==1.8.0
 referencing==0.36.2
-requests==2.32.3
+requests==2.32.4
 requests-file==2.1.0
 rich==14.0.0
 rpds-py==0.25.1
