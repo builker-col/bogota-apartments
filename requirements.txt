@@ -73,7 +73,7 @@ requests==2.32.3
 requests-file==2.1.0
 rich==14.0.0
 rpds-py==0.25.1
-Scrapy==2.13.1
+Scrapy==2.13.2
 scrapyd==1.5.0
 selenium==4.33.0
 service-identity==24.2.0
