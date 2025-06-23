@@ -57,7 +57,7 @@ pydantic==2.11.5
 pydantic_core==2.33.2
 PyDispatcher==2.0.7
 Pygments==2.19.1
-pymongo==4.13.0
+pymongo==4.13.2
 pyogrio==0.11.0
 pyOpenSSL==25.1.0
 pyparsing==3.2.3
