@@ -23,7 +23,7 @@ geopandas==1.0.1
 h11==0.16.0
 humanize==4.12.3
 hyperlink==21.0.0
-idna==3.10
+idna==3.18
 incremental==24.7.2
 itemadapter==0.11.0
 itemloaders==1.3.2
